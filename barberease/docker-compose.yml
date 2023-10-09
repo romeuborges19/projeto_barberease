@@ -1,16 +1,15 @@
-version: '3'
+version: "3"
 
 services:
   db:
     image: postgres:latest
-    ports:
-      - "5433:5433"
     environment:
-      POSTGRES_HOST_AUTH_METHOD: "trust"
-
+      POSTGRES_USER: postgres
+      POSTGRES_DB: db_barberease
+      POSTGRES_PASSWORD: romeulindo
   web:
     build: ./
-    command: "python manage.py runserver"
+    command: bash -c "python manage.py runserver 0.0.0.0:8000"
     container_name: barberease
     volumes:
       - .:/barberease
