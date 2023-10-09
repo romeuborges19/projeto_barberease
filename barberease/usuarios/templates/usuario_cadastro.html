@@ -1,0 +1,32 @@
+  
+  {% load static %}
+  {% load widget_tweaks %}
+  {% load i18n %}
+  {% load account socialaccount %}
+  {% load socialaccount %}
+  <!DOCTYPE html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+</head>
+<body>
+      <div id="cadastro">
+          <form action="" method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+       <input type="submit"></input>
+          <p class="link">  
+            Já tem conta?
+            <a href="{% url 'usuario:login' %}"> Ir para Login </a>
+            {% get_providers as socialaccount_providers %}
+							<a href="{% provider_login_url 'google' %}" class="google-register-button">
+								Entra com o Google
+							</a>
+						</div>
+          </p>
+        </form>
+      </div>
+</body>
+</html>
+

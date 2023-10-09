@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "5433:5433"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+
+  web:
+    build: ./
+    command: "python manage.py runserver"
+    container_name: barberease
+    volumes:
+      - .:/barberease
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db

@@ -1,0 +1,26 @@
+ 
+{% load i18n %}
+{% block content %}
+
+ <!DOCTYPE html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+</head>
+<body>
+      <div id="cadastro">
+          <form action="" method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+       <input type="submit"></input>
+          <p class="link">  
+            Já tem conta?
+            <a href="{% url 'pessoa:login' %}"> Ir para Login </a>
+          </p>
+        </form>
+      </div>
+</body>
+</html>
+{% endblock %}
+
