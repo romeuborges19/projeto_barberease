@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: LPoHNUCoR9l6RpSIX7v4bV08BqNFBB42
   web:
     build: ./
-    command: bash -c "gunicorn --bind :8000 --workers 3 barberease.wsgi:application"
+    command: bash -c "gunicorn --bind 0.0.0.0:8000 barberease.wsgi:application"
     container_name: barberease
     volumes:
       - .:/barberease
