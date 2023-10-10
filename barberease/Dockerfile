@@ -5,9 +5,13 @@ ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /barberease
 
+ADD entrypoint.sh /barberease
+RUN chmod +x *.sh
+
 WORKDIR /barberease
 
 ADD . /barberease
+
 
 RUN pip install -r requirements.txt
 
