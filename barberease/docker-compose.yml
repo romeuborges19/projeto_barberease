@@ -4,13 +4,13 @@ services:
   db:
     image: postgres:latest
     environment:
-      POSTGRES_HOST: dpg-ckes65vs0fgc73caqeig-a.oregon-postgres.render.com
+      POSTGRES_HOST: pg-ckil53212bvs739uphc0-a.ohio-postgres.render.com
       POSTGRES_USER: barbereaseadmin
-      POSTGRES_DB: db_barberease_r7co
-      POSTGRES_PASSWORD: ndUpySdlwCGYBfXDVgPiy3bs7HiUoDUT
+      POSTGRES_DB: db_barberease_xjlp
+      POSTGRES_PASSWORD: LPoHNUCoR9l6RpSIX7v4bV08BqNFBB42
   web:
     build: ./
-    command: bash -c "python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     container_name: barberease
     volumes:
       - .:/barberease
