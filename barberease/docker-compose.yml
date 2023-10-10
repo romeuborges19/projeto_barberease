@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: LPoHNUCoR9l6RpSIX7v4bV08BqNFBB42
   web:
     build: ./
-    command: bash -c "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 wsgi:application"
+    command: bash -c "python manage.py migrate && python manage.py makemigrations && gunicorn --bind 0.0.0.0:8000 barberease.wsgi:application"
     container_name: barberease
     volumes:
       - .:/barberease
