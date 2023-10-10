@@ -25,8 +25,8 @@
 						<div class="field-container">
 							<label class="label">E-mail:
 								<div class="form-control-container">
-									<input type="text" name="username" class="form-control" id="id_username" placeholder="E-mail">
-
+									<input type="text" name="username" class="form-control" id="id_username">
+									{% if form.username.errors %}{{ form.username.errors }}{% endif %}
 									</label>
 								</div>
 							</label>
@@ -36,6 +36,7 @@
 							<label class="label">Senha:
 								<div class="form-control-container">
 								{% render_field form.password class="form-control" %}
+								{% if form.password.errors %}{{ form.password.errors }}{% endif %}
 								</div>
 							</label>
 						</div>
@@ -53,12 +54,11 @@
 						<a href="{% url 'barbearia:cadastrar_dono' %}">
 							cadastrar barbearia
 						</a>
-						<a href="#">
-							recuperar senha
-						</a>
-						<a href="#">
+						
+						<a href="{% url 'usuario:cadastro' %}">
 							cadastrar 
 						</a>
+						<a href="#"><i>Esqueceu a senha??</i></a>
 
 						<input class="bottoment" type="submit" value="Entrar"/>
 					</div>   
