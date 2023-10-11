@@ -3,6 +3,11 @@ version: "3"
 services:
   db:
     image: postgres:latest
+    environment:
+      POSTGRES_HOST: pg-ckil53212bvs739uphc0-a.ohio-postgres.render.com
+      POSTGRES_USER: barbereaseadmin
+      POSTGRES_DB: db_barberease_xjlp
+      POSTGRES_PASSWORD: LPoHNUCoR9l6RpSIX7v4bV08BqNFBB42
 
   web:
     build: ./
