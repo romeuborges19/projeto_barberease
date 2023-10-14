@@ -1,1 +1,7 @@
 .vscode
+.env
+venv
+
+barberease/.vscode
+barberease/.env
+barberease/venv
