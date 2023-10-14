@@ -18,14 +18,15 @@
 					{% csrf_token %}
 
 					<div class="barb">BarberEase</div>
-					<p class="find">Encontre o melhor salão para você!</p>
+					<p class="find">Encontre o melhor salão para você! Teste teste</p>
 					<p class="box-title">Faça seu login:</p>
 
 					<div class="form-input-container">
 						<div class="field-container">
 							<label class="label">E-mail:
 								<div class="form-control-container">
-									<input type="text" name="username" class="form-control" id="id_username" placeholder="E-mail">
+									<!-- <input type="text" name="username" class="form-control" id="id_username" placeholder="E-mail"> -->
+									{% render_field form.username class="form-control" %}
 
 									</label>
 								</div>
@@ -38,11 +39,9 @@
 								{% render_field form.password class="form-control" %}
 								</div>
 							</label>
-						</div>
+
 					</div>
 
-
-					<br>
 					{% get_providers as socialaccount_providers %}
 					<div class="form-button-container">
 						<div class="bottomgg" id="googleButton">
@@ -56,7 +55,7 @@
 						<a href="#">
 							recuperar senha
 						</a>
-						<a href="#">
+					<a href="{% url 'usuario:cadastro' %}">
 							cadastrar 
 						</a>
 
