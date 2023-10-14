@@ -6,11 +6,14 @@ services:
     ports:
       - "5433:5433"
     environment:
-      POSTGRES_HOST_AUTH_METHOD: "trust"
+      POSTGRES_HOST: pg-ckil53212bvs739uphc0-a.ohio-postgres.render.com
+      POSTGRES_USER: barbereaseadmin
+      POSTGRES_DB: db_barberease_xjlp
+      POSTGRES_PASSWORD: LPoHNUCoR9l6RpSIX7v4bV08BqNFBB42
 
   web:
     build: ./
-    command: "python manage.py runserver"
+    command: bash -c "python manage.py migrate && python manage.py makemigrations && gunicorn --bind 0.0.0.0:8000 barberease.wsgi:application"
     container_name: barberease
     volumes:
       - .:/barberease

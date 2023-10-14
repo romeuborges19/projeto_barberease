@@ -112,7 +112,7 @@ DATABASES = {
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT', default='5432'),
+        'PORT': config('DB_PORT'),
     }
 }
 
@@ -144,6 +144,20 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -165,9 +179,8 @@ STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-LOGIN_REDIRECT_URL = 'usuario:home'
+LOGIN_REDIRECT_URL = 'usuario:process'
 LOGOUT_REDIRECT_URL = "usuario:login"
 AUTH_USER_MODEL = 'usuarios.Usuario'
-ACCOUNT_ADAPTER = 'usuarios.adapters.CustomAccountAdapter'
-ACCOUNT_UNIQUE_EMAIL = True
+
 SOCIALACCOUNT_LOGIN_ON_GET=True
