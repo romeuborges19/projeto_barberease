@@ -7,7 +7,7 @@ from usuarios.models import Usuario
 from django.views.generic.edit import CreateView
 from django.views.generic.base import TemplateView
 from django.contrib.auth import login
-from django.contrib.auth import login
+
 
 
 class CadastrarDonoview(CreateView):
