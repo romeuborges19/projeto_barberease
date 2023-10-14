@@ -16,12 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-<<<<<<< HEAD
-from django.conf import settings
-from django.conf.urls.static import static
-=======
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
->>>>>>> b895bcc43757b092e9fd4da788de8f239d04ef3f
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -32,8 +27,4 @@ urlpatterns = [
     path('auth/', include('allauth.socialaccount.urls')),
 ]
 
-<<<<<<< HEAD
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
-=======
 urlpatterns += staticfiles_urlpatterns()
->>>>>>> b895bcc43757b092e9fd4da788de8f239d04ef3f

@@ -1,10 +1,4 @@
-from datetime import datetime
-from django.contrib import messages
-from allauth.socialaccount.models import SocialAccount
 from allauth.socialaccount.signals import pre_social_login
-from django.contrib.auth import user_logged_in
-from django.contrib.sessions.models import Session
-from django.dispatch import receiver
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from allauth.account.models import EmailAddress
@@ -15,9 +9,6 @@ from allauth.account.views import TemplateView
 from barbearia.models import Barbearia
 from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
-from allauth.account.signals import user_logged_in
-from datetime import datetime, timedelta
-
 
 
 def logged_in(sender, **kwargs):
@@ -27,12 +18,9 @@ def logged_in(sender, **kwargs):
     global should_redirect
 
     if EmailAddress.objects.filter(email=email).exists():
-        print("tem email")
         should_redirect = True 
     else:
-        print("nao tem email")
         should_redirect = False
-
 
 pre_social_login.connect(logged_in)
 
@@ -54,10 +42,8 @@ class ProcessGoogleLoginView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         if should_redirect:
-            print("caso 1")
             return redirect(reverse_lazy("usuario:home"))
         else:
-            print("caso 2")
             usuario = self.request.user
 
             if usuario.dono_barbearia:

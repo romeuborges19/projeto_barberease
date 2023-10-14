@@ -27,6 +27,11 @@
 							<label class="label">Nome:
 								<div class="form-control-container">
                   {{ form.nome | add_class:"form-control" }}
+                  {% if form.nome.errors %}
+                    <div class="error">
+                      {{ form.nome.errors }}
+                    </div>
+                {% endif %}
 								</div>
 							</label>
 						</div>
@@ -36,6 +41,11 @@
 								<label class="label-comp">(opcional)</label>
 								<div class="form-control-container">
 									{{ form.sobrenome | add_class:"form-control" }}
+                  {% if form.sobrenome.errors %}
+                    <div class="error">
+                      {{ form.sobrenome.errors }}
+                    </div>
+                {% endif %}
 								</div>
 							</label>
 						</div>
@@ -44,6 +54,11 @@
 							<label class="label">E-mail:
 								<div class="form-control-container">
                   {{ form.email | add_class:"form-control" }}
+                  {% if form.email.errors %}
+                    <div class="error">
+                      {{ form.email.errors }}
+                    </div>
+                {% endif %}
 								</div>
 							</label>
 						</div>
@@ -52,6 +67,11 @@
 							<label class="label">Senha:
 								<div class="form-control-container">
                   {{ form.password | add_class:"form-control" }}
+                  {% if form.password.errors %}
+                    <div class="error">
+                      {{ form.password.errors }}
+                    </div>
+                {% endif %}
 								</div>
 							</label>
 						</div>
@@ -60,6 +80,11 @@
 							<label class="label">Confirme a senha:
 								<div class="form-control-container">
                   {{ form.password2 | add_class:"form-control" }}
+                  {% if form.password2.errors %}
+                    <div class="error">
+                      {{ form.password2.errors }}
+                    </div>
+                {% endif %}
 								</div>
 							</label>
 						</div>
