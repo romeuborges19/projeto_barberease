@@ -7,7 +7,7 @@ RUN mkdir /barberease
 
 WORKDIR /barberease
 
-ADD . /barberease/
+ADD . /barberease
 
 RUN pip install -r requirements.txt
 
