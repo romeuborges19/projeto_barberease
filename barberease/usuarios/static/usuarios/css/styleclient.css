@@ -1,0 +1,190 @@
+@font-face {
+    font-family: 'Abhaya Libre ExtraBold';
+    src: url(../fonts/AbhayaLibre-ExtraBold.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'Kanit';
+    src: url(../fonts/Kanit-Regular.ttf) format('truetype');
+}
+body {
+    background-image: url(../images/cadastro.png);
+    background-position: center center;
+    background-size: cover;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container{
+	width: 100%;
+	height: 100vh;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centro{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+    align-items: center;
+    padding: 20px;
+    max-width: 310px;
+    height: 500px;
+    border-radius: 10px;
+    background: #FFFFFF;  
+}
+
+.centro .barb{
+    width: 100%;
+    height: 45px;
+    flex-shrink: 0;
+    color: #000;
+    text-shadow:
+        -0.5px -0.5px 0 #000, 
+        0.5px -0.5px 0 #000, 
+        -0.5px 0.5px 0 #000, 
+        0.5px 0.5px 0 #000;
+    text-align: center;
+    font-family: Abhaya Libre ExtraBold;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 900;
+    margin-top: 10px;
+}
+
+.find{
+    color: #7E5638;
+    text-align: center;
+    font-family: Kanit;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.box-title{
+    color: #000;
+    text-align: center;
+    font-family: Kanit;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+.field-container{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+    padding-left: 0px;
+}
+
+.form-input-container{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.form-control-container{
+	display: flex;
+	align-items: center;
+    width: 260px;
+    height: 35px;
+	padding-right: 5px;
+	margin-top: 5px;
+    background-color: #DDCEC2;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.form-control{
+    background-color: transparent;
+	border: none;
+    padding-left: 15px;
+}
+
+.form-control:focus{
+	outline:none;
+}
+
+.label{
+    color: #000;
+    text-align: left;
+    margin-left: 10px;
+    font-family: Kanit;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.label-comp{
+    color: #AB9382;
+    text-align: left;
+    font-family: Kanit;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.bottoment:hover{
+	background-color: #8f5429;
+	border: 3px solid #8f5429;
+}
+
+.bottoment{
+    width: 100px;
+    height: 35px;
+    background-color: #402009;
+    border: 3px solid #402009;
+    border-radius: 15px;
+    margin-left: 0;
+    cursor: pointer;
+    margin-top: 15px;
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.20));
+    color: #402009;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Kanit;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+	color: white;
+    line-height: normal;
+	transition: 200ms;
+}
+
+.form-button-container{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+    align-items: center;
+	
+}
+.client-sigin {
+    text-decoration: none; 
+    color: #402009;
+}
+.barb-sigin {
+    text-decoration: none; 
+    color: #402009;
+}
+.box-end {
+    color: #402009;
+    text-align: center;
+    font-family: Kanit;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+@media (max-width: 480px) {
+    button {
+        width: 70%;
+    }
+}
