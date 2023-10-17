@@ -6,7 +6,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="stylesheet" type="text/css" href="{% static '/usuarios/css/styles.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +19,7 @@
 					{% csrf_token %}
 
 					<div class="barb">BarberEase</div>
-					<p class="find">Encontre o melhor salão para você! Teste teste</p>
+					<div class="find">Encontre o melhor salão para você!</div>
 					<p class="box-title">Faça seu login:</p>
 
 					<div class="form-input-container">
@@ -41,25 +42,29 @@
 							</label>
 
 					</div>
-
+					<a href="#">
+						recuperar senha
+					</a>
+  
 					{% get_providers as socialaccount_providers %}
 					<div class="form-button-container">
 						<div class="bottomgg" id="googleButton">
 							<a href="{% provider_login_url 'google' %}" class="google-login-button">
 								Fazer login com o Google
-							</a>
+							</a>			
 						</div>
-						<a href="{% url 'barbearia:cadastrar_dono' %}">
-							cadastrar barbearia
-						</a>
-						<a href="#">
-							recuperar senha
-						</a>
-					<a href="{% url 'usuario:cadastro' %}">
-							cadastrar 
-						</a>
 
 						<input class="bottoment" type="submit" value="Entrar"/>
+
+						<div class="box-end">Cadastre-se como
+							<a href="{% url 'usuario:cadastro' %}" class="client-sigin">
+								cliente
+							</a>
+							ou como
+						    <a href="{% url 'barbearia:cadastrar_dono' %}" class="barb-sigin">
+							barbearia
+						</a>
+			            </div>
 					</div>   
 			</form>
 	</div>
