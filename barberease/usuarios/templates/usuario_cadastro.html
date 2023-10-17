@@ -8,7 +8,8 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="{% static 'css/styleclient.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/styleclient.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/style.css' %}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,8 +88,8 @@
 			<input class="bottoment" type="submit" value="Cadastrar"/>
 		</div>
 		<div class="box-end">Cadastre-se como
-			<a href="#" class="barb-sigin">
-				barbearia
+			<a href="{% url 'barbearia:cadastrar_dono' %}" class="barb-sigin">
+				<u>profissional</u>
 			</a>
 		</div>
 		{% get_providers as socialaccount_providers %}
