@@ -14,93 +14,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-
-			<form method="POST">
-				<div class="centro">
-          {% csrf_token %}    
-					<div class="barb">BarberEase</div>
-					<div class="find">Encontre o melhor salão para você!</div>
-					<p class="box-title">Cadastre-se como profissional:</p>
-
+<form method="POST">
+	<div class="centro">
+        {% csrf_token %}    
+		<div class="barb">BarberEase</div>
+		<div class="find">Encontre o melhor salão para você!</div>
+		<p class="box-title">Cadastre-se como profissional:</p>
 					<div class="form-input-container">
 						<div class="field-container">
 							<label class="label">Nome:
 								<div class="form-control-container">
-                  {{ form.nome | add_class:"form-control" }}
-                  {% if form.nome.errors %}
-                    <div class="error">
-                      {{ form.nome.errors }}
-                    </div>
-                {% endif %}
+									{{ form.nome | add_class:"form-control" }}
+									{% if form.nome.errors %}
+									<div class="error">
+										{{ form.nome.errors }}
+									</div>
+									{% endif %}
 								</div>
 							</label>
 						</div>
-
 						<div class="field-container">
 							<label class="label">Sobrenome:
 								<label class="label-comp">(opcional)</label>
 								<div class="form-control-container">
 									{{ form.sobrenome | add_class:"form-control" }}
-                  {% if form.sobrenome.errors %}
-                    <div class="error">
-                      {{ form.sobrenome.errors }}
-                    </div>
-                {% endif %}
-								</div>
+                  					{% if form.sobrenome.errors %}
+                    				<div class="error">
+                      					{{ form.sobrenome.errors }}
+                    				</div>
+                					{% endif %}
+									</div>
 							</label>
 						</div>
-					
 						<div class="field-container">
 							<label class="label">E-mail:
 								<div class="form-control-container">
-                  {{ form.email | add_class:"form-control" }}
-                  {% if form.email.errors %}
-                    <div class="error">
-                      {{ form.email.errors }}
-                    </div>
-                {% endif %}
+									{{ form.email | add_class:"form-control" }}
+									{% if form.email.errors %}
+									<div class="error">
+                     			 		{{ form.email.errors }}
+                    				</div>
+                					{% endif %}
 								</div>
 							</label>
 						</div>
-
 						<div class="field-container">
 							<label class="label">Senha:
 								<div class="form-control-container">
-                  {{ form.password | add_class:"form-control" }}
-                  {% if form.password.errors %}
-                    <div class="error">
-                      {{ form.password.errors }}
-                    </div>
-                {% endif %}
+									{{ form.password | add_class:"form-control" }}
+									{% if form.password.errors %}
+									<div class="error">
+                      					{{ form.password.errors }}
+                    				</div>
+                					{% endif %}
 								</div>
 							</label>
 						</div>
-
 						<div class="field-container">
 							<label class="label">Confirme a senha:
 								<div class="form-control-container">
-                  {{ form.password2 | add_class:"form-control" }}
-                  {% if form.password2.errors %}
-                    <div class="error">
-                      {{ form.password2.errors }}
-                    </div>
-                {% endif %}
+									{{ form.password2 | add_class:"form-control" }}
+									{% if form.password2.errors %}
+										<div class="error">
+                      						{{ form.password2.errors }}
+                    					</div>
+                						{% endif %}
 								</div>
 							</label>
 						</div>
 					</div>	
-					<div class="form-button-container">
-						<input class="bottoment" type="submit" value="Cadastrar"/>
-					</div>
-					<div class="box-end">Já tem conta?
-						<a href="{% url 'usuario:login' %}" class="barb-sigin">Login</a>
-						
-						</a>
-          </div>
-				</div>   
-			</form>
-	</div>
-
+			<div class="form-button-container">
+				<input class="bottoment" type="submit" value="Cadastrar"/>
+			</div>
+			<div class="box-end">Já tem conta?
+				<a href="{% url 'usuario:login' %}" class="barb-sigin">Login</a>
+				
+				</a>
+			</div>
+	</div>   
+</form>
 </body>
 </html>
 
