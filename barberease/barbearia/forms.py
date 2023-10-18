@@ -53,3 +53,14 @@ class BarbeariaForm(forms.ModelForm):
 
 
         return cleaned_data
+
+    def save(self, commit=True):
+        instance = super(BarbeariaForm, self).save(commit=False)
+        instance.nome = self.cleaned_data['nome']
+        instance.endereco = self.cleaned_data['endereco']
+        instance.telefone = self.cleaned_data['telefone']
+        instance.cpnj = self.cleaned_data['cnpj']
+        instance.cep = self.cleaned_data['cep']
+        instance.setor = self.cleaned_data['setor']
+        instance.cidade = self.cleaned_data['cidade']
+        instance.estado = self.cleaned_data['estado']
