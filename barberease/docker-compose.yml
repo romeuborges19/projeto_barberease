@@ -21,3 +21,23 @@ services:
       - "8000:8000"
     depends_on:
       - db
+
+      web:
+  - image: render/basic:1
+    instances: 1
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: "barberease.settings"  # Substitua pelo módulo de configurações do seu projeto Django
+      - key: DATABASE_URL
+        fromDatabase: db_barberease  # Substitua pelo nome do banco de dados Render
+    ports:
+      - port: 8000
+        protocol: TCP
+
+  - image: nginx:latest
+    automaticScaling:
+      minInstances: 1
+      maxInstances: 10
+    ports:
+      - port: 80
+        protocol: TCP
