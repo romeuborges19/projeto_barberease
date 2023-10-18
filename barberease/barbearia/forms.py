@@ -17,6 +17,7 @@ class BarbeariaForm(forms.ModelForm):
         fields = ['nome', 'endereco', 'telefone', 'cnpj', 'cep', 'setor', 'cidade', 'estado', 'logo']
 
     def __init__(self, *args, **kwargs):
+        self.usuario = kwargs.pop('current_user', None)
         super(BarbeariaForm, self).__init__(*args, **kwargs)
   
 
@@ -28,7 +29,7 @@ class BarbeariaForm(forms.ModelForm):
         self.cleaned_data['cnpj'] = remove_mask(cnpj)
         self.cleaned_data['telefone'] = remove_mask(telefone)
         self.cleaned_data['cep'] = remove_mask(cep)
-        usuario = self.request.user
+        usuario = self.usuario
 
         if Barbearia.objects.filter(dono=usuario).exists() and usuario.dono_barbearia:
             return raiseExceptions("Você já possui uma barbearia cadastrada com esse usuario")

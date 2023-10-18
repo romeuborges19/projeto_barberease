@@ -30,9 +30,12 @@ class CadastrarDonoview(CreateView):
 class CadastrarBarbeariaview(CreateView):
     # Views para renderizar a tela de cadastro de Barbearia
 
-    form_class = BarbeariaForm
     model = Barbearia
     template_name = "cadastro_barbearia.html"
+
+    def get_form(self, form_class=BarbeariaForm):
+        form = BarbeariaForm(current_user=self.request.user)
+        return form
 
     def form_valid(self, form):
         usuario = Usuario.objects.get(pk=self.request.user.pk)

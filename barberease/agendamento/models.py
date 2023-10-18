@@ -17,7 +17,6 @@ class Servico(models.Model):
 class Agenda(models.Model):
     # Model que agrupa os agendamentos de uma barbearia e armazena dados sobre sua lógica de funcionamento.
 
-    servicos_hora = models.IntegerField() 
     horarios_disponiveis = models.JSONField()
     barbearia = models.ForeignKey(Barbearia, verbose_name="Barbeiro", on_delete=models.CASCADE)
     criado_em = models.DateTimeField(auto_now_add=True)
