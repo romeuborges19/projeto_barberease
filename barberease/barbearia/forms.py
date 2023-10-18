@@ -29,7 +29,6 @@ class BarbeariaForm(forms.ModelForm):
         self.cleaned_data['telefone'] = remove_mask(telefone)
         self.cleaned_data['cep'] = remove_mask(cep)
 
-
         # if Barbearia.objects.filter(dono=usuario).exists() and usuario.dono_barbearia:
         #     return raiseExceptions("Você já possui uma barbearia cadastrada com esse usuario")
         

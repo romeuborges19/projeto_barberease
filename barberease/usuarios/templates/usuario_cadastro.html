@@ -2,94 +2,110 @@
 {% load widget_tweaks %}
 {% load i18n %}
 {% load account socialaccount %}
-{% load socialaccount %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-		<link rel="stylesheet" type="text/css" href="{% static 'css/styleclient.css'  %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/styleclient.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/style.css' %}">
+  
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-
-			<form method="POST">
-				{% csrf_token %}
-				<div class="centro">
-
-					<div class="barb">BarberEase</div>
-					<div class="find">Encontre o melhor salão para você!</div>
-					<p class="box-title">Cadastre-se:</p>
-
-					<div class="form-input-container">
-						<div class="field-container">
-							<label class="label">Nome:
-								<div class="form-control-container">
-									{{ form.nome|add_class:"form-control"}}
-									{% if form.nome.errors %}{{ form.nome.errors }}{% endif %}
-								</div>
-							</label>
-						</div>
-
-						<div class="field-container">
-							<label class="label">Sobrenome:
-								<label class="label-comp">(opcional)</label>
-								<div class="form-control-container">
-									{{ form.sobrenome|add_class:"form-control"}}
-									{% if form.sobrenome.errors %}{{ form.sobrenome.errors }}{% endif %}
-								</div>
-							</label>
-						</div>
-					
-						<div class="field-container">
-							<label class="label">E-mail:
-								<div class="form-control-container">
-									{{ form.email|add_class:"form-control"}}
-									{% if form.email.errors %}{{ form.email.errors }}{% endif %}
-								</div>
-							</label>
-						</div>
-
-						<div class="field-container">
-							<label class="label">Senha:
-								<div class="form-control-container">
-									{{ form.password|add_class:"form-control"}}
-									{% if form.password.errors %}{{ form.password.errors }}{% endif %}
-								</div>
-								</div>
-							</label>
-						</div>
-
-						<div class="field-container">
-							<label class="label">Confirme a senha:
-								<div class="form-control-container">
-									{{ form.password2|add_class:"form-control"}}
-									{% if form.password2.errors %}{{ form.password2.errors }}{% endif %}
-								</div>
-							</label>
-						</div>
-					 
+	<form method="POST">
+		<div class="centro">
+        {% csrf_token %}    
+		<div class="barb">BarberEase</div>
+		<div class="find">Encontre o melhor salão para você!</div>
+		<p class="box-title">Cadastre-se:</p>
+		<div class="form-input-container">
+			<div class="field-container">
+				<label class="label">Nome:
+				<div class="form-control-container">
+					{{ form.nome | add_class:"form-control" }}
+					{% if form.nome.errors %}
+					<div class="error">
+						{{ form.nome.errors }}
 					</div>
-
-	
-					<div class="form-button-container">
-						<input class="bottoment" type="submit" value="Cadastrar"/>
+					{% endif %}
+				</div>
+				</label>
+			</div>
+			<div class="field-container">
+				<label class="label">Sobrenome:
+				<label class="label-comp">(opcional)</label>
+				<div class="form-control-container">
+					{{ form.sobrenome | add_class:"form-control" }}
+					{% if form.sobrenome.errors %}
+					<div class="error">
+						{{ form.sobrenome.errors }}
 					</div>
-					<div class="box-end">Cadastre-se como
-						<a href="{% url 'barbearia:cadastrar_dono' %}" class="barb-sigin">
-							barbearia
-						</a>
-			        </div>
-					<div class="bottomgg" id="googleButton">
-						<a href="{% provider_login_url 'google' %}" class="barb-sigin">
-							Cadastrar com o Google
-						</a>
+					{% endif %}
+				</div>
+				</label>
+			</div>
+			<div class="field-container">
+				<label class="label">E-mail:
+				<div class="form-control-container">
+                	{{ form.email | add_class:"form-control" }}
+                  	{% if form.email.errors %}
+                  	<div class="error">
+                    	{{ form.email.errors }}
+                  	</div>
+                	{% endif %}
+				</div>
+				</label>
+			</div>
+			<div class="field-container">
+				<label class="label">Senha:
+				<div class="form-control-container">
+                	{{ form.password | add_class:"form-control" }}
+                  	{% if form.password.errors %}
+                  	<div class="error">
+                    	{{ form.password.errors }}
+                  	</div>
+                	{% endif %}
+				</div>
+				</label>
+			</div>
+			<div class="field-container">
+				<label class="label">Confirme a senha:
+				<div class="form-control-container">
+                	{{ form.password2 | add_class:"form-control" }}
+                  	{% if form.password2.errors %}
+                    <div class="error">
+                    	{{ form.password2.errors }}
+                    </div>
+                  	{% endif %}
 					</div>
-              
-				</div>   
-			</form>
+					</label>
+			</div>
+		</div>	
+		<div class="form-button-container">
+			<input class="bottoment" type="submit" value="Cadastrar"/>
+		</div>
+		<div class="box-end">Cadastre-se como
+			<a href="{% url 'barbearia:cadastrar_dono' %}" class="barb-sigin">
+				<u>profissional</u>
+			</a>
+		</div>
+		{% get_providers as socialaccount_providers %}
+		<div class="bottomgg" id="googleButton">
+		<a href="{% provider_login_url 'google' %}" class="google-login-button">
+			Cadastrar com o Google
+		</a>
+		</div>
+		</div>   
+	</form>
 	</div>
-
 </body>
 </html>
+
+
+
 

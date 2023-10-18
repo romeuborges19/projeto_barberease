@@ -11,7 +11,7 @@ from django.contrib.auth import login
 
 class CadastrarDonoview(CreateView):
     # Views para renderizar a tela de cadastro de Dono
-
+    
     form_class = UsuarioForm
     model = Usuario
     template_name = "cadastro_dono.html"

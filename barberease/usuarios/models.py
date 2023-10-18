@@ -16,4 +16,4 @@ class Usuario(AbstractUser):
         return self.nome
     
 
-
+ 

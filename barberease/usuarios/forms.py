@@ -44,9 +44,7 @@ class UsuarioForm(forms.ModelForm):
         instance = super(UsuarioForm, self).save(commit=False)
         instance.set_password(self.cleaned_data['password'])
         instance.username = self.cleaned_data['email']
-        print(instance.username)
         if commit:
-            print("entrei")
             instance.save()
         return instance
 
