@@ -41,6 +41,11 @@ class UsuarioHomeView(TemplateView):
     # Views para renderizar a tela inicial Cliente
 
     template_name = "usuario_home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['barbearias'] = Barbearia.objects.all()
+        return context
  
 class UsuarioLogoutView(LogoutView):
     # Views para renderizar a tela inicial Cliente

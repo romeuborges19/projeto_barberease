@@ -1,1 +1,17 @@
+.vscode
+.env
 venv
+
+__pycache__
+db.sqlite3
+
+barberease/barbearia/__pycache__
+barberease/barbearia/migrations/__pycache__
+barberease/barberease/__pycache__
+barberease/extras/__pycache__
+barberease/usuarios/__pycache__
+barberease/usuarios/migrations/__pycache__
+
+barberease/.vscode
+barberease/.env
+barberease/venv
