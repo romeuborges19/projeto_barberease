@@ -25,6 +25,7 @@ urlpatterns = [
     path("barbearia/", include("barbearia.urls")),
     path('accounts/', include('allauth.urls')),
     path('auth/', include('allauth.socialaccount.urls')),
+    path("agendamento/", include('agendamento.urls'))
 ]
 
 urlpatterns += staticfiles_urlpatterns()
