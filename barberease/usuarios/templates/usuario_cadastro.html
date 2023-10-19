@@ -10,7 +10,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/styleclient.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/style.css' %}">
   
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -96,9 +95,9 @@
 		</div>
 		{% get_providers as socialaccount_providers %}
 		<div class="bottomgg" id="googleButton">
-		<a href="{% provider_login_url 'google' %}" class="google-login-button">
+		 <a href="{% provider_login_url 'google' %}" class="google-login-button">
 			Cadastrar com o Google
-		</a>
+		 </a>
 		</div>
 		</div>   
 	</form>
