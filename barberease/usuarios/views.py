@@ -19,8 +19,10 @@ def logged_in(sender, **kwargs):
     global should_redirect
 
     if EmailAddress.objects.filter(email=email).exists():
+        print("email existe")
         should_redirect = True 
     else:
+        print("email nao existe")
         should_redirect = False
 
 pre_social_login.connect(logged_in)
