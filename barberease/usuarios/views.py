@@ -12,6 +12,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 
 def logged_in(sender, **kwargs):
+    print("logged in")
     sociallogin = kwargs['sociallogin']
     email = sociallogin.user.email
 
@@ -41,6 +42,7 @@ class ProcessGoogleLoginView(TemplateView):
     template_name = "process_login.html"
 
     def get(self, request, *args, **kwargs):
+        print(f"global variables:  {globals()}")
         if should_redirect:
             return redirect(reverse_lazy("usuario:home"))
         else:
@@ -52,7 +54,6 @@ class ProcessGoogleLoginView(TemplateView):
                 else:
                     return redirect(reverse_lazy("barbearia:cadastrar_barbearia"))
             else:
-                print("caso 3")
                 return redirect(reverse_lazy("usuario:cadastro"))
 
 class UsuarioCadastrarView(CreateView):
