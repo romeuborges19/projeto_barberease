@@ -21,7 +21,7 @@ body {
 
 .container{
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 	display: flex;
     justify-content: center;
     align-items: center;
@@ -33,8 +33,8 @@ body {
 	justify-content: center;
     align-items: center;
     padding: 20px;
-    max-width: 310px;
-    height: 500px;
+    width: 280px;
+    height: 520px;
     border-radius: 10px;
     background: #FFFFFF;  
 }
@@ -54,7 +54,7 @@ body {
     font-size: 50px;
     font-style: normal;
     font-weight: 900;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .find{
@@ -86,19 +86,20 @@ body {
 .form-input-container{
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 6px;
 }
 
 .form-control-container{
 	display: flex;
 	align-items: center;
-    width: 260px;
-    height: 35px;
-	padding-right: 5px;
+    width: 240px;
+    height: 30px;
+	padding-right: 0px;
 	margin-top: 5px;
     background-color: #DDCEC2;
     border-radius: 15px;
     cursor: pointer;
+    position: relative;
 }
 
 .form-control{
@@ -119,6 +120,7 @@ body {
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
+    margin-left: -1px;
 }
 
 .label-comp{
@@ -134,15 +136,15 @@ body {
     background-size: 20px 20px;
     background-position: 12px center;
     background-repeat: no-repeat;
-    width: 260px;
-    height: 34px;
+    width: 237px;
+    height: 30px;
     background-color: #FFF9EE;
     border: 1px solid #7E5638;
     border-radius: 15px;
     cursor: pointer;
     margin-left: 10px;
-    margin-top: 10px;
-    margin-bottom: 25px;
+    margin-top: 25px;
+    margin-bottom: 10px;
     filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.20));
     color: #402009;
     display: flex;
@@ -177,7 +179,7 @@ body {
     border-radius: 15px;
     margin-left: 0;
     cursor: pointer;
-    margin-top: 15px;
+    margin-top: 5px;
     filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.20));
     color: #402009;
     display: flex;
@@ -216,8 +218,16 @@ body {
     font-weight: 400;
     margin-top: 5px;
     margin-bottom: 10px;
+} 
+.error {
+    position: fixed;
+    top: 423px;
+    left: 500px;
+    background: transparent;
+    color: #f60000;
+    font-size: 9px;
 }
-@media (max-width: 480px) {
+@media (max-width: 450px) {
     button {
         width: 70%;
     }
