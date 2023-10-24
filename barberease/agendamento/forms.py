@@ -41,8 +41,7 @@ class AgendaForm(forms.ModelForm):
         super(AgendaForm, self).__init__(*args, **kwargs)
         self.fields['barbearia'].widget = forms.HiddenInput()
         self.fields['horarios_funcionamento'].widget = forms.HiddenInput()
-        self.fields['dias_semana'].widget = forms.HiddenInput()
-        self.fields['horarios'].widget = forms.HiddenInput()
+        
 
         for dia in DIAS_SEMANA:
             self.fields[f'horarios_{dia[0]}'] = forms.MultipleChoiceField(
