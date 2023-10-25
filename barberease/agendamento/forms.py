@@ -1,10 +1,15 @@
 from django import forms
 from .models import Agenda
 
+
 DIAS_SEMANA = (
-    ("semana", "Dias de Semana"),
-    ("sabado", "Sábado"),
-    ("domingo", "Domingo"),
+    ("segunda", "segunda-feira"),
+    ("terça", "terça-feira"),
+    ("quarta", "quarta-feira"),
+    ("quinta", "quinta-feira"),
+    ("sexta", "sexta-feira"),
+    ("sabado", "sabado"),
+    ("domingo", "domingo"),
 )
 
 HORARIOS = (
@@ -36,7 +41,6 @@ class AgendaForm(forms.ModelForm):
         super(AgendaForm, self).__init__(*args, **kwargs)
         self.fields['barbearia'].widget = forms.HiddenInput()
         self.fields['horarios_funcionamento'].widget = forms.HiddenInput()
-        
 
         for dia in DIAS_SEMANA:
             self.fields[f'horarios_{dia[0]}'] = forms.MultipleChoiceField(
@@ -47,10 +51,16 @@ class AgendaForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+        horarios = {}
 
         for dia in DIAS_SEMANA:
-            horarios = cleaned_data.get(f'horarios_{dia[0]}', [])
+            horarios[f'horarios_{dia[0]}'] = cleaned_data.get(f'horarios_{dia[0]}', [])
+            
             if not horarios:
                 raise forms.ValidationError(f"Selecione pelo menos um horário para {dia[1]}")
+
+        horarios_funcionamento = horarios
+
+        print(cleaned_data)
 
         return cleaned_data

@@ -1,2 +1,5 @@
 <h1>oiii</h1>
-<a href="{% url 'usuario:logout' %}">logout</a>
+<a href="{% url 'usuario:logout' %}">Logout</a>
+{% if request.session.dono %}
+	<a href="{% url 'agendamento:cadastrar_agenda' %}">Cadastrar Agenda</a>
+{% endif%}

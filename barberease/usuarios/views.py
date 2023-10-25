@@ -2,14 +2,12 @@ from allauth.socialaccount.signals import pre_social_login
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from allauth.account.models import EmailAddress
-from barbearia.models import Barbearia
 from .models import Usuario
 from .forms import UsuarioForm
 from allauth.account.views import TemplateView
-from barbearia.models import Barbearia
 from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
-
+from .utils import manage_login_redirect
 
 def logged_in(sender, **kwargs):
     sociallogin = kwargs['sociallogin']
@@ -28,14 +26,7 @@ class UsuarioLoginView(LoginView):
     template_name = "registration/login.html"
     
     def get_success_url(self):
-        usuario = self.request.user
-        if usuario.dono_barbearia:
-            if Barbearia.objects.filter(dono=usuario).exists():
-                return reverse_lazy("barbearia:home")
-            else:
-                return reverse_lazy("barbearia:cadastrar_barbearia")
-        else:
-            return reverse_lazy("usuario:home")
+        return manage_login_redirect(self.request) 
 
 class ProcessGoogleLoginView(TemplateView):
     template_name = "process_login.html"
@@ -44,16 +35,7 @@ class ProcessGoogleLoginView(TemplateView):
         if should_redirect:
             return redirect(reverse_lazy("usuario:home"))
         else:
-            usuario = self.request.user
-
-            if usuario.dono_barbearia:
-                if Barbearia.objects.filter(dono=usuario).exists():
-                    return redirect(reverse_lazy("barbearia:home"))
-                else:
-                    return redirect(reverse_lazy("barbearia:cadastrar_barbearia"))
-            else:
-                print("caso 3")
-                return redirect(reverse_lazy("usuario:cadastro"))
+            return redirect(manage_login_redirect(self.request)) 
 
 class UsuarioCadastrarView(CreateView):
     # Views para renderizar a tela de cadastro de Cliente
