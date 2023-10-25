@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 
-from agendamento.forms import AgendaForm
+mo afzer issofrom agendamento.forms import AgendaForm
 from agendamento.models import Agenda
 
 # Create your views here.
