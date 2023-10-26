@@ -1,7 +1,6 @@
 from django.db import models
 from usuarios.models import Usuario
 
-
 class Barbearia(models.Model):
     
     nome = models.CharField("Nome", max_length=150)

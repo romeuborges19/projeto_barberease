@@ -59,8 +59,15 @@ class AgendaForm(forms.ModelForm):
             if not horarios:
                 raise forms.ValidationError(f"Selecione pelo menos um horário para {dia[1]}")
 
-        horarios_funcionamento = horarios
-
-        print(cleaned_data)
+        self.cleaned_data['horarios_funcionamento'] = horarios
 
         return cleaned_data
+
+    def save(self, commit=True):
+        instance = super(AgendaForm, self).save(commit=False)
+
+        instance.horarios_funcionamento = self.cleaned_data['horarios_funcionamento']
+
+        if commit:
+            instance.save()
+        return instance

@@ -49,7 +49,7 @@ class BarbeariaForm(forms.ModelForm):
                 self.add_error('telefone', 'Telefone já cadastrado')
 
         if cep and len(cep) < 8:
-                self.add_error('cep', 'CEP inválido')
+            self.add_error('cep', 'CEP inválido')
 
 
         return cleaned_data
@@ -64,3 +64,8 @@ class BarbeariaForm(forms.ModelForm):
         instance.setor = self.cleaned_data['setor']
         instance.cidade = self.cleaned_data['cidade']
         instance.estado = self.cleaned_data['estado']
+
+        if commit:
+            instance.save()
+        return instance
+
