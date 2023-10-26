@@ -1,6 +1,6 @@
 from django import forms
 from .models import Agenda
-
+from django.core import serializers
 
 DIAS_SEMANA = (
     ("segunda", "segunda-feira"),
@@ -43,7 +43,7 @@ class AgendaForm(forms.ModelForm):
         self.fields['horarios_funcionamento'].widget = forms.HiddenInput()
 
         for dia in DIAS_SEMANA:
-            self.fields[f'horarios_{dia[0]}'] = forms.MultipleChoiceField(
+            self.fields[f'{dia[0]}'] = forms.MultipleChoiceField(
                 choices=HORARIOS,
                 widget=forms.CheckboxSelectMultiple,
                 required=False,
@@ -54,12 +54,12 @@ class AgendaForm(forms.ModelForm):
         horarios = {}
 
         for dia in DIAS_SEMANA:
-            horarios[f'horarios_{dia[0]}'] = cleaned_data.get(f'horarios_{dia[0]}', [])
+            horarios[f'{dia[0]}'] = cleaned_data.get(f'{dia[0]}', [])
             
             if not horarios:
                 raise forms.ValidationError(f"Selecione pelo menos um horário para {dia[1]}")
 
-        self.cleaned_data['horarios_funcionamento'] = horarios
+        self.cleaned_data['horarios_funcionamento'] = serializers.serialize("json", horarios)
 
         return cleaned_data
 

@@ -4,6 +4,7 @@ from .views import *
 app_name = "agendamento"
 
 urlpatterns = [
-    path("cadastrar/agenda/", CadastrarAgendaView.as_view(), name="cadastrar_agenda"),
+    path("agenda/cadastrar/", CadastrarAgendaView.as_view(), name="cadastrar_agenda"),
+    path("agenda/<int:pk>", AgendaView.as_view(), name="agenda"),
 ]
 

@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 
 from agendamento.forms import AgendaForm
@@ -12,6 +13,7 @@ class CadastrarAgendaView(CreateView):
     form_class = AgendaForm
     model = Agenda
     template_name = "agenda_cadastro.html"
+    success_url = reverse_lazy("agendamento:agenda")
 
     def get(self, request, *args, **kwargs):
         if not Barbearia.objects.get(dono=self.request.user):
@@ -33,4 +35,10 @@ class CadastrarAgendaView(CreateView):
 
         return super().form_valid(form)
 
+class AgendaView(TemplateView):
+    template_name = "agenda.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['agenda'] = Agenda.objects.get(id=kwargs['pk'])
