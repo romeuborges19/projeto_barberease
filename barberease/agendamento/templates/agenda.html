@@ -27,24 +27,36 @@ Lista de objetos: {{ context.agenda }}
 				<th>{{ dia }}</th>
 			{% endfor %}
 		</tr>
-	</thead>
-	{% for horario in coluna_horarios %}
+		{% for horario in coluna_horarios %}
 		<tr>
-			<td>{{ horario }}</td>
-			{% for dia, horarios in agenda.horarios_funcionamento.items %}
-				{% for horario_coluna in horarios %}
-					{% if horario_coluna in horario%}
-					<td>teste </td>
-					{% endif %}
-				{% endfor %}
+			<td>
+				{{ horario }}
+			</td>
+			{% for hora, celulas in horarios_disponiveis.items %}
+				{% if hora is horario %}
+					{% for celula in celulas %}
+						{% if celula == '-' %}
+							<td> -- </td>
+						{% endif %}
+						{% if celula == 'X' %}
+							<td> Hora </td>
+						{% endif %}
+					{% endfor %}
+				{% endif %}
 			{% endfor %}
 		</tr>
-	{% endfor %}
-
-
+		{% endfor %}
+	</thead>
 </table>
-
 </div>
+
+<div class="agenda-container">
+	<div class="horarios-column-container">
+		<p>Horários</p>
+
+	</div>
+</div>
+
 {{ coluna_horarios }}
 {{ agenda.horarios_funcionamento }}
 </body>

@@ -54,16 +54,28 @@ class AgendaView(DetailView):
         context['agenda'] = agenda
 
         coluna_horarios = []
+        horarios_context = []
 
         for dia, horarios in agenda.horarios_funcionamento.items():
-            print(f"{dia} e {horarios}")
             for horario in horarios:
-                print(f"horario: {horario}")
                 if horario not in coluna_horarios:
+                        coluna_horarios.append(horario)
 
-                    coluna_horarios.append(horario)
+            coluna_horarios = sorted(coluna_horarios)
+
+        row_hora = {}
+        for hora in coluna_horarios:
+            row = []
+            for dia, horarios in agenda.horarios_funcionamento.items():
+                if hora in horarios:
+                    row.append("X")
+                else: row.append("-")
+            row_hora[f"{hora}"] = row
+        
+        print(f'coluna p/ hora = {row_hora}')
 
         context['coluna_horarios'] = coluna_horarios
+        context['horarios_disponiveis'] = row_hora
 
         return context
 
