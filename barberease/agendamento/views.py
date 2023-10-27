@@ -1,6 +1,7 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
 from agendamento.forms import AgendaForm
@@ -35,10 +36,38 @@ class CadastrarAgendaView(CreateView):
 
         return super().form_valid(form)
 
-class AgendaView(TemplateView):
+    def get_success_url(self):
+        agenda = Agenda.objects.get(barbearia_id=self.request.session['id_barbearia'])
+        return super().get_success_url()
+
+class AgendaView(DetailView):
     template_name = "agenda.html"
+
+    def get_queryset(self):
+        self.agenda = get_object_or_404(Agenda, id=self.kwargs['pk'])
+
+        return Agenda.objects.filter(id=self.agenda.id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        agenda = Agenda.objects.get(id=self.agenda.id)
+        context['agenda'] = agenda
 
-        context['agenda'] = Agenda.objects.get(id=kwargs['pk'])
+        coluna_horarios = []
+
+        for dia, horarios in agenda.horarios_funcionamento.items():
+            print(f"{dia} e {horarios}")
+            for horario in horarios:
+                print(f"horario: {horario}")
+                if horario not in coluna_horarios:
+
+                    coluna_horarios.append(horario)
+
+        context['coluna_horarios'] = coluna_horarios
+
+        return context
+
+    def get_object(self):
+        agenda = super().get_object()
+
+        return agenda

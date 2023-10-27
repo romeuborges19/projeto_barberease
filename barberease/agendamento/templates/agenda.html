@@ -1,3 +1,51 @@
-<h1> Agenda </h1>
+{% load static %}
 
-{{ object.list }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'agendamento/css/styleagenda.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+Lista de objetos: {{ context.agenda }}
+
+{{ agenda }}
+
+<br>
+<div class="agenda-container">
+
+
+<table>
+	<thead>
+		<tr>
+			<th> Horários </th>
+			{% for dia, horarios in agenda.horarios_funcionamento.items %}
+				<th>{{ dia }}</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	{% for horario in coluna_horarios %}
+		<tr>
+			<td>{{ horario }}</td>
+			{% for dia, horarios in agenda.horarios_funcionamento.items %}
+				{% for horario_coluna in horarios %}
+					{% if horario_coluna in horario%}
+					<td>teste </td>
+					{% endif %}
+				{% endfor %}
+			{% endfor %}
+		</tr>
+	{% endfor %}
+
+
+</table>
+
+</div>
+{{ coluna_horarios }}
+{{ agenda.horarios_funcionamento }}
+</body>
+</html>

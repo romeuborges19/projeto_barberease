@@ -1,0 +1,9 @@
+.agenda-container{
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+table, th, td {
+	border: 1px solid black;
+}
