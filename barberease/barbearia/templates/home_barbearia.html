@@ -1,3 +1,5 @@
 <h1>barabearia</h1>
+
+{{ object.nome }} <br>
 <a href="{% url 'usuario:logout' %}">logout</a>
-<a href="{% url 'agendamento:agenda' %}">Ver Agenda</a>
+<a href="{% url 'agendamento:agenda' object.pk %}">Ver Agenda</a>

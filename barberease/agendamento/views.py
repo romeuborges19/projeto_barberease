@@ -41,6 +41,7 @@ class CadastrarAgendaView(CreateView):
         return super().get_success_url()
 
 class AgendaView(DetailView):
+    model = Agenda
     template_name = "agenda.html"
 
     def get_queryset(self):
@@ -53,8 +54,9 @@ class AgendaView(DetailView):
         agenda = Agenda.objects.get(id=self.agenda.id)
         context['agenda'] = agenda
 
+
+        # Gerando a coluna de horários disponíveis da barbearia
         coluna_horarios = []
-        horarios_context = []
 
         for dia, horarios in agenda.horarios_funcionamento.items():
             for horario in horarios:
@@ -63,6 +65,7 @@ class AgendaView(DetailView):
 
             coluna_horarios = sorted(coluna_horarios)
 
+        # Gerando as linhas que renderizam os horários em suas posições na agenda
         row_hora = {}
         for hora in coluna_horarios:
             row = []
@@ -72,8 +75,6 @@ class AgendaView(DetailView):
                 else: row.append("-")
             row_hora[f"{hora}"] = row
         
-        print(f'coluna p/ hora = {row_hora}')
-
         context['coluna_horarios'] = coluna_horarios
         context['horarios_disponiveis'] = row_hora
 

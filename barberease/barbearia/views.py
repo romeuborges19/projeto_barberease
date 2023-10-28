@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views.generic.detail import DetailView
 from usuarios.forms import UsuarioForm
 from barbearia.forms import BarbeariaForm
 from .models import Barbearia
@@ -47,6 +48,6 @@ class CadastrarBarbeariaview(CreateView):
 
         return reverse_lazy("agendamento:cadastrar_agenda")
     
-class HomeBarbeariaView(TemplateView):
-
+class HomeBarbeariaView(DetailView):
     template_name = "home_barbearia.html"
+    model = Barbearia
