@@ -6,6 +6,7 @@ from django.views.generic.edit import CreateView
 
 from agendamento.forms import AgendaForm
 from agendamento.models import Agenda
+from agendamento.utils import semana_sort
 from barbearia.models import Barbearia
 
 # Create your views here.
@@ -14,7 +15,6 @@ class CadastrarAgendaView(CreateView):
     form_class = AgendaForm
     model = Agenda
     template_name = "agenda_cadastro.html"
-    success_url = reverse_lazy("agendamento:agenda")
 
     def get(self, request, *args, **kwargs):
         if not Barbearia.objects.get(dono=self.request.user):
@@ -37,26 +37,23 @@ class CadastrarAgendaView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        agenda = Agenda.objects.get(barbearia_id=self.request.session['id_barbearia'])
-        return super().get_success_url()
+        agenda_id = Agenda.objects.values_list('id', flat=True).get(barbearia_id=self.request.session['id_barbearia'])
+        return reverse_lazy("agendamento:agenda", kwargs={'pk':agenda_id})
 
 class AgendaView(DetailView):
     model = Agenda
     template_name = "agenda.html"
 
-    def get_queryset(self):
-        self.agenda = get_object_or_404(Agenda, id=self.kwargs['pk'])
-
-        return Agenda.objects.filter(id=self.agenda.id)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        agenda = Agenda.objects.get(id=self.agenda.id)
-        context['agenda'] = agenda
+        agenda = self.object
+        context['agenda'] = agenda 
 
-
-        # Gerando a coluna de horários disponíveis da barbearia
+        # Gerando uma lista que armazena os horários disponíveis da barbearia, 
+        # sem repetir valores
         coluna_horarios = []
+
+        agenda.horarios_funcionamento = semana_sort(agenda.horarios_funcionamento.items())
 
         for dia, horarios in agenda.horarios_funcionamento.items():
             for horario in horarios:
@@ -66,17 +63,17 @@ class AgendaView(DetailView):
             coluna_horarios = sorted(coluna_horarios)
 
         # Gerando as linhas que renderizam os horários em suas posições na agenda
-        row_hora = {}
+        linha_horarios = {}
         for hora in coluna_horarios:
             row = []
             for dia, horarios in agenda.horarios_funcionamento.items():
                 if hora in horarios:
-                    row.append("X")
-                else: row.append("-")
-            row_hora[f"{hora}"] = row
+                    row.append("Hora")
+                else: row.append("--")
+            linha_horarios[f"{hora}"] = row
         
         context['coluna_horarios'] = coluna_horarios
-        context['horarios_disponiveis'] = row_hora
+        context['linha_horarios'] = linha_horarios
 
         return context
 
@@ -84,3 +81,6 @@ class AgendaView(DetailView):
         agenda = super().get_object()
 
         return agenda
+
+
+

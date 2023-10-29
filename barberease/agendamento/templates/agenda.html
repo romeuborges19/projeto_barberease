@@ -17,47 +17,37 @@ Lista de objetos: {{ context.agenda }}
 
 <br>
 <div class="agenda-container">
+	<table>
+		<!-- Gerando cabeçalho da tabela da agenda -->
+		<thead>
+			<tr>
+				<th> Horários </th>
+				<!-- Loop que lê os dias da semana para o cabeçalho -->
+				{% for dia in agenda.horarios_funcionamento %}
+					<th>{{ dia }}</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			<!-- Este loop renderiza: -->
+			<!-- 	1 - A coluna de horários -->
+			<!-- 	2 - Os horários disponíveis em cada linha da tabela -->
 
-
-<table>
-	<thead>
-		<tr>
-			<th> Horários </th>
-			{% for dia, horarios in agenda.horarios_funcionamento.items %}
-				<th>{{ dia }}</th>
+			{% for horario in coluna_horarios %}
+			<tr>
+				<td>
+					{{ horario }}
+				</td>
+				{% for hora, celulas in linha_horarios.items %}
+					{% if hora is horario %}
+						{% for celula in celulas %}
+						<td> {{ celula }} </td>
+						{% endfor %}
+					{% endif %}
+				{% endfor %}
+			</tr>
 			{% endfor %}
-		</tr>
-		{% for horario in coluna_horarios %}
-		<tr>
-			<td>
-				{{ horario }}
-			</td>
-			{% for hora, celulas in horarios_disponiveis.items %}
-				{% if hora is horario %}
-					{% for celula in celulas %}
-						{% if celula == '-' %}
-							<td> -- </td>
-						{% endif %}
-						{% if celula == 'X' %}
-							<td> Hora </td>
-						{% endif %}
-					{% endfor %}
-				{% endif %}
-			{% endfor %}
-		</tr>
-		{% endfor %}
-	</thead>
-</table>
+		</tbody>
+	</table>
 </div>
-
-<div class="agenda-container">
-	<div class="horarios-column-container">
-		<p>Horários</p>
-
-	</div>
-</div>
-
-{{ coluna_horarios }}
-{{ agenda.horarios_funcionamento }}
-</body>
 </html>
