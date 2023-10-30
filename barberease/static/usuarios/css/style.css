@@ -1,0 +1,221 @@
+@font-face {
+    font-family: 'Abhaya Libre ExtraBold';
+    src: url(../fonts/AbhayaLibre-ExtraBold.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'Kanit';
+    src: url(../fonts/Kanit-Regular.ttf) format('truetype');
+}
+body {
+    background-image: url(../images/login_back.png);
+    background-position: center center;
+    background-size: cover;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.container{
+	width: 100%;
+	height: 100vh;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centro{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+    padding: 20px;
+    width: 280px;
+    height: 420px;
+    border-radius: 10px;
+    background: #FFFFFF;  
+}
+
+.centro .barb{
+    width: 100%;
+    height: 45px;
+    flex-shrink: 0;
+    color: #402009;
+    text-shadow:
+        -0.5px -0.5px 0 #402009, 
+        0.5px -0.5px 0 #402009, 
+        -0.5px 0.5px 0 #402009, 
+        0.5px 0.5px 0 #402009;
+    text-align: center;
+    font-family: Abhaya Libre ExtraBold;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 900;
+    margin-top: 20px;
+}
+
+.find{
+    color: #7E5638;
+    text-align: center;
+    font-family: Kanit;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.box-title{
+    color: #000;
+    text-align: center;
+    font-family: Kanit;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.field-container{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+    padding-left: 0px;
+}
+
+.form-input-container{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.form-control-container{
+	display: flex;
+	align-items: center;
+    max-width: 240px;
+    height: 30px;
+	padding-left: 10px;
+	margin-top: 5px;
+    margin-left: 4px;
+    background-color: #DDCEC2;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.form-control{
+    background-color: transparent;
+	border: none;
+    padding-left: 15px;
+}
+
+.form-control:focus{
+	outline:none;
+}
+
+.label{
+    color: #000;
+    text-align: left;
+    font-family: Kanit;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    margin-left: 10px;
+}
+.pass{
+    color: #000;
+    text-align: center;
+    font-family: Kanit;
+    font-size: 12px;
+    margin-bottom: 15px;
+    font-style: normal;
+    font-weight: 400;
+}
+.bottomgg{
+    background-image: url(../images/google_sigla.png);
+    background-size: 20px 20px;
+    background-position: 12px center;
+    background-repeat: no-repeat;
+    width: 237px;
+    height: 30px;
+    background-color: #FFF9EE;
+    border: 1px solid #7E5638;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.20));
+    color: #402009;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Kanit;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+	transition: 200ms;
+}
+
+.bottomgg:hover{
+    background-color: #cfe0fa; 
+}
+.google-login-button {
+    text-decoration: none; 
+    color: #402009;
+}
+.bottoment:hover{
+	background-color: #8f5429;
+	border: 3px solid #8f5429;
+}
+
+.bottoment{
+    width: 100px;
+    height: 35px;
+    background-color: #402009;
+    border: 3px solid #402009;
+    border-radius: 15px;
+    margin-left: 90px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.20));
+    color: #402009;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Kanit;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+	color: white;
+    line-height: normal;
+	transition: 200ms;
+}
+
+.form-button-container{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	
+}
+.client-sigin {
+    text-decoration: none; 
+    color: #402009;
+}
+.barb-sigin {
+    text-decoration: none; 
+    color: #402009;
+}
+.box-end {
+    color: #402009;
+    text-align: center;
+    font-family: Kanit;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 5px;
+}
+@media (max-width: 480px) {
+    button {
+        width: 70%;
+    }
+}
