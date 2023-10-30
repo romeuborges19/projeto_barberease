@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.models import HiddenInput
 from .models import Agenda, Agendamento, Servico
 
 DIAS_SEMANA = (
@@ -94,3 +95,12 @@ class AgendamentoForm(forms.ModelForm):
     class Meta:
         model = Agendamento
         fields = ['servico']
+
+    def __init__(self, *args, **kwargs):
+        queryset = kwargs.pop('servico_queryset', None)
+        super(AgendamentoForm, self).__init__(*args, **kwargs)
+
+        self.fields['servico'].queryset = queryset
+
+
+

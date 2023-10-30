@@ -1,15 +1,29 @@
+from datetime import datetime
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
-from agendamento.forms import AgendaForm, ServicoForm
-from agendamento.models import Agenda, Servico
+from agendamento.forms import AgendaForm, AgendamentoForm, ServicoForm
+from agendamento.models import Agenda, Agendamento, Servico
 from agendamento.utils import Celula, get_dias_semana, semana_sort
 from barbearia.models import Barbearia
 from usuarios.authentication import get_token_user_id
 
 # Create your views here.
+
+class RealizarAgendamentoView(CreateView):
+    model = Agendamento
+    form_class = AgendamentoForm
+    template_name = "agendamento.html"
+    success_url = reverse_lazy("usuarios:home")
+
+    def get_form_kwargs(self):
+        queryset = Servico.objects.filter(barbearia_id=self.kwargs['pk'])
+
+        form_kwargs = super(RealizarAgendamentoView, self).get_form_kwargs()
+        form_kwargs['servico_queryset'] = queryset
+        return form_kwargs
 
 class CadastrarServicoView(CreateView):
     model = Servico
@@ -103,5 +117,55 @@ class AgendaView(DetailView):
 
     def get_object(self):
         agenda = super().get_object()
+
+        return agenda
+
+class AgendaAgendamentoView(DetailView):
+    model = Agenda
+    template_name = "agenda_agendamento.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        agenda = self.object
+        context['agenda'] = agenda 
+
+        # Gerando uma lista que armazena os horários disponíveis da barbearia, 
+        # sem repetir valores
+        coluna_horarios = []
+
+        agenda.horarios_funcionamento = semana_sort(agenda.horarios_funcionamento.items())
+
+        dias_semana = get_dias_semana()
+        context['dias_semana'] = get_dias_semana()
+        
+        for dia, horarios in agenda.horarios_funcionamento.items():
+            for horario in horarios:
+                if horario not in coluna_horarios:
+                    coluna_horarios.append(horario)
+
+            coluna_horarios = sorted(coluna_horarios)
+
+        # Gerando as linhas que renderizam os horários em suas posições na agenda
+        linha_horarios = {}
+        for hora in coluna_horarios:
+            i = 0
+            row = []
+            for dia, horarios in agenda.horarios_funcionamento.items():
+                if hora in horarios:
+                    hora = datetime.strptime(f"{hora}", "%H:%M").strftime("%H:%M")
+                    row.append(Celula(dias_semana[i], hora, True))
+                else: 
+                    row.append(Celula(dias_semana[i], hora, False))
+                i = i + 1
+
+            linha_horarios[f"{hora}"] = row
+        
+        context['coluna_horarios'] = coluna_horarios
+        context['linha_horarios'] = linha_horarios
+
+        return context
+
+    def get_object(self):
+        agenda = Agenda.objects.get(barbearia_id=self.kwargs['pk']) 
 
         return agenda

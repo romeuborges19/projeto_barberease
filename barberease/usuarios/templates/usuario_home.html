@@ -6,7 +6,7 @@
 {% endif%}
 
 {% for barbearia in object_list %}
-	<p> {{ barbearia }} </p>
+<p> {{ barbearia }} -> <a href="{% url 'agendamento:agenda_agendamento' barbearia.pk %}"> Realizar Agendamento </a> </p> 
 {% endfor %}
 
 

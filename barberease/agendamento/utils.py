@@ -19,12 +19,14 @@ def get_dias_semana():
 
     for i in range(0, 7):
         weekday = segunda + timedelta(days = (segunda.weekday() + i))
-        dias_semana.append(weekday.date().strftime("%d/%m/%Y"))
+        dias_semana.append(weekday.date().strftime("%d-%m-%Y"))
 
     return dias_semana
 
 class Celula:
-    def __init__(self, dia, hora, conteudo):
+    def __init__(self, dia, hora, disponivel):
         self.dia = dia
-        self.hora = datetime.strptime(hora, "%H:%M").time()
-        self.conteudo = conteudo
+        self.hora = hora 
+        self.hora_slug = datetime.strptime(hora, "%H:%M").strftime("%H-%M")
+        self.disponivel = disponivel
+
