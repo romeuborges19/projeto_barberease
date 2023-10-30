@@ -31,6 +31,20 @@ HORARIOS = (
     ("22:00", "22:00"),
 )
 
+MINUTOS = (
+    ("00", "00"),
+    ("05", "05"),
+    ("10", "10"),
+    ("15", "15"),
+    ("20", "20"),
+    ("25", "25"),
+    ("30", "30"),
+    ("35", "35"),
+    ("40", "40"),
+    ("45", "45"),
+    ("50", "50"),
+)
+
 class AgendaForm(forms.ModelForm):
     class Meta:
         model = Agenda
@@ -101,6 +115,5 @@ class AgendamentoForm(forms.ModelForm):
         super(AgendamentoForm, self).__init__(*args, **kwargs)
 
         self.fields['servico'].queryset = queryset
-
-
+        self.fields['minuto'] = forms.ChoiceField(choices=MINUTOS)
 

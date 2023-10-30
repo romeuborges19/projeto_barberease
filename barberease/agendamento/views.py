@@ -16,14 +16,32 @@ class RealizarAgendamentoView(CreateView):
     model = Agendamento
     form_class = AgendamentoForm
     template_name = "agendamento.html"
-    success_url = reverse_lazy("usuarios:home")
+    success_url = reverse_lazy("usuario:home")
 
     def get_form_kwargs(self):
         queryset = Servico.objects.filter(barbearia_id=self.kwargs['pk'])
 
         form_kwargs = super(RealizarAgendamentoView, self).get_form_kwargs()
         form_kwargs['servico_queryset'] = queryset
+
         return form_kwargs
+
+    def form_valid(self, form):
+        form.instance.agenda = Agenda.objects.get(id=self.kwargs['pk'])
+
+        print(f"{self.kwargs['hora']}")
+        hora = self.kwargs['hora'].strip('00')
+        print(f"{hora}")
+
+        hora = hora + f"{form.cleaned_data.get('minuto')}"
+        print(f"{hora}")
+        
+        data = f"{self.kwargs['dia']} {hora}"
+        form.instance.data = datetime.strptime(data, "%d-%m-%Y %H-%M")
+        form.instance.aprovado = False
+        form.instance.cliente = self.request.user
+
+        return super().form_valid(form)
 
 class CadastrarServicoView(CreateView):
     model = Servico
@@ -153,7 +171,10 @@ class AgendaAgendamentoView(DetailView):
             for dia, horarios in agenda.horarios_funcionamento.items():
                 if hora in horarios:
                     hora = datetime.strptime(f"{hora}", "%H:%M").strftime("%H:%M")
-                    row.append(Celula(dias_semana[i], hora, True))
+                    celula = Celula(dias_semana[i], hora, True)
+                    celula.get_agendamentos()
+                    celula.get_disponibilidade()
+                    row.append(celula)
                 else: 
                     row.append(Celula(dias_semana[i], hora, False))
                 i = i + 1

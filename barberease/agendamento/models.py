@@ -33,7 +33,7 @@ class Agendamento(models.Model):
     data = models.DateTimeField()
     aprovado = models.BooleanField()
     servico = models.ForeignKey(Servico, verbose_name="Servico", on_delete=models.CASCADE)
-    agenda = models.OneToOneField(Agenda, verbose_name="Agenda", on_delete=models.CASCADE)
+    agenda = models.ForeignKey(Agenda, verbose_name="Agenda", on_delete=models.CASCADE)
     cliente = models.ForeignKey(Usuario, verbose_name="Cliente", related_name="cliente", on_delete=models.CASCADE)
     barbeiro = models.ForeignKey(Barbeiros, verbose_name="Barbeiro", related_name="barbeiro", null=True, on_delete=models.SET_NULL)
     criado_em = models.DateTimeField(auto_now_add=True)
