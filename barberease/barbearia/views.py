@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from allauth.account.adapter import json
+from django.shortcuts import HttpResponse, render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
+from usuarios.authentication import create_acess_token, get_acess_token
 from usuarios.forms import UsuarioForm
 from barbearia.forms import BarbeariaForm
 from .models import Barbearia
@@ -44,10 +46,10 @@ class CadastrarBarbeariaview(CreateView):
 
     def get_success_url(self):
         barbearia = Barbearia.objects.get(dono_id=self.request.user.pk)
-        self.request.session['id_barbearia'] = barbearia.pk
 
         return reverse_lazy("agendamento:cadastrar_agenda")
     
 class HomeBarbeariaView(DetailView):
     template_name = "home_barbearia.html"
     model = Barbearia
+

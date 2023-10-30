@@ -1,5 +1,5 @@
 from django import forms
-from .models import Agenda
+from .models import Agenda, Agendamento, Servico
 
 DIAS_SEMANA = (
     ("segunda", "segunda-feira"),
@@ -70,3 +70,27 @@ class AgendaForm(forms.ModelForm):
             instance.save()
 
         return instance
+
+class ServicoForm(forms.ModelForm):
+    class Meta:
+        model = Servico
+        fields = ['nome', 'tempo_servico', 'medida_tempo']
+    
+    def __init__(self, *args, **kwargs):
+        super(ServicoForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        return super().clean()
+
+    def save(self, commit=True):
+        instance = super(ServicoForm, self).save(commit=False)
+
+        if commit:
+            instance.save()
+
+        return instance
+
+class AgendamentoForm(forms.ModelForm):
+    class Meta:
+        model = Agendamento
+        fields = ['servico']

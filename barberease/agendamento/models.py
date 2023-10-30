@@ -6,11 +6,12 @@ MEDIDAS_TEMPO = (
     (1, "Minutos"),
     (2, "Horas"),
 )
+
 class Servico(models.Model):
     # Model que armazena os serviços ofertados por cada barbearia.
 
     nome = models.CharField("Nome do Serviço", max_length=50)
-    barbearia = models.OneToOneField(Barbearia, verbose_name="Barbearia", on_delete=models.CASCADE)
+    barbearia = models.ForeignKey(Barbearia, verbose_name="Barbearia", on_delete=models.CASCADE)
     tempo_servico = models.IntegerField("Tempo 'médio' do serviço")
     medida_tempo = models.IntegerField("Medida de Tempo", choices=MEDIDAS_TEMPO)
 

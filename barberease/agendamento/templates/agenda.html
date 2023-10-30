@@ -21,6 +21,12 @@ Lista de objetos: {{ context.agenda }}
 		<!-- Gerando cabeçalho da tabela da agenda -->
 		<thead>
 			<tr>
+				<th> -- </th>
+				{% for dia in dias_semana %}
+					<td>{{ dia }}</td>
+				{% endfor %}
+			</tr>
+			<tr>
 				<th> Horários </th>
 				<!-- Loop que lê os dias da semana para o cabeçalho -->
 				{% for dia in agenda.horarios_funcionamento %}
@@ -41,7 +47,7 @@ Lista de objetos: {{ context.agenda }}
 				{% for hora, celulas in linha_horarios.items %}
 					{% if hora is horario %}
 						{% for celula in celulas %}
-						<td> {{ celula }} </td>
+						<td> {{ celula.conteudo }} </td>
 						{% endfor %}
 					{% endif %}
 				{% endfor %}

@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from barbearia.models import Barbearia
+from usuarios.authentication import create_acess_token
 
 def manage_login_redirect(request):
     usuario = request.user
