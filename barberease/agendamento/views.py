@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
@@ -29,15 +29,18 @@ class RealizarAgendamentoView(CreateView):
     def form_valid(self, form):
         form.instance.agenda = Agenda.objects.get(id=self.kwargs['pk'])
 
-        print(f"{self.kwargs['hora']}")
         hora = self.kwargs['hora'].strip('00')
-        print(f"{hora}")
-
         hora = hora + f"{form.cleaned_data.get('minuto')}"
-        print(f"{hora}")
+
+        hora_inicio = datetime.strptime(hora, "%H-%M")
+        
+        servico = form.cleaned_data.get('servico')
+        hora_fim = hora_inicio + timedelta(minutes=servico.tempo_servico)
+        print(f"hora inicio: {hora_inicio}\nhora fim: {hora_fim}")
         
         data = f"{self.kwargs['dia']} {hora}"
         form.instance.data = datetime.strptime(data, "%d-%m-%Y %H-%M")
+        form.instance.hora_fim = hora_fim.time()
         form.instance.aprovado = False
         form.instance.cliente = self.request.user
 
@@ -94,11 +97,12 @@ class CadastrarAgendaView(CreateView):
         id_usuario = get_token_user_id(self.request)
         barbearia = Barbearia.objects.filter(dono=id_usuario).first()
         agenda = Agenda.objects.filter(barbearia=barbearia.id).first()
+
         return reverse_lazy("agendamento:agenda", kwargs={'pk':agenda.id})
 
-class AgendaView(DetailView):
+class AgendaBarbeariaView(DetailView):
     model = Agenda
-    template_name = "agenda.html"
+    template_name = "agenda_barbearia.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -128,9 +132,12 @@ class AgendaView(DetailView):
             row = []
             for dia, horarios in agenda.horarios_funcionamento.items():
                 if hora in horarios:
-                    row.append(Celula(dias_semana[i], hora, "Testando"))
+                    celula = Celula(dias_semana[i], hora, True)
+                    celula.get_agendamentos(self.kwargs['pk'])
+                    row.append(celula)
+                    
                 else: 
-                    row.append(Celula(dias_semana[i], hora, "-------"))
+                    row.append(Celula(dias_semana[i], hora, False))
                 i = i + 1
 
             linha_horarios[f"{hora}"] = row
@@ -179,7 +186,7 @@ class AgendaAgendamentoView(DetailView):
                 if hora in horarios:
                     hora = datetime.strptime(f"{hora}", "%H:%M").strftime("%H:%M")
                     celula = Celula(dias_semana[i], hora, True)
-                    celula.get_agendamentos()
+                    celula.get_agendamentos(self.kwargs['pk'])
                     celula.get_disponibilidade()
                     row.append(celula)
                 else: 

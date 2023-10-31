@@ -31,6 +31,7 @@ class Agendamento(models.Model):
     # Model que armazena os dados de um agendamento de serviço de barbearia.
 
     data = models.DateTimeField()
+    hora_fim = models.TimeField(default=None)
     aprovado = models.BooleanField()
     servico = models.ForeignKey(Servico, verbose_name="Servico", on_delete=models.CASCADE)
     agenda = models.ForeignKey(Agenda, verbose_name="Agenda", on_delete=models.CASCADE)
