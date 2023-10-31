@@ -4,6 +4,7 @@ from .models import Barbearia, Barbeiros
 from django import forms
 from validate_docbr import CNPJ
 from extras.removeMask import remove_mask
+from usuarios.authentication import get_token_user_id
 
 
 validate_cnpj = CNPJ()  # validador de cnpj
@@ -57,7 +58,7 @@ class BarbeariaForm(forms.ModelForm):
 
 class BarbeirosForm(forms.ModelForm):
     class Meta:
-        model = Usuario
+        model = Barbeiros
         fields = ['nome', 'email']
 
     def __init__(self, *args, **kwargs):
@@ -68,17 +69,6 @@ class BarbeirosForm(forms.ModelForm):
         cleaned_data = super(BarbeirosForm, self).clean()
         email = cleaned_data.get("email")
         barbearia = self.barbearia
-        
-        if email:
-            if Usuario.objects.filter(email=email).exists():
-                self.add_error('email', 'Email já cadastrado como usuário')
-            elif Barbeiros.objects.filter(email=email, barbearia=barbearia).exists():
+        if email and Barbeiros.objects.filter(email=email, barbearia=barbearia).exists():
                 self.add_error('email', 'Email já cadastrado como barbeiro')
         return cleaned_data
-
-    # def save(self, commit=True):
-    #     instance = super(Barbeiros, self).save(commit=False)
-    #     instance.barbearia = self.barbearia
-    #     if commit:
-    #         instance.save()
-    #     return instance

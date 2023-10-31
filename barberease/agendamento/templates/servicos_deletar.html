@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+<h1>Voce deseja apagar o {{ servico.nome }}?</h1>
+<a href="{% url 'agendamento:listar_servicos' %}">cancelar</a>
+<a href="{% url 'agendamento:deletar_servicos' %}">excluir</a>
+
 </body>
 </html>

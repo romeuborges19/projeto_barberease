@@ -1,14 +1,16 @@
 from datetime import datetime
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views.generic import DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
-
+from django.views.generic.list import ListView
+from django.views.generic.base import TemplateView
 from agendamento.forms import AgendaForm, AgendamentoForm, ServicoForm
 from agendamento.models import Agenda, Agendamento, Servico
 from agendamento.utils import Celula, get_dias_semana, semana_sort
 from barbearia.models import Barbearia
-from usuarios.authentication import get_token_user_id
+
 
 # Create your views here.
 
@@ -43,27 +45,6 @@ class RealizarAgendamentoView(CreateView):
 
         return super().form_valid(form)
 
-class CadastrarServicoView(CreateView):
-    model = Servico
-    form_class = ServicoForm
-    template_name = "servico_cadastro.html"
-    success_url = reverse_lazy("barbearia:home")
-
-    def form_valid(self, form):
-        id_usuario = get_token_user_id(self.request)
-        form.instance.barbearia = Barbearia.objects.get(dono_id=id_usuario)
-        
-        self.object = form.save()
-        self.object.save()
-        return super().form_valid(form)
-    
-    def get_success_url(self):
-        id_usuario = get_token_user_id(self.request)
-        id_barbearia = Barbearia.objects.values_list('id', flat=True).get(dono_id=id_usuario)
-        return reverse_lazy("barbearia:home", kwargs={'pk': id_barbearia}) 
-    
-    
-
 class CadastrarAgendaView(CreateView):
     form_class = AgendaForm
     model = Agenda
@@ -84,15 +65,15 @@ class CadastrarAgendaView(CreateView):
         return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
-        id_usuario = get_token_user_id(self.request)
-        barbearia = Barbearia.objects.filter(dono=id_usuario).first()  
+        usuario = self.request.user
+        barbearia = Barbearia.objects.filter(dono=usuario).first()
         form.instance.barbearia = barbearia  
 
         return super().form_valid(form)
 
     def get_success_url(self):
-        id_usuario = get_token_user_id(self.request)
-        barbearia = Barbearia.objects.filter(dono=id_usuario).first()
+        usuario = self.request.user
+        barbearia = Barbearia.objects.filter(dono=usuario).first()
         agenda = Agenda.objects.filter(barbearia=barbearia.id).first()
         return reverse_lazy("agendamento:agenda", kwargs={'pk':agenda.id})
 
@@ -197,3 +178,40 @@ class AgendaAgendamentoView(DetailView):
         agenda = Agenda.objects.get(barbearia_id=self.kwargs['pk']) 
 
         return agenda
+
+
+
+# Views de Serviço
+
+class CadastrarServicoView(CreateView):
+    model = Servico
+    form_class = ServicoForm
+    template_name = "servico_cadastro.html"
+    success_url = reverse_lazy("agendamento:listar_servicos")
+
+    def form_valid(self, form):
+        user = self.request.user
+        barbearia = Barbearia.objects.filter(dono=user).first()
+        form.instance.barbearia = barbearia
+        return super().form_valid(form)
+
+class ListarServicosView(ListView):
+    model = Servico
+    template_name = 'servicos_listagem.html'
+    paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        barbearia = self.request.user.barbearia
+        servicos = Servico.objects.filter(barbearia=barbearia).first()
+        context['servico'] = servicos
+        return context
+
+class DeletarServicoView(DeleteView):
+    model = Servico
+    success_url = reverse_lazy("agendamento:listar_servicos")
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+

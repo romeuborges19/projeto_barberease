@@ -44,7 +44,6 @@ class CadastrarBarbeariaview(CreateView):
 
     def get_success_url(self):
         barbearia = Barbearia.objects.get(dono_id=self.request.user.pk)
-
         return reverse_lazy("agendamento:cadastrar_agenda")
     
 class HomeBarbeariaView(DetailView):
@@ -60,7 +59,15 @@ class CadastrarBarbeirosView(CreateView):
     model = Barbeiros 
     form_class = BarbeirosForm
     template_name = "cadastrar_barbeiros.html"
-    success_url = reverse_lazy("barbearia:home")
-    
-    
+
+    def form_valid(self, form):
+        user = self.request.user
+        barbearia = Barbearia.objects.filter(dono=user).first()
+        form.instance.barbearia = barbearia
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        user = self.request.user
+        barbearia = Barbearia.objects.filter(dono=user).first()
+        return reverse_lazy("barbearia:home", kwargs={'pk':barbearia.id })
     

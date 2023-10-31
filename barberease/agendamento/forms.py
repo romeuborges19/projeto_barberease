@@ -68,29 +68,24 @@ class AgendaForm(forms.ModelForm):
 
         for dia in DIAS_SEMANA:
             horarios[f'{dia[0]}'] = cleaned_data.get(f'{dia[0]}', [])
-            
             if not horarios:
                 raise forms.ValidationError(f"Selecione pelo menos um horário para {dia[1]}")
 
         self.cleaned_data['horarios_funcionamento'] = horarios
-
         return cleaned_data
 
     def save(self, commit=True):
         instance = super(AgendaForm, self).save(commit=False)
-
         instance.horarios_funcionamento = self.cleaned_data['horarios_funcionamento']
 
         if commit:
             instance.save()
-
         return instance
 
 class ServicoForm(forms.ModelForm):
     class Meta:
         model = Servico
         fields = ['nome', 'tempo_servico', 'medida_tempo']
-    
     def __init__(self, *args, **kwargs):
         super(ServicoForm, self).__init__(*args, **kwargs)
 
@@ -99,10 +94,8 @@ class ServicoForm(forms.ModelForm):
 
     def save(self, commit=True):
         instance = super(ServicoForm, self).save(commit=False)
-
         if commit:
             instance.save()
-
         return instance
 
 class AgendamentoForm(forms.ModelForm):

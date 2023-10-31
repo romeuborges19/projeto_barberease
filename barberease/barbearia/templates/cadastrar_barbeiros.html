@@ -1,5 +1,7 @@
 <h1> cadastrar barbeiros </h1>
-
+<form method="post">
+{% csrf_token %}
 {{ form.as_p }}
-
+    {{  }}
 <input class="bottoment" type="submit" value="Cadastrar"/>
+</form>
