@@ -52,13 +52,17 @@ class CadastrarServicoView(CreateView):
     def form_valid(self, form):
         id_usuario = get_token_user_id(self.request)
         form.instance.barbearia = Barbearia.objects.get(dono_id=id_usuario)
-
+        
+        self.object = form.save()
+        self.object.save()
         return super().form_valid(form)
     
     def get_success_url(self):
         id_usuario = get_token_user_id(self.request)
         id_barbearia = Barbearia.objects.values_list('id', flat=True).get(dono_id=id_usuario)
         return reverse_lazy("barbearia:home", kwargs={'pk': id_barbearia}) 
+    
+    
 
 class CadastrarAgendaView(CreateView):
     form_class = AgendaForm
@@ -80,14 +84,17 @@ class CadastrarAgendaView(CreateView):
         return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
-        barbearia = Barbearia.objects.get(pk=self.request.session['id_barbearia'])
-        form.instance.barbearia = barbearia
+        id_usuario = get_token_user_id(self.request)
+        barbearia = Barbearia.objects.filter(dono=id_usuario).first()  
+        form.instance.barbearia = barbearia  
 
         return super().form_valid(form)
 
     def get_success_url(self):
-        agenda_id = Agenda.objects.values_list('id', flat=True).get(barbearia_id=self.request.session['id_barbearia'])
-        return reverse_lazy("agendamento:agenda", kwargs={'pk':agenda_id})
+        id_usuario = get_token_user_id(self.request)
+        barbearia = Barbearia.objects.filter(dono=id_usuario).first()
+        agenda = Agenda.objects.filter(barbearia=barbearia.id).first()
+        return reverse_lazy("agendamento:agenda", kwargs={'pk':agenda.id})
 
 class AgendaView(DetailView):
     model = Agenda

@@ -1,16 +1,14 @@
-from allauth.account.adapter import json
 from django.shortcuts import HttpResponse, render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
 from usuarios.authentication import create_acess_token, get_acess_token
 from usuarios.forms import UsuarioForm
-from barbearia.forms import BarbeariaForm
+from barbearia.forms import BarbeariaForm, BarbeirosForm
 from .models import Barbearia
 from usuarios.models import Usuario
 from django.views.generic.edit import CreateView
-from django.views.generic.base import TemplateView
 from django.contrib.auth import login
-
+from barbearia.models import Barbeiros
 
 
 class CadastrarDonoview(CreateView):
@@ -50,6 +48,19 @@ class CadastrarBarbeariaview(CreateView):
         return reverse_lazy("agendamento:cadastrar_agenda")
     
 class HomeBarbeariaView(DetailView):
+    # Views para renderizar a tela de home da barbearia
+    
     template_name = "home_barbearia.html"
     model = Barbearia
 
+
+class CadastrarBarbeirosView(CreateView):
+    # Views para renderizar a tela de cadastro de barbeiros
+    
+    model = Barbeiros 
+    form_class = BarbeirosForm
+    template_name = "cadastrar_barbeiros.html"
+    success_url = reverse_lazy("barbearia:home")
+    
+    
+    

@@ -1,6 +1,6 @@
 from logging import raiseExceptions
 from usuarios.models import Usuario
-from .models import Barbearia
+from .models import Barbearia, Barbeiros
 from django import forms
 from validate_docbr import CNPJ
 from extras.removeMask import remove_mask
@@ -54,18 +54,31 @@ class BarbeariaForm(forms.ModelForm):
 
         return cleaned_data
 
-    def save(self, commit=True):
-        instance = super(BarbeariaForm, self).save(commit=False)
-        instance.nome = self.cleaned_data['nome']
-        instance.endereco = self.cleaned_data['endereco']
-        instance.telefone = self.cleaned_data['telefone']
-        instance.cpnj = self.cleaned_data['cnpj']
-        instance.cep = self.cleaned_data['cep']
-        instance.setor = self.cleaned_data['setor']
-        instance.cidade = self.cleaned_data['cidade']
-        instance.estado = self.cleaned_data['estado']
 
-        if commit:
-            instance.save()
-        return instance
+class BarbeirosForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ['nome', 'email']
 
+    def __init__(self, *args, **kwargs):
+        self.barbearia = kwargs.pop('barbearia', None)
+        super(BarbeirosForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super(BarbeirosForm, self).clean()
+        email = cleaned_data.get("email")
+        barbearia = self.barbearia
+        
+        if email:
+            if Usuario.objects.filter(email=email).exists():
+                self.add_error('email', 'Email já cadastrado como usuário')
+            elif Barbeiros.objects.filter(email=email, barbearia=barbearia).exists():
+                self.add_error('email', 'Email já cadastrado como barbeiro')
+        return cleaned_data
+
+    # def save(self, commit=True):
+    #     instance = super(Barbeiros, self).save(commit=False)
+    #     instance.barbearia = self.barbearia
+    #     if commit:
+    #         instance.save()
+    #     return instance
