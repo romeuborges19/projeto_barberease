@@ -32,7 +32,7 @@ class CadastrarBarbeariaview(CreateView):
 
     form_class = BarbeariaForm
     model = Barbearia
-    template_name = "cadastro_barbearia.html"
+    template_name = "barbearia_cadastro.html"
 
     def form_valid(self, form):
         usuario = Usuario.objects.get(pk=self.request.user.pk)
