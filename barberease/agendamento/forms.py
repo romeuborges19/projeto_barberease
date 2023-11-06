@@ -117,3 +117,13 @@ class AgendamentoForm(forms.ModelForm):
         self.fields['servico'].queryset = queryset
         self.fields['minuto'] = forms.ChoiceField(choices=MINUTOS)
 
+class AprovarAgendamentoForm(forms.ModelForm):
+    class Meta:
+        model = Agendamento
+        fields = ['aprovado']
+
+    def __init__(self, *args, **kwargs):
+        super(AprovarAgendamentoForm, self).__init__(*args, **kwargs)
+
+
+

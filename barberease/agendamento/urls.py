@@ -8,6 +8,7 @@ urlpatterns = [
     path("agenda/cadastrar/", CadastrarAgendaView.as_view(), name="cadastrar_agenda"),
     path("servico/cadastrar/", CadastrarServicoView.as_view(), name="cadastrar_servico"),
     path("realizar/servico/<int:pk>/<slug:dia>/<slug:hora>/", RealizarAgendamentoView.as_view(), name="realizar_agendamento"),
-    path("realizar/<int:pk>/", AgendaAgendamentoView.as_view(), name="agenda_agendamento")
+    path("realizar/<int:pk>/", AgendaAgendamentoView.as_view(), name="agenda_agendamento"),
+    path("pedidos/<int:pk>/", GerenciarPedidosView.as_view(), name="gerenciar_pedidos"),
 ]
 

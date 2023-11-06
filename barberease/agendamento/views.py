@@ -1,12 +1,15 @@
 from datetime import datetime, timedelta
-from django.shortcuts import redirect
+from django.db.models import F
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
+from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 
 from agendamento.forms import AgendaForm, AgendamentoForm, ServicoForm
 from agendamento.models import Agenda, Agendamento, Servico
-from agendamento.utils import Celula, get_dias_semana, semana_sort
+from agendamento.utils import Celula, get_dias_semana, is_ajax, semana_sort
 from barbearia.models import Barbearia
 from usuarios.authentication import get_token_user_id
 
@@ -15,7 +18,7 @@ from usuarios.authentication import get_token_user_id
 class RealizarAgendamentoView(CreateView):
     model = Agendamento
     form_class = AgendamentoForm
-    template_name = "agendamento.html"
+    template_name = "agendamento_cadastro.html"
     success_url = reverse_lazy("usuario:home")
 
     def get_form_kwargs(self):
@@ -109,6 +112,7 @@ class AgendaBarbeariaView(DetailView):
         agenda = self.object
         context['agenda'] = agenda 
 
+
         # Gerando uma lista que armazena os horários disponíveis da barbearia, 
         # sem repetir valores
         coluna_horarios = []
@@ -123,7 +127,7 @@ class AgendaBarbeariaView(DetailView):
                 if horario not in coluna_horarios:
                     coluna_horarios.append(horario)
 
-            coluna_horarios = sorted(coluna_horarios)
+        coluna_horarios = sorted(coluna_horarios)
 
         # Gerando as linhas que renderizam os horários em suas posições na agenda
         linha_horarios = {}
@@ -168,21 +172,21 @@ class AgendaAgendamentoView(DetailView):
         agenda.horarios_funcionamento = semana_sort(agenda.horarios_funcionamento.items())
 
         dias_semana = get_dias_semana()
-        context['dias_semana'] = get_dias_semana()
+        context['dias_semana'] = dias_semana 
         
-        for dia, horarios in agenda.horarios_funcionamento.items():
+        for _, horarios in agenda.horarios_funcionamento.items():
             for horario in horarios:
                 if horario not in coluna_horarios:
                     coluna_horarios.append(horario)
 
-            coluna_horarios = sorted(coluna_horarios)
+        coluna_horarios = sorted(coluna_horarios)
 
         # Gerando as linhas que renderizam os horários em suas posições na agenda
         linha_horarios = {}
         for hora in coluna_horarios:
             i = 0
             row = []
-            for dia, horarios in agenda.horarios_funcionamento.items():
+            for _, horarios in agenda.horarios_funcionamento.items():
                 if hora in horarios:
                     hora = datetime.strptime(f"{hora}", "%H:%M").strftime("%H:%M")
                     celula = Celula(dias_semana[i], hora, True)
@@ -204,3 +208,33 @@ class AgendaAgendamentoView(DetailView):
         agenda = Agenda.objects.get(barbearia_id=self.kwargs['pk']) 
 
         return agenda
+
+
+
+class GerenciarPedidosView(ListView):
+    model = Agendamento
+    context_object_name = 'pedidos'
+    template_name = 'pedidos_gerenciar.html'
+
+    def get_queryset(self):
+        agenda_id = self.kwargs['pk']
+        queryset = Agendamento.objects.filter(agenda_id=agenda_id)
+
+        return queryset
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['pk'] = self.kwargs['pk']
+
+        return context
+
+    def post(self, *args, **kwargs):
+        # Processo para aprovar um agendamento
+        if is_ajax(self.request):
+            pedido_id = self.request.POST.get('pedido_id')
+            pedido = get_object_or_404(Agendamento, id=pedido_id)
+            pedido.aprovado = True  
+            pedido.save()
+            return JsonResponse({'message':'Pedido de agendamento aprovado'})
+        return JsonResponse({'error':'Requisição inválida'})
+            
