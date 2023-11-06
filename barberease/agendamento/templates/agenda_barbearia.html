@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+Lista de objetos: {{ context.agenda }}
 
 {{ agenda }}
 
@@ -44,21 +45,12 @@
 					{{ horario }}
 				</td>
 				{% for hora, celulas in linha_horarios.items %}
-					{% if hora == horario %}
+					{% if hora is horario %}
 						{% for celula in celulas %}
-							{% if celula.funciona %}
-								<td>	
-									{% if celula.disponivel %}
-										<!-- O que aparece se o horário estiver disponível -->
-										<a href="{% url 'agendamento:realizar_agendamento' agenda.pk celula.dia celula.hora_slug %}">Agendar</a>
-									{% else %}
-										<!-- O que aparece se o horário estiver cheio --> 
-										Horário cheio
-									{% endif %}
-								</td>
-							{% else %}
-								<td> </td>
-							{% endif %}
+						<td> {% for agendamento in celula.agendamentos %} 
+								{{ agendamento.cliente }} [{{ agendamento.hora_inicio }} - {{ agendamento.hora_fim }}] <br>
+							 {% endfor %}
+						</td>
 						{% endfor %}
 					{% endif %}
 				{% endfor %}

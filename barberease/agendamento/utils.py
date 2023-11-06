@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
 
-from agendamento.models import Agendamento
+from django.db.models import Q
+
+from agendamento.models import Agenda, Agendamento
 
 
 def semana_sort(dicionario):
@@ -33,15 +35,42 @@ class Celula:
         self.hora_hora = hora.strip(':00')
         self.funciona = funciona
 
-    def get_agendamentos(self):
+    def get_agendamentos(self, barbearia_id):
         dia = datetime.strptime(self.dia, "%d-%m-%Y").strftime("%Y-%m-%d")
-        self.agendamentos = Agendamento.objects.filter(data__date=dia, data__hour=self.hora_hora)
+        agenda_id = Agenda.objects.values_list('id', flat=True).get(barbearia_id=barbearia_id)
+
+        self.agendamentos = Agendamento.objects.filter(
+            data__date=dia, data__hour=self.hora_hora,
+            agenda_id=agenda_id
+        )
+
+        for agendamento in self.agendamentos:
+            agendamento.hora_inicio = agendamento.data.strftime("%H:%M")
+            agendamento.hora_fim = agendamento.hora_fim.strftime("%H:%M")
+
         return self.agendamentos
 
     def get_disponibilidade(self):
+        excedentes = Agendamento.objects.filter(
+            ~Q(data__hour=self.hora_hora),
+            hora_fim__hour=self.hora_hora,
+        )
+
         tempo_total = 0
+
+        for agendamento in excedentes:
+            minutos = int(self.hora.strip(f"{self.hora_hora}:"))
+            minutos_faltantes = 60 - minutos
+            tempo = int(agendamento.servico.tempo_servico) - minutos_faltantes
+            tempo_total = tempo_total + tempo
+
         for agendamento in self.agendamentos:
-            tempo_total = tempo_total + agendamento.servico.tempo_servico
+            hora_fim = agendamento.hora_fim.split(':')[0]
+
+            if hora_fim != self.hora_hora:
+                tempo_total = tempo_total + (agendamento.servico.tempo_servico - (int(hora_fim) + 1))
+            else:
+                tempo_total = tempo_total + agendamento.servico.tempo_servico
 
         if tempo_total >= 60:
             self.disponivel = False
