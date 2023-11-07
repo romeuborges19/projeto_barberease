@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
+import time
 
 from agendamento.forms import AgendaForm, AgendamentoForm, ServicoForm
 from agendamento.models import Agenda, Agendamento, Servico
@@ -39,7 +40,6 @@ class RealizarAgendamentoView(CreateView):
         
         servico = form.cleaned_data.get('servico')
         hora_fim = hora_inicio + timedelta(minutes=servico.tempo_servico)
-        print(f"hora inicio: {hora_inicio}\nhora fim: {hora_fim}")
         
         data = f"{self.kwargs['dia']} {hora}"
         form.instance.data = datetime.strptime(data, "%d-%m-%Y %H-%M")
@@ -108,6 +108,7 @@ class AgendaBarbeariaView(DetailView):
     template_name = "agenda_barbearia.html"
 
     def get_context_data(self, **kwargs):
+        start = time.time()
         context = super().get_context_data(**kwargs)
         agenda = self.object
         context['agenda'] = agenda 
@@ -122,7 +123,7 @@ class AgendaBarbeariaView(DetailView):
         dias_semana = get_dias_semana()
         context['dias_semana'] = get_dias_semana()
         
-        for dia, horarios in agenda.horarios_funcionamento.items():
+        for _, horarios in agenda.horarios_funcionamento.items():
             for horario in horarios:
                 if horario not in coluna_horarios:
                     coluna_horarios.append(horario)
@@ -134,12 +135,11 @@ class AgendaBarbeariaView(DetailView):
         for hora in coluna_horarios:
             i = 0
             row = []
-            for dia, horarios in agenda.horarios_funcionamento.items():
+            for _, horarios in agenda.horarios_funcionamento.items():
                 if hora in horarios:
                     celula = Celula(dias_semana[i], hora, True)
                     celula.get_agendamentos(self.kwargs['pk'])
                     row.append(celula)
-                    
                 else: 
                     row.append(Celula(dias_semana[i], hora, False))
                 i = i + 1

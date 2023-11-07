@@ -50,9 +50,11 @@ Barbearia:
 						<td> 
 							<div class="cell-container">
 							{% for agendamento in celula.agendamentos %} 
+								{% if agendamento.aprovado %}
 								<div class="cell-content-container">
 								{{ agendamento.cliente }} [{{ agendamento.hora_inicio }} - {{ agendamento.hora_fim }}] <br>
 								</div>
+								{% endif %}
 							 {% endfor %}
 							</div>
 						</td>
