@@ -191,8 +191,6 @@ class AgendaAgendamentoView(DetailView):
 
         return agenda
 
-
-
 # Views de Serviço
 
 class CadastrarServicoView(CreateView):

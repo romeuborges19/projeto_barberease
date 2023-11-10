@@ -10,7 +10,7 @@ def manage_login_redirect(request):
     if usuario.dono_barbearia:
         request.session['dono'] = True
 
-        barbearia_id = Barbearia.objects.values_list('id', flat=True).get(dono=usuario)
+        barbearia_id = Barbearia.objects.filter(dono_id=usuario.id).values_list('id', flat=True).first()
 
         if barbearia_id:
             return reverse_lazy("barbearia:home", kwargs={'pk': barbearia_id})

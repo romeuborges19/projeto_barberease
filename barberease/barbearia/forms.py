@@ -51,6 +51,7 @@ class BarbeariaForm(forms.ModelForm):
 
         if cep and len(cep) < 8:
             self.add_error('cep', 'CEP inválido')
+            
 
 
         return cleaned_data
