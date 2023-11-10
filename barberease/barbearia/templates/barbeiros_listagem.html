@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="{% url 'barbearia:cadastrar_barbeiro' %}">Cadastrar barbeiros</a>
+<h1> lista de barbeiros </h1>
+<ul>
+{% for barbeiro in object_list %}
+    <li>{{ barbeiro.nome }} - {{ barbeiro.email }}</li>
+    <a href="{% url 'barbearia:deletar_barbeiro' pk=barbeiro.pk %}">Excluir barbeiros</a>
+{% empty %}
+    <li>sem barbeiros cadastrados</li>
+{% endfor %}
+</ul>
+</body>
+</html>

@@ -5,8 +5,9 @@ from usuarios.authentication import create_acess_token, get_acess_token
 from usuarios.forms import UsuarioForm
 from barbearia.forms import BarbeariaForm, BarbeirosForm
 from .models import Barbearia
+from agendamento.models import Servico 
 from usuarios.models import Usuario
-from django.views.generic.edit import CreateView
+from django.views.generic import CreateView, ListView, DeleteView
 from django.contrib.auth import login
 from barbearia.models import Barbeiros
 
@@ -38,8 +39,6 @@ class CadastrarBarbeariaview(CreateView):
     def form_valid(self, form):
         usuario = Usuario.objects.get(pk=self.request.user.pk)
         form.instance.dono = usuario
-
-
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -51,8 +50,7 @@ class HomeBarbeariaView(DetailView):
     
     template_name = "home_barbearia.html"
     model = Barbearia
-
-
+    
 class CadastrarBarbeirosView(CreateView):
     # Views para renderizar a tela de cadastro de barbeiros
     
@@ -70,4 +68,26 @@ class CadastrarBarbeirosView(CreateView):
         user = self.request.user
         barbearia = Barbearia.objects.filter(dono=user).first()
         return reverse_lazy("barbearia:home", kwargs={'pk':barbearia.id })
+    
+class ListarBarbeiros(ListView):
+    # Views para renderizar a tela de listagem de barbeiros
+    
+    model = Barbeiros
+    template_name = 'barbeiros_listagem.html'
+    paginate_by = 10
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        barbearia = self.request.user.barbearia
+        barbeiros = Barbeiros.objects.filter(barbearia=barbearia).first()
+        context['barbeiros'] = barbeiros
+        return context
+ 
+class DeletarBarbeiros(DeleteView):
+    # Views para renderizar a tela de deletar barbeiros
+    
+    model = Barbeiros
+    success_url = reverse_lazy("barbearia:listar_barbeiros")
+    template_name = 'barbeiros_deletar.html'
+    context_object_name = 'barbeiro'
     

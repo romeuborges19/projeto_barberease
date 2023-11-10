@@ -12,7 +12,7 @@ from django.views.generic.base import TemplateView
 import time
 
 from agendamento.forms import AgendaForm, AgendamentoForm, ServicoForm
-from agendamento.models import Agenda, Agendamento, Servico
+from agendamento.models import Agenda, Agendamento, Servico, Barbeiros
 from agendamento.utils import Celula, get_dias_semana, is_ajax, semana_sort
 from barbearia.models import Barbearia
 
@@ -218,13 +218,11 @@ class ListarServicosView(ListView):
         servicos = Servico.objects.filter(barbearia=barbearia).first()
         context['servico'] = servicos
         return context
-
+    
 class DeletarServicoView(DeleteView):
     model = Servico
     success_url = reverse_lazy("agendamento:listar_servicos")
-
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
+    template_name = 'servico_deletar.html'
 
 
 class GerenciarPedidosView(ListView):
@@ -235,7 +233,7 @@ class GerenciarPedidosView(ListView):
     def get_queryset(self):
         agenda_id = self.kwargs['pk']
         queryset = Agendamento.objects.filter(agenda_id=agenda_id)
-
+        
         return queryset
     
     def get_context_data(self, *, object_list=None, **kwargs):
