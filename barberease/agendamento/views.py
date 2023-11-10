@@ -1,14 +1,19 @@
 from datetime import datetime, timedelta
-from django.shortcuts import redirect
+from django.db.models import F
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView
 from django.views.generic.detail import DetailView
+from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView
+import time
+
 from agendamento.forms import AgendaForm, AgendamentoForm, ServicoForm
 from agendamento.models import Agenda, Agendamento, Servico
-from agendamento.utils import Celula, get_dias_semana, semana_sort
+from agendamento.utils import Celula, get_dias_semana, is_ajax, semana_sort
 from barbearia.models import Barbearia
 
 
@@ -17,7 +22,7 @@ from barbearia.models import Barbearia
 class RealizarAgendamentoView(CreateView):
     model = Agendamento
     form_class = AgendamentoForm
-    template_name = "agendamento.html"
+    template_name = "agendamento_cadastro.html"
     success_url = reverse_lazy("usuario:home")
 
     def get_form_kwargs(self):
@@ -38,7 +43,6 @@ class RealizarAgendamentoView(CreateView):
         
         servico = form.cleaned_data.get('servico')
         hora_fim = hora_inicio + timedelta(minutes=servico.tempo_servico)
-        print(f"hora inicio: {hora_inicio}\nhora fim: {hora_fim}")
         
         data = f"{self.kwargs['dia']} {hora}"
         form.instance.data = datetime.strptime(data, "%d-%m-%Y %H-%M")
@@ -86,9 +90,11 @@ class AgendaBarbeariaView(DetailView):
     template_name = "agenda_barbearia.html"
 
     def get_context_data(self, **kwargs):
+        start = time.time()
         context = super().get_context_data(**kwargs)
         agenda = self.object
         context['agenda'] = agenda 
+
 
         # Gerando uma lista que armazena os horários disponíveis da barbearia, 
         # sem repetir valores
@@ -99,24 +105,23 @@ class AgendaBarbeariaView(DetailView):
         dias_semana = get_dias_semana()
         context['dias_semana'] = get_dias_semana()
         
-        for dia, horarios in agenda.horarios_funcionamento.items():
+        for _, horarios in agenda.horarios_funcionamento.items():
             for horario in horarios:
                 if horario not in coluna_horarios:
                     coluna_horarios.append(horario)
 
-            coluna_horarios = sorted(coluna_horarios)
+        coluna_horarios = sorted(coluna_horarios)
 
         # Gerando as linhas que renderizam os horários em suas posições na agenda
         linha_horarios = {}
         for hora in coluna_horarios:
             i = 0
             row = []
-            for dia, horarios in agenda.horarios_funcionamento.items():
+            for _, horarios in agenda.horarios_funcionamento.items():
                 if hora in horarios:
                     celula = Celula(dias_semana[i], hora, True)
                     celula.get_agendamentos(self.kwargs['pk'])
                     row.append(celula)
-                    
                 else: 
                     row.append(Celula(dias_semana[i], hora, False))
                 i = i + 1
@@ -149,21 +154,21 @@ class AgendaAgendamentoView(DetailView):
         agenda.horarios_funcionamento = semana_sort(agenda.horarios_funcionamento.items())
 
         dias_semana = get_dias_semana()
-        context['dias_semana'] = get_dias_semana()
+        context['dias_semana'] = dias_semana 
         
-        for dia, horarios in agenda.horarios_funcionamento.items():
+        for _, horarios in agenda.horarios_funcionamento.items():
             for horario in horarios:
                 if horario not in coluna_horarios:
                     coluna_horarios.append(horario)
 
-            coluna_horarios = sorted(coluna_horarios)
+        coluna_horarios = sorted(coluna_horarios)
 
         # Gerando as linhas que renderizam os horários em suas posições na agenda
         linha_horarios = {}
         for hora in coluna_horarios:
             i = 0
             row = []
-            for dia, horarios in agenda.horarios_funcionamento.items():
+            for _, horarios in agenda.horarios_funcionamento.items():
                 if hora in horarios:
                     hora = datetime.strptime(f"{hora}", "%H:%M").strftime("%H:%M")
                     celula = Celula(dias_semana[i], hora, True)
@@ -222,3 +227,30 @@ class DeletarServicoView(DeleteView):
         self.object = self.get_object()
 
 
+class GerenciarPedidosView(ListView):
+    model = Agendamento
+    context_object_name = 'pedidos'
+    template_name = 'pedidos_gerenciar.html'
+
+    def get_queryset(self):
+        agenda_id = self.kwargs['pk']
+        queryset = Agendamento.objects.filter(agenda_id=agenda_id)
+
+        return queryset
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['pk'] = self.kwargs['pk']
+
+        return context
+
+    def post(self, *args, **kwargs):
+        # Processo para aprovar um agendamento
+        if is_ajax(self.request):
+            pedido_id = self.request.POST.get('pedido_id')
+            pedido = get_object_or_404(Agendamento, id=pedido_id)
+            pedido.aprovado = True  
+            pedido.save()
+            return JsonResponse({'message':'Pedido de agendamento aprovado'})
+        return JsonResponse({'error':'Requisição inválida'})
+            

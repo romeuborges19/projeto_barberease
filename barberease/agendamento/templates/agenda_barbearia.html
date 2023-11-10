@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-Lista de objetos: {{ context.agenda }}
+Barbearia:
 
 {{ agenda }}
 
@@ -47,9 +47,16 @@ Lista de objetos: {{ context.agenda }}
 				{% for hora, celulas in linha_horarios.items %}
 					{% if hora is horario %}
 						{% for celula in celulas %}
-						<td> {% for agendamento in celula.agendamentos %} 
+						<td> 
+							<div class="cell-container">
+							{% for agendamento in celula.agendamentos %} 
+								{% if agendamento.aprovado %}
+								<div class="cell-content-container">
 								{{ agendamento.cliente }} [{{ agendamento.hora_inicio }} - {{ agendamento.hora_fim }}] <br>
+								</div>
+								{% endif %}
 							 {% endfor %}
+							</div>
 						</td>
 						{% endfor %}
 					{% endif %}
@@ -59,4 +66,8 @@ Lista de objetos: {{ context.agenda }}
 		</tbody>
 	</table>
 </div>
+
+		<a href="{% url 'agendamento:gerenciar_pedidos' agenda.pk %}">Gerenciar Pedidos </a>
+		
+</body>
 </html>

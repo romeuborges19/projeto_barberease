@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
-
 from django.db.models import Q
-
 from agendamento.models import Agenda, Agendamento
 
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 def semana_sort(dicionario):
     semana = ['segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo']
@@ -36,13 +36,14 @@ class Celula:
         self.funciona = funciona
 
     def get_agendamentos(self, barbearia_id):
+        #TODO: Otimizar esta função
         dia = datetime.strptime(self.dia, "%d-%m-%Y").strftime("%Y-%m-%d")
         agenda_id = Agenda.objects.values_list('id', flat=True).get(barbearia_id=barbearia_id)
 
         self.agendamentos = Agendamento.objects.filter(
             data__date=dia, data__hour=self.hora_hora,
             agenda_id=agenda_id
-        )
+        ).order_by('data')
 
         for agendamento in self.agendamentos:
             agendamento.hora_inicio = agendamento.data.strftime("%H:%M")
