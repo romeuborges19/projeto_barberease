@@ -30,38 +30,40 @@ body {
 .centro{
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
     align-items: center;
     padding: 20px;
-    width: 800px;
-    height: 480px;
+	padding-bottom: 40px;
+    width: 100%;
+    height: 100%;
     border-radius: 10px;
     background: #FFFFFF;  
 }
 
-.logo {
-    background-image: url(../images/logo_image.png);
-    background-size: 450px 200px;
-    position: fixed;
-    top: 30px;
-    left: 415px;
-    background-repeat: no-repeat;
-    text-align: center;
-    width: 100%;
-    height: 100%;
-}
-
 .box-title{
     color: #000;
-    position: fixed;
+	position: relative;
     top: 137px;
-    left: 458px;
+	right: 100px;
     font-family: Kanit;
-    font-size: 14px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    margin-top: 15px;
-    margin-bottom: 5px;
+}
+
+.logo{
+	background-image: url('../images/logo_image.png');
+	background-size: 450px 200px;
+	width: 450px;
+	height: 200px;
+}
+
+.logo-container {
+	margin-top: -30px;
+	margin-bottom: 10px;
+}
+
+input:focus, input:active{
+	background: transparent;
 }
 
 .field-container{
@@ -87,7 +89,6 @@ body {
 .form-input-container{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    margin-top: 180px;
     margin-bottom: 10px;
 	gap: 6px;
 }
@@ -186,6 +187,7 @@ body {
 	flex-direction: column;
 	justify-content: center;
     align-items: center;
+	margin-top: 10px;
 	
 }
 .error {
