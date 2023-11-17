@@ -1,0 +1,12 @@
+.background-image-container {
+	display: flex;
+	justify-content: center;
+	width: 100vh;
+}
+
+.background-image {
+	background-color: gray;
+	width: 70%;
+	height: 15vh;
+	border-radius: 8px;
+}
