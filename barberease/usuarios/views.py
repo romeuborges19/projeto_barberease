@@ -1,14 +1,19 @@
 from allauth.socialaccount.signals import pre_social_login
-from django.shortcuts import redirect
+from django.shortcuts import redirect , render
 from django.urls import reverse_lazy
 from allauth.account.models import EmailAddress
 from barbearia.models import Barbearia
 from .models import Usuario
-from .forms import UsuarioForm
+from .forms import UsuarioForm ,UsuarioRedefinePasswordForm, UsuarioNewPasswordForm
 from allauth.account.views import TemplateView
 from barbearia.models import Barbearia
 from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
+from django.utils import timezone
+from datetime import datetime
+from django.contrib.sessions.models import Session
+from django.http import Http404
+from .token import token_generator_password
 
 
 def logged_in(sender, **kwargs):
@@ -80,3 +85,71 @@ class UsuarioLogoutView(LogoutView):
         request.session.flush()
         return super().get(request, *args, **kwargs)
   
+class UsuarioRedefinePasswordView(TemplateView):
+
+    template_name = "usuario_redefinir_senha.html"
+    
+    def post(self, request, *args, **kwargs):
+        form = UsuarioRedefinePasswordForm(request.POST)
+        
+        if 'password_reset_last_attempt' in request.session:
+            last_attempt_time = datetime.fromisoformat(request.session['password_reset_last_attempt'])
+            time_elapsed = timezone.now() - last_attempt_time
+
+            # Define o intervalo de tempo que o usuário deve aguardar antes de fazer outra solicitação (por exemplo, 1 hora)
+            time_limit = timezone.timedelta(minutes = 5)
+
+            if time_elapsed < time_limit:
+                time_to_request = time_limit - time_elapsed
+                return render(request, "usuario_redefinir_senha.html" ,{'mensagem':f"Aguarde {int(time_to_request.total_seconds() // 60)} minuto(s) e {int(time_to_request.total_seconds() % 60)} segundo(s) para fazer outra solicitação de redefinição de senha."})
+
+        # Atualiza a última tentativa de redefinição de senha na sessão
+        request.session['password_reset_last_attempt'] = timezone.now().isoformat()
+        
+        if form.is_valid():
+            
+            email = form.cleaned_data.get('email')
+            request.session['email_para_redefinicao'] = email
+            
+            result = form.process_password_reset()
+
+            if result is not None :
+                
+                return render(request, "usuario_redefinir_senha.html", {'mensagem': result})
+            else:
+                return render(request, "usuario_redefinir_senha.html" ,{'mensagem': "Siga as instruções no seu email  para redefinir sua senha"})
+        
+class UsuarioNewPasswordView(TemplateView):
+    template_name = "usuario_new_password.html"
+    def post(self, request, *args, **kwargs):
+        token = request.GET.get("token")
+        user = None
+        form = UsuarioNewPasswordForm(request.POST)
+        email = None
+        
+        try:
+            email = request.session['email_para_redefinicao']
+        except:
+            raise Http404("Sessão expirada")
+        
+        try:
+            user = Usuario.objects.get(email = email)
+        except Usuario.DoesNotExist:
+            raise Http404("Nenhum registro de usuário correspondente ao email encontrado")
+                
+        if token:
+            if token_generator_password.check_token(user,token ) == False:
+                return render(request, "usuario_new_password.html",{"mensagem": "Sessão inspirada , envie outro email para redefinir senha "})            
+                
+        else :
+            raise Http404("Nenhum registro correspondente ao token encontrado")
+        
+        if form.is_valid() and user is not None:
+                # Os campos foram validados com sucesso
+                form.save(user)
+                if 'email_para_redefinicao' in request.session:
+                    del request.session['email_para_redefinicao']
+
+                return redirect(reverse_lazy('usuario:login'))
+        
+        return render(request, "usuario_new_password.html", {'form': form})

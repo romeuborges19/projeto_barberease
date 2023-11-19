@@ -15,6 +15,11 @@ from decouple import config, Csv
 
 import os 
 
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -189,3 +194,7 @@ LOGOUT_REDIRECT_URL = "usuario:login"
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
 SOCIALACCOUNT_LOGIN_ON_GET=True
+
+#Secret key to token
+
+SECRET_KEY = "one_piece_pirate_king_gol_d_roger_2023"
