@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView
 import time
@@ -194,6 +194,8 @@ class AgendaAgendamentoView(DetailView):
 # Views de Serviço
 
 class CadastrarServicoView(CreateView):
+    # Views para renderizar a tela de cadastro de Serviço
+    
     model = Servico
     form_class = ServicoForm
     template_name = "servico_cadastro.html"
@@ -206,6 +208,8 @@ class CadastrarServicoView(CreateView):
         return super().form_valid(form)
 
 class ListarServicosView(ListView):
+    # Views para renderizar a tela de listagem de Serviços
+    
     model = Servico
     template_name = 'servicos_listagem.html'
     paginate_by = 10
@@ -218,10 +222,25 @@ class ListarServicosView(ListView):
         return context
     
 class DeletarServicoView(DeleteView):
+    # Views para renderizar a tela de deletar Serviço
+    
     model = Servico
     success_url = reverse_lazy("agendamento:listar_servicos")
     template_name = 'servico_deletar.html'
-
+    
+class EditarServicoView(UpdateView):
+    # Views para renderizar a tela de edição de Serviço
+    
+    model = Servico
+    form_class = ServicoForm
+    template_name = "servico_editar.html"
+    success_url = reverse_lazy("agendamento:listar_servicos")
+    
+    def form_valid(self, form):
+        user = self.request.user
+        barbearia = Barbearia.objects.filter(dono=user).first()
+        form.instance.barbearia = barbearia
+        return super().form_valid(form)
 
 class GerenciarPedidosView(ListView):
     model = Agendamento

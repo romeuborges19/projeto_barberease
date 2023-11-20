@@ -90,13 +90,26 @@ class ServicoForm(forms.ModelForm):
         super(ServicoForm, self).__init__(*args, **kwargs)
 
     def clean(self):
+        tempo_servico = self.cleaned_data.get("tempo_servico")  
+        medida_tempo = self.cleaned_data.get("medida_tempo")
+        nome = self.cleaned_data.get("nome")
+        
+        if nome:
+            if len(nome) < 3 or len(nome) > 50:
+                self.add_error('nome', 'Nome inválido')
+        if tempo_servico:
+            if tempo_servico < 1:
+                self.add_error('tempo_servico', 'Tempo inválido: mínimo 1 minuto')
+            if tempo_servico > 6 and medida_tempo == 2:
+                self.add_error('tempo_servico', 'Tempo inválido: máximo 6 horas')
+            elif tempo_servico > 360 and medida_tempo == 1:
+                self.add_error('tempo_servico', 'Tempo inválido: máximo 360 minutos')
+        if medida_tempo and medida_tempo not in [1, 2]:
+            self.add_error('medida_tempo', 'Medida de tempo inválida')
+            
         return super().clean()
 
-    def save(self, commit=True):
-        instance = super(ServicoForm, self).save(commit=False)
-        if commit:
-            instance.save()
-        return instance
+ 
 
 class AgendamentoForm(forms.ModelForm):
     class Meta:
