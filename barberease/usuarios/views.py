@@ -7,9 +7,9 @@ from django.views.generic.list import ListView, View
 from barbearia.models import Barbearia
 from usuarios.authentication import create_acess_token, get_acess_token, get_token_user_id
 from .models import Usuario
-from .forms import UsuarioForm
+from .forms import UsuarioForm, UsuarioUpdateForm
 from allauth.account.views import TemplateView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.views import LoginView, LogoutView
 from .utils import manage_login_redirect
 
@@ -64,6 +64,7 @@ class UsuarioHomeView(ListView):
 
     template_name = "usuario_home.html"
     model = Barbearia
+    context_object_name = 'usuario'
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
@@ -80,3 +81,30 @@ class UsuarioLogoutView(LogoutView):
         request.session.flush()
         return super().get(request, *args, **kwargs)
   
+
+class UsuarioView(TemplateView):    
+    # Views para renderizar o perfil do usuario
+    
+    template_name = "usuario_perfil.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        id = get_token_user_id(self.request)
+        context['usuario'] = Usuario.objects.filter(pk=id).first()
+        return context
+    
+
+class UsuarioAtualizarView(UpdateView):
+    # Views para renderizar a tela de atualizar dados do usuario
+
+    form_class = UsuarioUpdateForm
+    template_name = "usuario_atualizar.html"
+    model = Usuario
+    success_url = reverse_lazy("usuario:perfil")
+
+    def get_object(self):
+        return self.request.user
+
+    def form_valid(self, form):
+        form.instance.id = self.request.user.id
+        return super().form_valid(form)

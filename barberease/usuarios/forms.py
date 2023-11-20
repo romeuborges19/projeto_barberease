@@ -4,6 +4,8 @@ import re
 
 
 class UsuarioForm(forms.ModelForm):
+    # Formulário para cadastro de usuário
+    
     password = forms.CharField(widget=forms.PasswordInput) 
     password2 = forms.CharField(widget=forms.PasswordInput)
     
@@ -47,3 +49,15 @@ class UsuarioForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+    
+class UsuarioUpdateForm(UsuarioForm):
+    # Formulário para atualização de usuário
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields.pop('password')
+        self.fields.pop('password2')
+    
+    
+    
+    

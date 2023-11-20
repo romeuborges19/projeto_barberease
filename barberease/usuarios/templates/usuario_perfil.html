@@ -1,0 +1,7 @@
+<h1>Perfil </h1>
+    {{ usuario.nome }}
+    {{ usuario.sobrenome }}
+    {{ usuario.email }}
+
+    
+<a href="{% url 'usuario:editar' pk=usuario.id %}">Editar Perfil</a>

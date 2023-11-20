@@ -4,7 +4,7 @@
 {% if request.session.dono %}
 	<a href="{% url 'agendamento:cadastrar_agenda' %}">Cadastrar Agenda</a>
 {% endif%}
-
+<a href="{% url 'usuario:perfil' pk=id_usuario %}">Ver perfil</a>
 {% for barbearia in object_list %}
 <p> {{ barbearia }} -> <a href="{% url 'agendamento:agenda_agendamento' barbearia.pk %}"> Realizar Agendamento </a> </p> 
 {% endfor %}
