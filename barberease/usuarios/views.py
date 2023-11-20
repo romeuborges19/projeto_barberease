@@ -149,6 +149,6 @@ class UsuarioNewPasswordView(TemplateView):
                 
                 
                 return render(request, "usuario_new_password.html", {'mensagemLoginSucesso': 'Senha trocada com sucesso. Faça o login com sua nova senha.'})
-                #return redirect(reverse_lazy('usuario:login'))
+                
         
         return render(request, "usuario_new_password.html", {'form': form})
