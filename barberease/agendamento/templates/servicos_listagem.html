@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="{% url 'agendamento:cadastrar_servico' %}">Cadastrar Serviços</a>
+<h1> lista de serviços </h1>
+<ul>
+{% for servico in object_list %}
+    <li>{{ servico.nome }} - {{ servico.tempo_servico }} {{ servico.get_medida_tempo_display }}</li>
+    <a href="{% url 'agendamento:deletar_servicos' pk=servico.pk %}">Excluir Serviços</a>
+{% empty %}
+    <li>SEM SERVIÇOS CADASTRADOS</li>
+{% endfor %}
+</ul>
+
+
+</body>
+</html>

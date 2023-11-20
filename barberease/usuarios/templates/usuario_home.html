@@ -1,6 +1,13 @@
 <h1>oiii</h1>
-<a href="{% url 'usuario:logout' %}">logout</a>
-<h2>barbearias/h2>
-{% for barbearia in barbearias %}
-    <h1>{{ barbearia.nome }}</h1>
+	id: {{ id_usuario }} <br>
+<a href="{% url 'usuario:logout' %}">Logout</a>
+{% if request.session.dono %}
+	<a href="{% url 'agendamento:cadastrar_agenda' %}">Cadastrar Agenda</a>
+{% endif%}
+
+{% for barbearia in object_list %}
+<p> {{ barbearia }} -> <a href="{% url 'agendamento:agenda_agendamento' barbearia.pk %}"> Realizar Agendamento </a> </p> 
 {% endfor %}
+
+
+

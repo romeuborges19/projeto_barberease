@@ -1,6 +1,6 @@
 from django.db import models
 from usuarios.models import Usuario
-
+from django.db.models.signals import pre_save
 
 class Barbearia(models.Model):
     
@@ -30,4 +30,6 @@ class Barbeiros(models.Model):
     barbearia = models.ForeignKey(Barbearia, verbose_name="Barbearia", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.nome 
+        return self.nome
+
+

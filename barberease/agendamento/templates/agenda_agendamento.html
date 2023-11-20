@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'agendamento/css/styleagenda.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+{{ agenda }}
+
+<br>
+<div class="agenda-container">
+	<table>
+		<!-- Gerando cabeçalho da tabela da agenda -->
+		<thead>
+			<tr>
+				<th> -- </th>
+				{% for dia in dias_semana %}
+					<td>{{ dia }}</td>
+				{% endfor %}
+			</tr>
+			<tr>
+				<th> Horários </th>
+				<!-- Loop que lê os dias da semana para o cabeçalho -->
+				{% for dia in agenda.horarios_funcionamento %}
+					<th>{{ dia }}</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			<!-- Este loop renderiza: -->
+			<!-- 	1 - A coluna de horários -->
+			<!-- 	2 - Os horários disponíveis em cada linha da tabela -->
+
+			{% for horario in coluna_horarios %}
+			<tr>
+				<td>
+					{{ horario }}
+				</td>
+				{% for hora, celulas in linha_horarios.items %}
+					{% if hora == horario %}
+						{% for celula in celulas %}
+							{% if celula.funciona %}
+								<td>	
+									{% if celula.disponivel %}
+										<!-- O que aparece se o horário estiver disponível -->
+										<a href="{% url 'agendamento:realizar_agendamento' agenda.pk celula.dia celula.hora_slug %}">Agendar</a>
+									{% else %}
+										<!-- O que aparece se o horário estiver cheio --> 
+										Horário cheio
+									{% endif %}
+								</td>
+							{% else %}
+								<td> </td>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+</html>

@@ -1,0 +1,8 @@
+<form method="post">
+  {% csrf_token %}
+    <h1> SERVIÇOS </h1>
+
+        {% csrf_token %}
+        {{ form.as_p }}
+    <button class="btn btn-success" type="submit">cadastrar</button>
+</form>
