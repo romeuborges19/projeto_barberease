@@ -27,13 +27,13 @@ class UsuarioForm(forms.ModelForm):
 
         if password and password2 and password == password2:
             if len(password) < 6:
-                self.add_error('password', 'Senha deve ter no mínimo 8 caracteres')
+                self.add_error('password', 'A senha deve ter no mínimo 8 caracteres')
 
             if  re.search('[0-9]', password) is None:
-                self.add_error('password', 'Senha deve conter pelo menos um número')
+                self.add_error('password', 'A senha deve conter pelo menos um número')
 
             if re.search('[A-Z]', password) is None:
-                self.add_error('password', 'Senha deve conter pelo menos uma letra maiúscula')
+                self.add_error('password', 'A senha deve conter pelo menos uma letra maiúscula')
         else:
             self.add_error('password2', 'Senhas não conferem')
 
@@ -50,7 +50,6 @@ class UsuarioForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
-
 
 class UsuarioRedefinePasswordForm(forms.Form):
     email = forms.EmailField(

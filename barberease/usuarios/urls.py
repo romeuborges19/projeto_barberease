@@ -4,6 +4,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from .views import ProcessGoogleLoginView, UsuarioLoginView, UsuarioCadastrarView, UsuarioHomeView, UsuarioLogoutView, UsuarioRedefinePasswordView , UsuarioNewPasswordView
 
 
+
 app_name = "usuario"
 
 #URLs para o app usuario

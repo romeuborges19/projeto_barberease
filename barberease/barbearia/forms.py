@@ -28,10 +28,9 @@ class BarbeariaForm(forms.ModelForm):
         self.cleaned_data['cnpj'] = remove_mask(cnpj)
         self.cleaned_data['telefone'] = remove_mask(telefone)
         self.cleaned_data['cep'] = remove_mask(cep)
-        usuario = self.request.user
 
-        if Barbearia.objects.filter(dono=usuario).exists() and usuario.dono_barbearia:
-            return raiseExceptions("Você já possui uma barbearia cadastrada com esse usuario")
+        # if Barbearia.objects.filter(dono=usuario).exists() and usuario.dono_barbearia:
+        #     return raiseExceptions("Você já possui uma barbearia cadastrada com esse usuario")
         
         if cnpj: 
             if not validate_cnpj.validate(cnpj):
@@ -52,3 +51,4 @@ class BarbeariaForm(forms.ModelForm):
 
 
         return cleaned_data
+    

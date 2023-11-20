@@ -9,9 +9,9 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth import login
 
 
-
 class CadastrarDonoview(CreateView):
     # Views para renderizar a tela de cadastro de Dono
+    
     form_class = UsuarioForm
     model = Usuario
     template_name = "cadastro_dono.html"
@@ -32,17 +32,18 @@ class CadastrarBarbeariaview(CreateView):
 
     form_class = BarbeariaForm
     model = Barbearia
-    template_name = "cadastro_barbearia.html"
+    template_name = "barbearia_cadastro.html"
 
     def form_valid(self, form):
         usuario = Usuario.objects.get(pk=self.request.user.pk)
         form.instance.dono = usuario
         return super().form_valid(form)
     
-
     def get_success_url(self):
         return reverse_lazy("barbearia:home")
     
 class HomeBarbeariaView(TemplateView):
+    # Views para renderizar a tela de home da barbearia
 
     template_name = "home_barbearia.html"
+    

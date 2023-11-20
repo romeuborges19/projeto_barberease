@@ -33,8 +33,12 @@ body {
 	justify-content: center;
     padding: 20px;
     width: 280px;
+<<<<<<< HEAD
     max-width: 310px;
     height: 395px;
+=======
+    height: 420px;
+>>>>>>> 652f444dd6ea25eb7d543fb79e75db03ee373480
     border-radius: 10px;
     background: #FFFFFF;  
 }
@@ -54,7 +58,7 @@ body {
     font-size: 50px;
     font-style: normal;
     font-weight: 900;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .find{
@@ -92,10 +96,11 @@ body {
 .form-control-container{
 	display: flex;
 	align-items: center;
-    max-width: 260px;
-    height: 35px;
+    max-width: 240px;
+    height: 30px;
 	padding-left: 10px;
 	margin-top: 5px;
+    margin-left: 4px;
     background-color: #DDCEC2;
     border-radius: 15px;
     cursor: pointer;
@@ -114,27 +119,35 @@ body {
 .label{
     color: #000;
     text-align: left;
-    margin-left: 10px;
     font-family: Kanit;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
+    margin-left: 10px;
 }
-
-
+.pass{
+    color: #000;
+    text-align: center;
+    font-family: Kanit;
+    font-size: 12px;
+    margin-bottom: 15px;
+    font-style: normal;
+    font-weight: 400;
+}
 .bottomgg{
     background-image: url(../images/google_sigla.png);
     background-size: 20px 20px;
     background-position: 12px center;
     background-repeat: no-repeat;
-    width: 260px;
-    height: 34px;
+    width: 237px;
+    height: 30px;
     background-color: #FFF9EE;
     border: 1px solid #7E5638;
     border-radius: 15px;
     cursor: pointer;
-    margin-left: 10px;
-    margin-bottom: 25px;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 30px;
     filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.20));
     color: #402009;
     display: flex;
@@ -166,6 +179,10 @@ body {
     background-color: #402009;
     border: 3px solid #402009;
     border-radius: 15px;
+<<<<<<< HEAD
+=======
+    margin-left: 90px;
+>>>>>>> 652f444dd6ea25eb7d543fb79e75db03ee373480
     cursor: pointer;
     filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.20));
     color: #402009;
@@ -204,7 +221,6 @@ body {
     font-style: normal;
     font-weight: 400;
     margin-top: 5px;
-    margin-bottom: 10px;
 }
 @media (max-width: 480px) {
     button {
