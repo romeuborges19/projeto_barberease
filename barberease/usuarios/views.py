@@ -14,7 +14,8 @@ from datetime import datetime
 from django.contrib.sessions.models import Session
 from django.http import Http404
 from .token import token_generator_password
-
+from django.contrib import messages
+import time
 
 def logged_in(sender, **kwargs):
     print("logged in")
@@ -113,12 +114,9 @@ class UsuarioRedefinePasswordView(TemplateView):
             
             result = form.process_password_reset()
 
-            if result is not None :
-                
-                return render(request, "usuario_redefinir_senha.html", {'mensagem': result})
-            else:
-                return render(request, "usuario_redefinir_senha.html" ,{'mensagem': "Siga as instruções no seu email  para redefinir sua senha"})
-        
+            if result == None :
+                 return render(request, "usuario_redefinir_senha.html" ,{'mensagem': "Siga as instruções no seu email  para redefinir sua senha"})
+        return render(request, "usuario_redefinir_senha.html", {'form': form})
 class UsuarioNewPasswordView(TemplateView):
     template_name = "usuario_new_password.html"
     def post(self, request, *args, **kwargs):
@@ -131,7 +129,6 @@ class UsuarioNewPasswordView(TemplateView):
             email = request.session['email_para_redefinicao']
         except:
             raise Http404("Sessão expirada")
-        
         try:
             user = Usuario.objects.get(email = email)
         except Usuario.DoesNotExist:
@@ -149,7 +146,9 @@ class UsuarioNewPasswordView(TemplateView):
                 form.save(user)
                 if 'email_para_redefinicao' in request.session:
                     del request.session['email_para_redefinicao']
-
-                return redirect(reverse_lazy('usuario:login'))
+                
+                
+                return render(request, "usuario_new_password.html", {'mensagemLoginSucesso': 'Senha trocada com sucesso. Faça o login com sua nova senha.'})
+                #return redirect(reverse_lazy('usuario:login'))
         
         return render(request, "usuario_new_password.html", {'form': form})

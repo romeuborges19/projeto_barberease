@@ -53,8 +53,14 @@ class UsuarioForm(forms.ModelForm):
 
 
 class UsuarioRedefinePasswordForm(forms.Form):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Digite seu e-mail'}))
-
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'placeholder': 'Digite seu e-mail'}),
+        error_messages={
+            'invalid': 'Digite um endereço de e-mail válido.',
+        }
+        
+        )
+    
     def clean(self):
         cleaned_data = super().clean()
         email = cleaned_data.get('email')
@@ -62,7 +68,7 @@ class UsuarioRedefinePasswordForm(forms.Form):
         if EmailAddress.objects.filter(email=email).exists():
             self.add_error('email',"Faça o login pelo Google")
 
-        if not Usuario.objects.filter(email=email).exists():
+        if email and not Usuario.objects.filter(email=email).exists():
             self.add_error('email', "E-mail não cadastrado")
 
     
@@ -72,7 +78,7 @@ class UsuarioRedefinePasswordForm(forms.Form):
         usuario = Usuario.objects.get(email=email)
         token = token_generator_password.make_token(usuario)
         
-        print(token)
+        
         enviar_email(token, email)
        
             
