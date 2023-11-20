@@ -45,7 +45,8 @@ class Celula:
 
         self.agendamentos = Agendamento.objects.filter(
             data__date=dia, data__hour=self.hora_hora,
-            agenda_id=agenda_id
+            agenda_id=agenda_id,
+            aprovado=True,
         ).order_by('data')
 
         for agendamento in self.agendamentos:

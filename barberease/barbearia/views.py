@@ -79,11 +79,11 @@ class ListarBarbeiros(ListView):
     model = Barbeiros
     template_name = 'barbeiros_listagem.html'
     paginate_by = 10
-    
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         barbearia = self.request.user.barbearia
-        barbeiros = Barbeiros.objects.filter(barbearia=barbearia).first()
+        barbeiros = Barbeiros.objects.filter(barbearia=barbearia)
         context['barbeiros'] = barbeiros
         return context
  
