@@ -53,10 +53,8 @@ class UsuarioForm(forms.ModelForm):
 class UsuarioUpdateForm(UsuarioForm):
     # Formulário para atualização de usuário
     
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields.pop('password')
-        self.fields.pop('password2')
+    class Meta (UsuarioForm.Meta):
+        fields = ('nome', 'email', )
     
     
     

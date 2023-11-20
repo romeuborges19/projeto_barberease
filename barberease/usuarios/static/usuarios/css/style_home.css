@@ -24,3 +24,29 @@
   .custom-btn-color {
       background-color: #DDCEBE;
   }
+  p.nome {
+    font-size: 70px;
+    font-family: "Abhaya Libre ExtraBold";
+    font-weight: 800;
+    color: rgba(0, 0, 0, 1);
+    width: 450px;
+    height: 61px;
+  }
+  .nome{
+    font-size: 70px;
+    font-family: "Abhaya Libre ExtraBold";
+    font-weight: 800;
+    color: rgba(0, 0, 0, 1);
+    width: 450px;
+    height: 61px;
+
+  }
+
+  a.navbar-brand{
+    font-size: 70px;
+    font-family: "Abhaya Libre ExtraBold";
+    font-weight: 800;
+    color: rgba(0, 0, 0, 1);
+    width: 450px;
+    height: 61px;
+  }

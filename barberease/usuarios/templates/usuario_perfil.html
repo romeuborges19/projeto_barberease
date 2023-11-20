@@ -2,6 +2,7 @@
     {{ usuario.nome }}
     {{ usuario.sobrenome }}
     {{ usuario.email }}
-
+    {{ usuario.id }}
     
+<a href="{% url 'usuario:editar' pk=usuario.id %}">Editar Perfil</a>
 <a href="{% url 'usuario:editar' pk=usuario.id %}">Editar Perfil</a>

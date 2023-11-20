@@ -90,6 +90,8 @@ class UsuarioView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         id = get_token_user_id(self.request)
+        print(id)
+        user =  Usuario.objects.filter(pk=id).first()
         context['usuario'] = Usuario.objects.filter(pk=id).first()
         return context
     
