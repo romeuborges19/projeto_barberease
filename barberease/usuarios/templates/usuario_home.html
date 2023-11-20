@@ -1,13 +1,46 @@
-<h1>oiii</h1>
-	id: {{ id_usuario }} <br>
-<a href="{% url 'usuario:logout' %}">Logout</a>
-{% if request.session.dono %}
-	<a href="{% url 'agendamento:cadastrar_agenda' %}">Cadastrar Agenda</a>
-{% endif%}
-<a href="{% url 'usuario:perfil' pk=id_usuario %}">Ver perfil</a>
-{% for barbearia in object_list %}
-<p> {{ barbearia }} -> <a href="{% url 'agendamento:agenda_agendamento' barbearia.pk %}"> Realizar Agendamento </a> </p> 
-{% endfor %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Title Here</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{% static 'usuarios/css/style_home.css' %}" rel="stylesheet">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark custom-bg-color">
+    <div class="container-fluid">
+      <a class="navbar-brand ms-5" href="#">BarberEase</a>
+    </div>
+  </nav>
+  <div id="sidebar">
+    <div class="p-3">
+      <h4>BarberEase</h4>
+      <p></p>
+    </div>
+  </div>
+  <button id="sidebarCollapse" class="btn custom-btn-color">&#9776;</button>
+  <main class="container mt-4">
+    <h1>oiii</h1>
+    <p>id: {{ id_usuario }} <br>
+    <a href="{% url 'usuario:logout' %}">Logout</a></p>
+    {% if request.session.dono %}
+      <p><a href="{% url 'agendamento:cadastrar_agenda' %}">Cadastrar Agenda</a></p>
+    {% endif %}
+    <p><a href="{% url 'usuario:perfil' pk=id_usuario %}">Ver perfil</a></p>
+    {% for barbearia in object_list %}
+      <p>{{ barbearia }} -> <a href="{% url 'agendamento:agenda_agendamento' barbearia.pk %}">Realizar Agendamento</a></p>
+    {% endfor %}
+  </main>
+    <div id="sidebarOverlay"></div>
 
+  <script>
+    document.getElementById('sidebarCollapse').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+  </script>
 
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+#sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -250px; 
+    width: 250px;
+    background-color: #FFFFFF;
+    transition: left 0.3s ease-in-out; 
+    padding-top: 3.5rem; 
+  }
+  #sidebar.open {
+    left: 0; 
+  }
+  #sidebarCollapse {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1001; 
+  }
+  .custom-bg-color {
+      background-color: #DDCEBE;
+      height: 100px; 
+  }
+  .custom-btn-color {
+      background-color: #DDCEBE;
+  }
