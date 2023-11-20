@@ -8,13 +8,13 @@
 <a href="{% url 'barbearia:cadastrar_barbeiro' %}">Cadastrar barbeiros</a>
 <h1> lista de barbeiros </h1>
 <ul>
-{% for barbeiro in object_list %}
-    <li>{{ barbeiro.nome }} - {{ barbeiro.email }}</li>
-    <a href="{% url 'barbearia:deletar_barbeiro' pk=barbeiro.pk %}">Excluir barbeiros</a>
-    <a href="{% url 'barbearia:editar_barbeiro' pk=barbeiro.pk %}">editar barbeiros</a>
-{% empty %}
-    <li>sem barbeiros cadastrados</li>
-{% endfor %}
+	{% for barbeiro in barbeiros %}
+		<li>{{ barbeiro.nome }} - {{ barbeiro.email }}</li>
+		<a href="{% url 'barbearia:deletar_barbeiro' pk=barbeiro.pk %}">Excluir barbeiros</a>
+		<a href="{% url 'barbearia:editar_barbeiro' pk=barbeiro.pk %}">editar barbeiros</a>
+	{% empty %}
+		<li>sem barbeiros cadastrados</li>
+	{% endfor %}
 </ul>
 </body>
 </html>

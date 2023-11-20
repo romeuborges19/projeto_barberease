@@ -217,8 +217,8 @@ class ListarServicosView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         barbearia = self.request.user.barbearia
-        servicos = Servico.objects.filter(barbearia=barbearia).first()
-        context['servico'] = servicos
+        servicos = Servico.objects.filter(barbearia=barbearia)
+        context['servicos'] = servicos
         return context
     
 class DeletarServicoView(DeleteView):
