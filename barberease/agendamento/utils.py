@@ -32,8 +32,11 @@ class Celula:
         self.dia = dia
         self.hora = hora 
         self.hora_slug = datetime.strptime(hora, "%H:%M").strftime("%H-%M")
-        self.hora_hora = hora.strip(':00')
+        self.hora_hora = hora.strip(':00') 
         self.funciona = funciona
+
+        if int(self.hora_hora) < 10:
+            self.hora_hora = '0' + self.hora_hora
 
     def get_agendamentos(self, barbearia_id):
         #TODO: Otimizar esta função
@@ -59,11 +62,12 @@ class Celula:
 
         tempo_total = 0
 
-        for agendamento in excedentes:
-            minutos = int(self.hora.strip(f"{self.hora_hora}:"))
-            minutos_faltantes = 60 - minutos
-            tempo = int(agendamento.servico.tempo_servico) - minutos_faltantes
-            tempo_total = tempo_total + tempo
+        if not excedentes:
+            for agendamento in excedentes:
+                minutos = int(self.hora.strip(f"{self.hora_hora}:"))
+                minutos_faltantes = 60 - minutos
+                tempo = int(agendamento.servico.tempo_servico) - minutos_faltantes
+                tempo_total = tempo_total + tempo
 
         for agendamento in self.agendamentos:
             hora_fim = agendamento.hora_fim.split(':')[0]

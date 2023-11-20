@@ -12,6 +12,10 @@ from django.contrib.auth import login
 from barbearia.models import Barbeiros
 
 
+class PerfilBarbeariaView(DetailView):
+    model = Barbearia
+    template_name = "perfil_barbearia.html"
+
 class CadastrarDonoview(CreateView):
     # Views para renderizar a tela de cadastro de Dono
     form_class = UsuarioForm
@@ -104,5 +108,3 @@ class EditarBarbeirosView(UpdateView):
         barbearia = Barbearia.objects.filter(dono=user).first()
         form.instance.barbearia = barbearia
         return super().form_valid(form)
-
-    
