@@ -12,4 +12,5 @@ urlpatterns = [
     path("cadastrar/barbeiros", CadastrarBarbeirosView.as_view(), name="cadastrar_barbeiro"),
     path("listar/barbeiros", ListarBarbeiros.as_view(), name="listar_barbeiros"),
     path("deletar/barbeiros/<int:pk>", DeletarBarbeiros.as_view(), name="deletar_barbeiro"),
+    path("editar/barbeiros/<int:pk>", EditarBarbeirosView.as_view(), name="editar_barbeiro"),
 ]

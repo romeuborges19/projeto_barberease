@@ -11,6 +11,7 @@
 {% for servico in object_list %}
     <li>{{ servico.nome }} - {{ servico.tempo_servico }} {{ servico.get_medida_tempo_display }}</li>
     <a href="{% url 'agendamento:deletar_servicos' pk=servico.pk %}">Excluir Serviços</a>
+    <a href="{% url 'agendamento:editar_servicos' pk=servico.pk %}">editar Serviços</a>
 {% empty %}
     <li>SEM SERVIÇOS CADASTRADOS</li>
 {% endfor %}

@@ -11,6 +11,7 @@
 {% for barbeiro in object_list %}
     <li>{{ barbeiro.nome }} - {{ barbeiro.email }}</li>
     <a href="{% url 'barbearia:deletar_barbeiro' pk=barbeiro.pk %}">Excluir barbeiros</a>
+    <a href="{% url 'barbearia:editar_barbeiro' pk=barbeiro.pk %}">editar barbeiros</a>
 {% empty %}
     <li>sem barbeiros cadastrados</li>
 {% endfor %}

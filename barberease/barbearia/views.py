@@ -7,7 +7,7 @@ from barbearia.forms import BarbeariaForm, BarbeirosForm
 from .models import Barbearia
 from agendamento.models import Servico 
 from usuarios.models import Usuario
-from django.views.generic import CreateView, ListView, DeleteView
+from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 from django.contrib.auth import login
 from barbearia.models import Barbeiros
 
@@ -90,4 +90,19 @@ class DeletarBarbeiros(DeleteView):
     success_url = reverse_lazy("barbearia:listar_barbeiros")
     template_name = 'barbeiros_deletar.html'
     context_object_name = 'barbeiro'
+    
+class EditarBarbeirosView(UpdateView):
+    # Views para renderizar a tela de edição de barbeiros
+    
+    model = Barbeiros
+    form_class = BarbeirosForm
+    template_name = "barbeiros_editar.html"
+    success_url = reverse_lazy("barbearia:listar_barbeiros")
+
+    def form_valid(self, form):
+        user = self.request.user
+        barbearia = Barbearia.objects.filter(dono=user).first()
+        form.instance.barbearia = barbearia
+        return super().form_valid(form)
+
     
