@@ -76,7 +76,11 @@ class BarbeirosForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(BarbeirosForm, self).clean()
         email = cleaned_data.get("email")
+        nome = cleaned_data.get("nome")
         barbearia = self.barbearia
         if email and Barbeiros.objects.filter(email=email, barbearia=barbearia).exists():
                 self.add_error('email', 'Email já cadastrado como barbeiro')
+        if nome and len(nome) < 3 or len(nome) > 150:
+            self.add_error('nome', 'Nome inválido')
+            
         return cleaned_data
