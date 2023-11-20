@@ -11,7 +11,7 @@ barberease/barberease/__pycache__
 barberease/extras/__pycache__
 barberease/usuarios/__pycache__
 barberease/usuarios/migrations/__pycache__
-
+barberease/barbearia/migrations
 barberease/.vscode
 barberease/.env
 barberease/venv
