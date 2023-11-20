@@ -82,21 +82,21 @@
 					</div>
 					</label>
 			</div>
-		</div>	
+		</div>
+		<div class="form-button-container">
+			<div class="bottomgg" id="googleButton">
+				<a href="{% provider_login_url 'google' %}" class="google-login-button">
+					Cadastrar com o Google
+				</a>			
+			</div>
+			
 		<div class="form-button-container">
 			<input class="bottoment" type="submit" value="Cadastrar"/>
 		</div>
 		<div class="box-end">Cadastre-se como
-			<a href="#" class="barb-sigin">
-				barbearia
+			<a href="{% url 'barbearia:cadastrar_dono' %}" class="barb-sigin">
+				<u>profissional</u>
 			</a>
-		</div>
-		{% get_providers as socialaccount_providers %}
-		<div class="bottomgg" id="googleButton">
-		<a href="{% provider_login_url 'google' %}" class="google-login-button">
-			Cadastrar com o Google
-		</a>
-		</div>
 		</div>   
 	</form>
 	</div>

@@ -192,7 +192,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = 'usuario:process'
 LOGOUT_REDIRECT_URL = "usuario:login"
 AUTH_USER_MODEL = 'usuarios.Usuario'
-
 SOCIALACCOUNT_LOGIN_ON_GET=True
 
 #Secret key to token
