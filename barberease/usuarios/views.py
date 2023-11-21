@@ -1,4 +1,5 @@
 from allauth.socialaccount.signals import pre_social_login
+from django.http import HttpResponseRedirect
 from django.shortcuts import HttpResponse, redirect
 from django.urls import reverse_lazy
 from allauth.account.models import EmailAddress
@@ -79,12 +80,11 @@ class UsuarioLogoutView(LogoutView):
 
     def get(self, request, *args, **kwargs):
         request.session.flush()
+    
         return super().get(request, *args, **kwargs)
     
-    def logout(self):
-        response = HttpResponseRedirect('/')
-        response.delete_cookie('jwt_token', domain='127.0.0.1')
-        return response
+    
+
         
 class UsuarioView(TemplateView):    
     # Views para renderizar o perfil do usuario
