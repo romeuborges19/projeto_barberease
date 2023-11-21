@@ -80,8 +80,12 @@ class UsuarioLogoutView(LogoutView):
     def get(self, request, *args, **kwargs):
         request.session.flush()
         return super().get(request, *args, **kwargs)
-  
-
+    
+    def logout(self):
+        response = HttpResponseRedirect('/')
+        response.delete_cookie('jwt_token', domain='127.0.0.1')
+        return response
+        
 class UsuarioView(TemplateView):    
     # Views para renderizar o perfil do usuario
     
@@ -102,7 +106,6 @@ class UsuarioAtualizarView(UpdateView):
     form_class = UsuarioUpdateForm
     template_name = "usuario_atualizar.html"
     model = Usuario
-    success_url = reverse_lazy("usuario:perfil")
 
     def get_object(self):
         return self.request.user
@@ -110,3 +113,14 @@ class UsuarioAtualizarView(UpdateView):
     def form_valid(self, form):
         form.instance.id = self.request.user.id
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('usuario:perfil', kwargs={'pk': self.kwargs['pk']})
+    
+# class UsuarioDeleteView(DeleteView):
+#     # Views para renderizar a tela de deletar dados do usuario
+
+#     model = Usuario
+#     success_url = reverse_lazy("home:listar_servicos")
+#     template_name = 'servico_deletar.html'
+    
