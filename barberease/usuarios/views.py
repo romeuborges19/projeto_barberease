@@ -123,7 +123,7 @@ class UsuarioRedefinePasswordView(TemplateView):
             result = form.process_password_reset()
 
             if result == None :
-                 return render(request, "usuario_redefinir_senha.html" ,{'mensagem': "Siga as instruções no seu email  para redefinir sua senha"})
+                 return render(request, "usuario_redefinir_senha.html" ,{'mensagem': "Siga as instruções no seu e-mail  para redefinir sua senha."})
         return render(request, "usuario_redefinir_senha.html", {'form': form})
 class UsuarioNewPasswordView(TemplateView):
     template_name = "usuario_new_password.html"
@@ -140,11 +140,11 @@ class UsuarioNewPasswordView(TemplateView):
         try:
             user = Usuario.objects.get(email = email)
         except Usuario.DoesNotExist:
-            raise Http404("Nenhum registro de usuário correspondente ao email encontrado")
+            raise Http404("Nenhum registro de usuário correspondente ao email encontrado.")
                 
         if token:
             if token_generator_password.check_token(user,token ) == False:
-                return render(request, "usuario_new_password.html",{"mensagem": "Sessão inspirada , envie outro email para redefinir senha "})            
+                return render(request, "usuario_new_password.html",{"mensagem": "Sessão expirada , envie outro email para redefinir senha "})            
                 
         else :
             raise Http404("Nenhum registro correspondente ao token encontrado")
@@ -156,7 +156,7 @@ class UsuarioNewPasswordView(TemplateView):
                     del request.session['email_para_redefinicao']
                 
                 
-                return render(request, "usuario_new_password.html", {'mensagemLoginSucesso': 'Senha trocada com sucesso. Faça o login com sua nova senha.'})
+                return render(request, "usuario_new_password.html", {'mensagemLoginSucesso': 'Senha redefinida com sucesso. Faça o login com sua nova senha.'})
                 
         
         return render(request, "usuario_new_password.html", {'form': form})

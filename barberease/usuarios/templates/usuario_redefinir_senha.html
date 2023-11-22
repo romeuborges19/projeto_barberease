@@ -10,11 +10,11 @@
 <body>
     <div class="container">
         <form  method="POST">
-            <div class="centro">
+            <div class="centro-pass">
                 {% csrf_token %} 
                 <div class="barb">BarberEase</div>
                 <div class="find">Encontre o melhor salão para você!</div>
-                <p class="box-title">redefinir senha:</p>
+                <p class="box-title">Redefinir Senha:</p>
                 
                 <div class="form-input-container">
                     <div class="field-container">
@@ -29,6 +29,8 @@
                 
                     <div class="form-button-container" style="margin-top: 10px;">
                     <input  class="bottoment"  type="submit" value="Enviar">
+                    </div>
+                    <div class="box-pass">
                     <a href= "{% url 'usuario:login' %}" style="text-decoration:none ;">Lembrou da sua senha? Clique aqui</a>
                     </div> 
                     
