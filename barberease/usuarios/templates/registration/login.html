@@ -38,11 +38,9 @@
 								</div>
 							</label>
 					</div>
-					<label class="pass">Esqueceu a senha?
-					    <a href="#">
-						</a>
-                    <p></p>
-
+					<a href="{% url 'usuario:redefinir' %}">
+						Esqueceu sua senha?
+					</a>
 					{% get_providers as socialaccount_providers %}
 					<div class="form-button-container">
 						<div class="bottomgg" id="googleButton">

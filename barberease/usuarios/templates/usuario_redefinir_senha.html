@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/usuarios/css/style.css">
+    <title>Redefinir Senha</title>
+</head>
+<body>
+    <div class="container">
+        <form  method="POST">
+            <div class="centro">
+                {% csrf_token %} 
+                <div class="barb">BarberEase</div>
+                <div class="find">Encontre o melhor salão para você!</div>
+                <p class="box-title">redefinir senha:</p>
+                
+                <div class="form-input-container">
+                    <div class="field-container">
+                        <label class="label">E-mail:
+                        
+                            <div class="form-control-container">
+                                
+                                <input class="form-control" type="email" name="email"  required>
+                            </div>
+                        </label>
+                    </div>
+                
+                    <div class="form-button-container" style="margin-top: 10px;">
+                    <input  class="bottoment"  type="submit" value="Enviar">
+                    <a href= "{% url 'usuario:login' %}" style="text-decoration:none ;">Lembrou da sua senha? Clique aqui</a>
+                    </div> 
+                    
+                    <div style="display: flex;">
+                        {{ form.email.errors }}
+                        {% if mensagem  %}
+                            <p>{{ mensagem  }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
