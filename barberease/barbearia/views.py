@@ -1,3 +1,4 @@
+from typing import Any
 from django.shortcuts import HttpResponse, render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
@@ -54,6 +55,12 @@ class HomeBarbeariaView(DetailView):
     
     template_name = "home_barbearia.html"
     model = Barbearia
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['usuario'] = self.request.user
+        context['barbearia'] = self.request.user.barbearia
+        return context
     
 class CadastrarBarbeirosView(CreateView):
     # Views para renderizar a tela de cadastro de barbeiros

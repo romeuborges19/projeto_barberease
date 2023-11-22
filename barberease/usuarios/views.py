@@ -69,7 +69,10 @@ class UsuarioHomeView(ListView):
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
-        context['id_usuario'] = get_token_user_id(self.request)
+        id = get_token_user_id(self.request)
+        usuario = Usuario.objects.filter(pk=id).first()
+        context['barbearia'] = Barbearia.objects.filter(dono=usuario).first()
+        context['usuario'] = usuario
 
         return context 
  

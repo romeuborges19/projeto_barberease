@@ -73,3 +73,22 @@
     gap: 400px;
     height: 100%;
   }
+
+  .side-bar-anaflavia {
+    display: flex;
+    flex-direction: column;
+    height: 10vh;
+    justify-content: space-between;
+  }
+
+  .side-bar-button {
+    outline: none;
+    text-decoration: none;
+  }
+
+  .button-container {
+    display: flex;
+    align-items: center;
+  }
+
+

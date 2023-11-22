@@ -6,66 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>home</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="{% static 'usuarios/css/style_home.css' %}" rel="stylesheet">
+  <link href="{% static 'usuarios/css/style_menu.css' %}" rel="stylesheet">
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark custom-bg-color">
-    <div class="container-fluid">
-      <a class="navbar-brand ms-5 mt-1 mb-4" href="{% url 'usuario:home' %}">BarberEase</a>
-    </div>
-  </nav>
-  <div id="sidebar">
-    <div class="side-bar-buttons-container">
-      
-        <div class="p-3">
-          <div class="side-bar-top-buttons-container">
-            <p class="nome mb-5 ms-5">BarberEase</p>
-            <div class="item ms-2">
-                <img src="{% static 'usuarios/icons/perfil.png' %}"> 
-                <p class="itens ms-3 mt-3"> Perfil </p>
-            </div>
-            <div class="item ms-2 mt-0">
-              <img src="{% static 'usuarios/icons/agenda.png' %}"> 
-              <p class="itens ms-3 mt-3"> Agenda </p>
-            </div>
-            <div class="item ms-2 mt-0">
-              <img src="{% static 'usuarios/icons/gear.png' %}"> 
-              <p class="texto itens ms-2 mt-3"> Gerenciador de Agendamentos </p>
-            </div>    
-          </div>
-          <div class="side-bar-logout-container">
-            <div class="item ms-2 mt-0">
-              <img src="{% static 'usuarios/icons/logout.png' %}"> 
-            <p class="texto itens ms-2 mt-3"> Logout </p>
-          </div> 
-        </div>
-          
-      </div>
-      
-    </div>
-  </div>
-  </div>
-  <button id="sidebarCollapse" class="btn custom-btn-color mt-4">&#9776;</button>
+      {% include 'menu_usuario.html' %}
+
+  
   <main class="container mt-4">
     <h1>oiii</h1>
-    <p>id: {{ id_usuario }} <br>
+    <p>id: {{ usuario.pk }} <br>
+    <p>id: {{ barbearia.pk }} <br>
     <a href="{% url 'usuario:logout' %}">Logout</a></p>
     {% if request.session.dono %}
       <p><a href="{% url 'agendamento:cadastrar_agenda' %}">Cadastrar Agenda</a></p>
     {% endif %}
-    <p><a href="{% url 'usuario:perfil' pk=id_usuario %}">Ver perfil</a></p>
+    <p><a href="{% url 'usuario:perfil' pk=usuario.pk %}">Ver perfil</a></p>
     {% for barbearia in object_list %}
       <p>{{ barbearia }} -> <a href="{% url 'agendamento:agenda_agendamento' barbearia.pk %}">Realizar Agendamento</a></p>
     {% endfor %}
   </main>
-    <div id="sidebarOverlay"></div>
 
-  <script>
-    document.getElementById('sidebarCollapse').addEventListener('click', function() {
-      document.getElementById('sidebar').classList.toggle('open');
-    });
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
