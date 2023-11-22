@@ -2,11 +2,11 @@
     height: 100vh;
     position: fixed;
     top: 0;
-    left: -250px; 
-    width: 250px;
+    left: -300px; 
+    width: 300px;
     background-color: #FFFFFF;
     transition: left 0.3s ease-in-out; 
-    padding-top: 3.5rem; 
+    padding-top: 1.3rem; 
   }
   #sidebar.open {
     left: 0; 
@@ -25,28 +25,51 @@
       background-color: #DDCEBE;
   }
   p.nome {
-    font-size: 70px;
+    font-size: 28px;
     font-family: "Abhaya Libre ExtraBold";
     font-weight: 800;
     color: rgba(0, 0, 0, 1);
     width: 450px;
     height: 61px;
   }
-  .nome{
-    font-size: 70px;
+  
+  .navbar-brand{
+    font-size: 48px;
     font-family: "Abhaya Libre ExtraBold";
     font-weight: 800;
     color: rgba(0, 0, 0, 1);
     width: 450px;
     height: 61px;
-
   }
-
   a.navbar-brand{
-    font-size: 70px;
-    font-family: "Abhaya Libre ExtraBold";
-    font-weight: 800;
-    color: rgba(0, 0, 0, 1);
-    width: 450px;
-    height: 61px;
+    outline: none;
+    text-decoration: none;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .itens{
+      font-size: 15px;
+      font-family: "Kanit";
+      font-weight: 400;
+      color: rgba(0, 0, 0, 1);
+      width: 40px;
+      height: 20px;
+  }
+
+  .item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .texto {
+    width: 100%;
+  }
+
+  .side-bar-buttons-container{
+    display: flex;
+    flex-direction: column;
+    gap: 400px;
+    height: 100%;
   }
