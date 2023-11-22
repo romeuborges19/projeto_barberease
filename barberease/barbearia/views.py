@@ -19,6 +19,7 @@ class PerfilBarbeariaView(DetailView):
 
 class CadastrarDonoview(CreateView):
     # Views para renderizar a tela de cadastro de Dono
+    
     form_class = UsuarioForm
     model = Usuario
     template_name = "cadastro_dono.html"
@@ -39,13 +40,13 @@ class CadastrarBarbeariaview(CreateView):
 
     model = Barbearia
     form_class = BarbeariaForm
-    template_name = "cadastro_barbearia.html"
+    template_name = "barbearia_cadastro.html"
 
     def form_valid(self, form):
         usuario = Usuario.objects.get(pk=self.request.user.pk)
         form.instance.dono = usuario
         return super().form_valid(form)
-
+    
     def get_success_url(self):
         barbearia = Barbearia.objects.get(dono_id=self.request.user.pk)
         return reverse_lazy("agendamento:cadastrar_agenda")
@@ -92,6 +93,7 @@ class ListarBarbeiros(ListView):
         barbearia = self.request.user.barbearia
         barbeiros = Barbeiros.objects.filter(barbearia=barbearia)
         context['barbeiros'] = barbeiros
+        
         return context
  
 class DeletarBarbeiros(DeleteView):
@@ -114,4 +116,5 @@ class EditarBarbeirosView(UpdateView):
         user = self.request.user
         barbearia = Barbearia.objects.filter(dono=user).first()
         form.instance.barbearia = barbearia
+
         return super().form_valid(form)
