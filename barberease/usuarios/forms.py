@@ -37,7 +37,7 @@ class UsuarioForm(forms.ModelForm):
             self.add_error('password2', 'Senhas não conferem')
 
         if email and Usuario.objects.filter(email=email).exists():
-            self.add_error('email', 'Email já cadastrado')
+            self.add_error('email', 'E-mail já cadastrado')
 
         return cleaned_data
 
@@ -50,12 +50,51 @@ class UsuarioForm(forms.ModelForm):
             instance.save()
         return instance
     
-class UsuarioUpdateForm(UsuarioForm):
+class UsuarioUpdateForm(forms.ModelForm):
     # Formulário para atualização de usuário
     
-    class Meta (UsuarioForm.Meta):
-        fields = ('nome', 'email', )
+    class Meta: 
+        model = Usuario
+        fields = ['nome', 'sobrenome', 'email']
+        
+    def clean(self):
+        cleaned_data = super(UsuarioUpdateForm, self).clean()
+        email = cleaned_data.get("email")
+        nome = cleaned_data.get("nome")
+        sobrenome = cleaned_data.get("sobrenome")
+
+        if nome:
+            if len(nome) < 3:
+                self.add_error('nome', 'Nome deve ter no mínimo 3 caracteres')
+            elif len(nome) > 100:
+                self.add_error('nome', 'Nome deve ter no máximo 50 caracteres')
+            elif re.search('[^a-zA-Z]', nome) is not None:
+                self.add_error('nome', 'Nome deve conter apenas letras')
+                
+        if sobrenome:
+            if len(sobrenome) < 3:
+                self.add_error('sobrenome', 'sobrenome deve ter no mínimo 3 caracteres')
+            elif len(sobrenome) > 100:
+                self.add_error('sobrenome', 'sobrenome deve ter no máximo 50 caracteres')
+            elif re.search('[^a-zA-Z]', sobrenome) is not None:
+                self.add_error('sobrenome', 'sobrenome deve conter apenas letras')
+        old_email = self.instance.email 
+        
+        if email:
+            if Usuario.objects.filter(email=email).exists():
+                self.add_error('email', 'E-mail já cadastrado')
+            elif email == old_email:
+                self.add_error('email', 'E-mail não pode ser igual ao anterior')
+
+        return cleaned_data
     
-    
+    def save(self, commit=True):
+        instance = super(UsuarioUpdateForm, self).save(commit=False)
+        instance.username = self.cleaned_data['email']
+        if commit:
+            instance.save()
+        return instance
+        
+
     
     
