@@ -64,7 +64,6 @@ class BarbeariaForm(forms.ModelForm):
         return cleaned_data
 
 
-<<<<<<< HEAD
 class BarbeirosForm(forms.ModelForm):
     class Meta:
         model = Barbeiros
@@ -85,7 +84,3 @@ class BarbeirosForm(forms.ModelForm):
             self.add_error('nome', 'Nome inválido')
             
         return cleaned_data
-=======
-        return cleaned_data
-    
->>>>>>> 0fdb4e5eea0d8a3585aa112891300932bbfe6686

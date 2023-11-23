@@ -81,7 +81,7 @@ class UsuarioHomeView(ListView):
         context =  super().get_context_data(**kwargs)
         id = get_token_user_id(self.request)
         usuario = Usuario.objects.filter(pk=id).first()
-        context['barbearia'] = Barbearia.objects.filter(dono=usuario).first()
+        print(usuario)
         context['usuario'] = usuario
 
         return context 
@@ -165,6 +165,7 @@ class UsuarioRedefinePasswordView(TemplateView):
             if result == None :
                  return render(request, "usuario_redefinir_senha.html" ,{'mensagem': "Siga as instruções no seu email  para redefinir sua senha"})
         return render(request, "usuario_redefinir_senha.html", {'form': form})
+
 class UsuarioNewPasswordView(TemplateView):
     template_name = "usuario_new_password.html"
     def post(self, request, *args, **kwargs):
