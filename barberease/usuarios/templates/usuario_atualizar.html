@@ -19,21 +19,22 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <h1 class="text-center custom">Editar Perfil</h1>
-            <form method="post">
+            {{ form.as_p }}
+            <form method="POST">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome:</label>
-                    <input type="text" class="form-control custom-bg-color-input" id="nome" value="{{ usuario.nome }}" >
+                    <input type="text" class="form-control custom-bg-color-input" id="id_nome" name="nome" value="{{ usuario.nome }}" >
                 </div>
                 <div class="mb-3">
                     <label for="sobrenome" class="form-label">Sobrenome:</label>
-                    <input type="text" class="form-control custom-bg-color-input" id="sobrenome" value="{{ usuario.sobrenome }}" >
+                    <input type="text" class="form-control custom-bg-color-input" id="id_sobrenome" name="sobrenome" value="{{ usuario.sobrenome }}" >
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">E-mail:</label>
-                    <input type="text" class="form-control custom-bg-color-input" id="email" value="{{ usuario.email }}" >
+                    <input type="email" class="form-control custom-bg-color-input" id="id_email" name="email" value="{{ usuario.email }}" >
                 </div>
-                <button type="submit" class="btn btn-primary color-button-custom">Salvar</button>
+                <input type="submit" class="btn btn-primary color-button-custom">Salvar</input>
             </form>
 
         </div>

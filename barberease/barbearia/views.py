@@ -13,10 +13,6 @@ from django.contrib.auth import login
 from barbearia.models import Barbeiros
 
 
-class PerfilBarbeariaView(DetailView):
-    model = Barbearia
-    template_name = "perfil_barbearia.html"
-
 class CadastrarDonoview(CreateView):
     # Views para renderizar a tela de cadastro de Dono
     
@@ -61,6 +57,18 @@ class HomeBarbeariaView(DetailView):
         context = super().get_context_data(**kwargs)
         context['usuario'] = self.request.user
         context['barbearia'] = self.request.user.barbearia
+        return context
+    
+class ProfileBarbeariaView(DetailView):
+    # Views para renderizar a tela de perfil da barbearia
+    
+    model = Barbearia
+    template_name = "perfil_barbearia.html"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        barbearia = Barbearia.objects.filter(dono=self.request.user).first()
+        context['barbearia'] = barbearia
         return context
     
 class CadastrarBarbeirosView(CreateView):
