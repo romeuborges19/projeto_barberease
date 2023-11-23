@@ -93,8 +93,9 @@ class UsuarioLogoutView(LogoutView):
 
     def get(self, request, *args, **kwargs):
         request.session.flush()
-    
-        return super().get(request, *args, **kwargs)
+        response = super().get(request, *args, **kwargs)
+        response.delete_cookie('jwt_token')
+        return response
         
 class UsuarioView(TemplateView):    
     # Views para renderizar o perfil do usuario
