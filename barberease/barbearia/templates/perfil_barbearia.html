@@ -1,33 +1,76 @@
-{% load static %}
+{% extends 'base/header.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-	<link rel="stylesheet" type="text/css" href="{% static 'css/perfil_barbearia.css' %}">
-</head>
-<body>
-		<div class="barbearia-profile-container">
-			<div class="background-image-container">
-				<div class="background-image">
+{% load static %}
+  
+{% block title %}Home{% endblock title %}
+
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+	<link rel="stylesheet" type="text/css" href="{% static 'barbearia/css/perfil_barbearia.css' %}">
+	<div class="barbearia-profile-container">
+		<div class="background-image-container">
+			<div class="background-image">
+			</div>
+		</div>
+		<div class="barbearia-header-container">
+
+			<div class="barbearia-logo-container">
+				<div class="barbearia-logo">
 				</div>
 			</div>
-			<div class="barbearia-header-container">
-				<div class="barbearia-logo-container">
-					<div class="barbearia-logo">
-					</div>
-				</div>
-				<div class="barbearia-info-container">
+			<div class="barbearia-info-container">
+				<div class="barbearia-info-top-container">
 					<div class="barbearia-nome-container">
 						<p class="barbearia-nome"> Barbearia do Gabriel </p>
 					</div>
-					<div class="barbearia-horario-container">
-						<p class="barbearia-horario-bool"> Aberto agora </p>
-						<p class="barbearia-horario-fechamento">  • Fecha às 18h </p>
+					<a class="agendar-horario-button-container" href="#">Agende seu horário</a>
+				</div>
+				
+				<div class="barbearia-horario-container">
+					<p class="barbearia-horario-bool"> Aberto agora </p>
+					<p class="barbearia-horario-fechamento">  • Fecha às 18h </p>
+				</div>
+			</div>
+
+		</div>
+		<div class="barbearia-body-container">
+			<div class="barbearia-sobre-box-container">
+				<div class="barbearia-sobre-container">
+					<p class="barbearia-sobre"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+				</div>
+				<div class="barbearia-local-container">
+					<div class="barbearia-local-endereco-container">
+						<div class="barbearia-local-icone">
+							<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+								<mask id="mask0_340_31" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="2" y="0" width="22" height="26">
+								<path d="M13 23.8333C13 23.8333 21.125 17.3333 21.125 10.2917C21.125 5.8045 17.4872 2.16667 13 2.16667C8.51283 2.16667 4.875 5.8045 4.875 10.2917C4.875 17.3333 13 23.8333 13 23.8333Z" fill="white" stroke="white" stroke-width="4" stroke-linejoin="round"/>
+								<path d="M13 13.5417C13.4268 13.5417 13.8494 13.4576 14.2437 13.2943C14.638 13.131 14.9963 12.8916 15.2981 12.5898C15.5999 12.288 15.8393 11.9297 16.0026 11.5354C16.1659 11.1411 16.25 10.7185 16.25 10.2917C16.25 9.86488 16.1659 9.44226 16.0026 9.04795C15.8393 8.65364 15.5999 8.29537 15.2981 7.99357C14.9963 7.69178 14.638 7.45239 14.2437 7.28906C13.8494 7.12574 13.4268 7.04167 13 7.04167C12.138 7.04167 11.3114 7.38408 10.7019 7.99357C10.0924 8.60307 9.75 9.42972 9.75 10.2917C9.75 11.1536 10.0924 11.9803 10.7019 12.5898C11.3114 13.1993 12.138 13.5417 13 13.5417Z" fill="black" stroke="black" stroke-width="4" stroke-linejoin="round"/>
+								</mask>
+								<g mask="url(#mask0_340_31)">
+								<path d="M0 0H26V26H0V0Z" fill="black"/>
+								</g>
+							</svg>
+						</div>
+						<div class="barbearia-local-endereco">
+							<p>Quadra 704 Sul Avenida Norte-Sul 04, Lote 05, Plano Diretor Sul, Palmas - TO, 77022-356</p>
+						</div>
 					</div>
+					
+					<a class="barbearia-local-button-container" href="#">
+						Ver no mapa
+					</a>
+
 				</div>
 			</div>
 		</div>
+	</div>
+{% endblock content %}
 </body>
 </html>
