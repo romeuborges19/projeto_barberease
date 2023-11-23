@@ -26,13 +26,13 @@
               </a>
             </div>
             <div class="item ms-2 mt-0">
-              <a class="side-bar-button" href="{% url 'usuario:perfil' pk=usuario.pk %}">
+              <a class="side-bar-button" href="{% url 'usuario:home' %}">
                 <div class="button-container">
                   <div class="button-img">
-                    <img src="{% static 'usuarios/icons/agenda.png' %}">   
+                    <img src="{% static 'usuarios/icons/home.png' %}">   
                   </div>
                   <div class="button-text">
-                    <p class="itens ms-3 mt-3"> Agenda </p>
+                    <p class="itens ms-3 mt-3"> Home </p>
                   </div>
                 </div>
               </a>
@@ -41,15 +41,28 @@
               <a class="side-bar-button" href="{% url 'usuario:perfil' pk=usuario.pk %}">
                 <div class="button-container">
                   <div class="button-img">
-                    <img src="{% static 'usuarios/icons/gear.png' %}">
+                    <img src="{% static 'usuarios/icons/calendario.png' %}">
                   </div>
                   <div class="button-text">
-                    <p class="texto itens ms-2 mt-3"> Gerenciador de Agendamentos </p> 
+                    <p class="texto itens ms-2 mt-3"> Horários Agendados</p> 
+                  </div>
+                </div>
+              </a>
+            </div> 
+            <div class="item ms-2 mt-0">
+              <a class="side-bar-button" href="{% url 'usuario:perfil' pk=usuario.pk %}">
+                <div class="button-container">
+                  <div class="button-img">
+                    <img src="{% static 'usuarios/icons/historico.png' %}">
+                  </div>
+                  <div class="button-text">
+                    <p class="texto itens ms-2 mt-3">Histórico Agendamentos</p> 
                   </div>
                 </div>
               </a>
             </div>    
-          </div>
+          </div>   
+        </div>
           <div class="side-bar-logout-container">
             <div class="item ms-3 mt-0">
               <a href="{% url 'usuario:logout' %}" class="side-bar-button">

@@ -1,4 +1,45 @@
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Update">
-</form>
+{% extends 'base/header.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+{% block extra_css %}
+    <link href="{% static 'usuarios/css/style_perfil.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center custom">Editar Perfil</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome:</label>
+                    <input type="text" class="form-control custom-bg-color-input" id="nome" value="{{ usuario.nome }}" >
+                </div>
+                <div class="mb-3">
+                    <label for="sobrenome" class="form-label">Sobrenome:</label>
+                    <input type="text" class="form-control custom-bg-color-input" id="sobrenome" value="{{ usuario.sobrenome }}" >
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail:</label>
+                    <input type="text" class="form-control custom-bg-color-input" id="email" value="{{ usuario.email }}" >
+                </div>
+                <button type="submit" class="btn btn-primary color-button-custom">Salvar</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
