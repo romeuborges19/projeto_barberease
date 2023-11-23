@@ -1,5 +1,68 @@
-<h1>Perfil </h1>
-    {{ usuario.nome }}
-    {{ usuario.sobrenome }}
-    {{ usuario.email }}
-    {{ usuario.id }}
+{% extends 'base/header.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+{% block extra_css %}
+    <link href="{% static 'usuarios/css/style_perfil.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center custom">Perfil</h1>
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome:</label>
+                    <input type="text" class="form-control custom-bg-color-input" id="nome" value="{{ usuario.nome }}" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="sobrenome" class="form-label">Sobrenome:</label>
+                    <input type="text" class="form-control custom-bg-color-input" id="sobrenome" value="{{ usuario.sobrenome }}" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail:</label>
+                    <input type="text" class="form-control custom-bg-color-input" id="email" value="{{ usuario.email }}" disabled>
+                </div>
+                <div class="btn_password d-flex align-items-center">
+                    <p class="mb-0 me-2 custom-p">Esqueceu sua senha?
+                    <a href="#" class="link-senha"><u>Redefinir senha</u></a>
+                </p>
+                </div>
+            <!-- Modal de confirmação -->
+            <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmModalLabel">Confirmação</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Tem certeza de que deseja redefinir a senha?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a href="#" class="btn btn-primary">Redefinir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+               <button type="button" class="btn btn-primary color-button-custom ">
+                    <a href="{% url 'usuario:editar' pk=usuario.pk %}" class="link-editar">Editar</a>
+               </button>
+              
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
