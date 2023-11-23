@@ -1,30 +1,168 @@
 {% load static %}
-  <!DOCTYPE html>
+{% load widget_tweaks %}
+{% load i18n %}
+{% load account socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-  <script src="{% static 'barbearia/js/validarCEP.js' %}"></script>
-  <meta charset="UTF-8" />
-  <title>Cadastro Responsavel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+	<script src="{% static 'barbearia/js/validarCEP.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'barbearia/css/stylebarber.css' %}">
+  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-      <div id="cadastro">
-        <form method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-          {{ form.as_p }}
-
-		  {% if form.errors %}
-		       {% for field in form %}
-					{% for error in field.errors %}
-					<p> {{ error }} </p>
-					{% endfor %}
-				{% endfor %}
-		   {% endif %}
-
-          <input type="submit">
-        </form>
-      </div>
+	<form method="POST" enctype="multipart/form-data">
+		<div class="centro">
+        {% csrf_token %}    
+		<div class="logo-container">
+			<div class="logo">
+				<!-- <img src="{% static 'barbearia/images/logo_image.png' %}" width="450" height="200px"> -->
+						<p class="box-title">Cadastre sua barbearia:</p>
+			</div>
+		</div>
+		<div class="form-input-container">
+		  <div class="column">
+			<div class="field-container column">
+				<label class="label">Nome do estabelecimento:
+				<div class="form-control-container">
+                	{{ form.nome | add_class:"form-control" }}
+                  	{% if form.nome.errors %}
+                  	<div class="error">
+                    	{{ form.nome.errors }}
+                  	</div>
+                	{% endif %}
+				</div>
+				</label>
+			</div>
+			<div class="field-container column">
+				<label class="label">CNPJ:
+				<div class="form-control-container">
+					{{ form.cnpj | add_class:"form-control" }}
+					{% if form.cnpj.errors %}
+					<div class="error">
+						{{ form.cnpj.errors }}
+					</div>
+					{% endif %}
+				</div>
+				</label>
+			</div>
+			<div class="field-container column">
+				<label class="label">Número de telefone:
+				<div class="form-control-container">
+					{{ form.telefone | add_class:"form-control" }}
+					{% if form.telefone.errors %}
+					<div class="error">
+						{{ form.telefone.errors }}
+					</div>
+					{% endif %}
+				</div>
+				</label>
+			</div>
+			<div class="field-container column">
+				<label class="label">Insira sua logo:
+				<div class="form-control-container">
+                	{{ form.logo | add_class:"form-control" }}
+                  	{% if form.logo.errors %}
+                  	<div class="error">
+                    	{{ form.logo.errors }}
+                  	</div>
+                	{% endif %}
+				</div>
+				</label>
+			</div>
+		  </div>
+		  <div class="column">
+			<div class="field-container column">
+				<label class="label">Endereço:
+				<div class="form-control-container">
+					{{ form.endereco | add_class:"form-control" }}
+					{% if form.endereco.errors %}
+					<div class="error">
+						{{ form.endereco.errors }}
+					</div>
+					{% endif %}
+				</div>
+				</label>
+			</div>
+			<div class="special-fields">
+			<div class="field-container column">
+				<label class="label">CEP:
+				<div class="form-control-container-special">
+					{{ form.cep | add_class:"form-control" }}
+					{% if form.cep.errors %}
+					<div class="error">
+						{{ form.cep.errors }}
+					</div>
+					{% endif %}
+				</div>
+				</label>
+			</div>
+			<div class="field-container column">
+				<label class="label">Setor:
+				<div class="form-control-container-special">
+					{{ form.setor | add_class:"form-control" }}
+					{% if form.setor.errors %}
+					<div class="error">
+						{{ form.setor.errors }}
+					</div>
+					{% endif %}
+				</div>
+				</label>
+			</div>
+		    </div>
+			<div class="special-fields">
+			<div class="field-container column">
+				<label class="label">Cidade:
+				<div class="form-control-container-special">
+                	{{ form.cidade | add_class:"form-control" }}
+                  	{% if form.cidade.errors %}
+                  	<div class="error">
+                    	{{ form.cidade.errors }}
+                  	</div>
+                	{% endif %}
+				</div>
+				</label>
+			</div>
+			<div class="field-container column">
+				<label class="label">Estado:
+				<div class="form-control-container-special">
+                	{{ form.estado | add_class:"form-control" }}
+                  	{% if form.estado.errors %}
+                  	<div class="error">
+                    	{{ form.estado.errors }}
+                  	</div>
+                	{% endif %}
+				</div>
+				</label>
+			</div>
+		    </div>
+			<div class="field-container column">
+				<label class="label">Complemento:
+				<label class="label-comp">(opcional)</label>		
+				<div class="form-control-container">
+                	{{ form.complemento | add_class:"form-control" }}
+                  	{% if form.complemento.errors %}
+                  	<div class="error">
+                    	{{ form.complemento.errors }}
+                  	</div>
+                	{% endif %}
+				</div>
+				</label>
+			</div>
+		  </div>
+		</div>
+		    <div class="form-button-container">
+			<input class="bottoment" type="submit" value="Cadastrar"/>
+		</div>  
+	</form>
+	</div>
 </body>
 </html>
+
+
 
