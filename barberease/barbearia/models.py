@@ -12,7 +12,7 @@ class Barbearia(models.Model):
     setor = models.CharField("Setor", max_length=150)
     cidade = models.CharField("Cidade", max_length=150)
     estado = models.CharField("Estado", max_length=150)
-    dono = models.OneToOneField(Usuario, verbose_name="Dono", on_delete=models.CASCADE, unique=True)
+    dono = models.OneToOneField(Usuario, verbose_name="Dono", on_delete=models.CASCADE, unique=True, null=True)
     complemento = models.CharField("Complemento", max_length=150, null=True, blank=True)    
     logo = models.ImageField("Logo", upload_to="images", null=True, blank=True)
 
