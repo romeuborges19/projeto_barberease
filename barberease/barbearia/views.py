@@ -13,6 +13,16 @@ from django.contrib.auth import login
 from barbearia.models import Barbeiros
 
 
+class PerfilBarbeariaView(DetailView):
+    model = Barbearia
+    template_name = "perfil_barbearia.html"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['usuario'] = self.request.user
+
+        return context
+
 class CadastrarDonoview(CreateView):
     # Views para renderizar a tela de cadastro de Dono
     

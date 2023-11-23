@@ -1,17 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap');
 
 body {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	width: 100%;
 }
 
+main {
+	display: flex;
+	justify-content: center;
+	padding-top: 3rem;
+}
+
 .barbearia-profile-container {
-	width: 70%;
-	background-color: red;
+	width: 60%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	gap: 1rem;
 }
 
 .background-image-container {
@@ -24,26 +32,29 @@ body {
 	background-color: gray;
 	width: 90%;
 	height: 22vh;
-	border-radius: 8px;
+	border-radius: 10px;
 }
 
 .barbearia-header-container {
 	display: flex;
 	flex-direction: row;
-	width: 90%;
+	gap: 1rem;
 	padding-inline: 5%;
 }
 
 .barbearia-logo-container {
+	flex-shrink: 0;
 	background-color: gray;
 	width: 150px;
 	height: 150px;
-	border-radius: 75px;
+	border-radius: 50%;
 }
 
 .barbearia-horario-container{
 	display: flex;
 	flex-direction: row;
+	font-family: 'Kanit', sans-serif;
+	font-size: 18px;
 	gap: 5px;
 }
 
@@ -51,4 +62,137 @@ body {
 	font-family: 'Abhaya Libre', serif;
 	font-size: 40px;
 	margin: 0px;
+}
+
+.barbearia-info-container{
+	margin-top: 0.5rem;
+	width: 100%;
+}
+
+.barbearia-horario-bool {
+	font-weight: 500;
+	color: #754B2B;
+}
+
+.barbearia-horario-fechamento {
+	font-weight: 300;
+}
+
+.barbearia-info-top-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.agendar-horario-button-container {
+	font-family: 'Kanit', sans-serif;
+	font-weight: 400;
+	background-color: #754B2B;
+	padding: .6rem 3rem;
+	min-inline-size: 20%;
+	border-radius: 10px;
+	text-decoration: none;
+	color: white;
+	transition: 200ms;
+	text-align: center;
+}
+
+.agendar-horario-button-container:hover{
+	background-color: #8f5429;
+}
+
+.barbearia-body-container {
+	font-family: 'Kanit', sans-serif;
+	padding-inline: 5%;
+}
+
+.barbearia-sobre-box-container {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	background-color: #FFF9EE;
+	padding: 2rem;
+	border-radius: 10px;
+	margin-top: 2rem;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);;
+}
+
+.barbearia-sobre {
+	margin: 0px;
+	font-weight: 300;
+	font-size: 16px;
+	color: #727272;
+}
+
+.barbearia-local-container {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	justify-content: space-between;
+}
+
+.barbearia-local-endereco-container {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	max-width: 60%;
+}
+
+.barbearia-local-endereco p{
+	margin: 0px;
+}
+
+.barbearia-local-button-container {
+	padding: 0.5rem 2rem;
+	background-color: #CFA98E;
+	font-size: 14px;
+	font-weight: 500;
+	text-decoration: none;
+	border-radius: 10px;;
+	color: #402009;
+	transition: 200ms;
+}
+
+.barbearia-local-button-container:hover {
+	background-color: #ddb9a1;
+}
+
+@media (max-width: 1000px) {
+	.barbearia-profile-container {
+		width: 100%;
+	}
+
+	.barbearia-nome {
+		font-size: 36px;
+		font-weight: 500;
+	}
+}
+
+@media (max-width: 500px) {
+	main{
+		padding-top: 0px;
+	}
+	.barbearia-profile-container {
+		width: 100%;
+	}
+
+	.barbearia-nome {
+		font-size: 36px;
+		font-weight: 500;
+	}
+
+	.barbearia-info-top-container {
+		gap: 10px;
+	}
+
+	.background-image{
+		width: 100%;
+		border-radius: 0px;
+	}
+
+	.barbearia-logo-container {
+		width: 100px;
+		height: 100px;
+	}
 }
