@@ -80,3 +80,8 @@ input#sobrenome{
     padding-inline: 2rem;
     border-radius: 15px;
 }
+.errorlist{
+    color: #AD1B1B;
+    font-family: "Abhaya Libre SemiBold";
+    font-size: 15px;
+}
