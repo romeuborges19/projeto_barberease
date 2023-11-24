@@ -34,8 +34,6 @@ p.nome {
   font-family: "Abhaya Libre ExtraBold";
   font-weight: 800;
   color: rgba(0, 0, 0, 1);
-  width: 450px;
-  height: 61px;
 }
 
 .navbar-brand{
@@ -82,15 +80,22 @@ a.navbar-brand{
 .side-bar-buttons-container{
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 50%;
-  height: 90vh;
+  height: 100vh;
+}
+
+.side-bar-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
 }
 
 .side-bar-anaflavia {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 90vh;
   padding: 0.7rem;
   justify-content: space-between;
 }
@@ -103,6 +108,10 @@ a.navbar-brand{
 .button-container {
   display: flex;
   align-items: center;
+}
+
+.side-bar-logout-container {
+  padding: 0.7rem;
 }
 
 
