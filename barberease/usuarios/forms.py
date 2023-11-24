@@ -98,6 +98,7 @@ class UsuarioUpdateForm(forms.ModelForm):
             instance.save()
         return instance
 
+
 class UsuarioRedefinePasswordForm(forms.Form):
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={'placeholder': 'Digite seu e-mail'}),
@@ -121,16 +122,13 @@ class UsuarioRedefinePasswordForm(forms.Form):
         email = self.cleaned_data.get('email')
         usuario = Usuario.objects.get(email=email)
         token = token_generator_password.make_token(usuario)
-        
         enviar_email(token, email)
        
             
-            
-
-
 class UsuarioNewPasswordForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
     ConfirmPassword = forms.CharField(widget=forms.PasswordInput)
+    
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
@@ -147,6 +145,7 @@ class UsuarioNewPasswordForm(forms.Form):
                 self.add_error('password', 'Senha deve conter pelo menos uma letra maiúscula')
         else:
             self.add_error('ConfirmPassword', 'Senhas não conferem')
+            
     def save(self, user):
         user.set_password(self.cleaned_data['password'])
         user.save()
