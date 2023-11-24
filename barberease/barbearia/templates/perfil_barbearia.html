@@ -4,6 +4,10 @@
   
 {% block title %}Perfil{% endblock title %}
 
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'barbearia/css/perfil_barbearia.css' %}">
+{% endblock extra_css %}
+
 {% block contentmenu %}
 {% if usuario.dono_barbearia %}
   {% include 'base/menu_barbearia.html' %}
@@ -14,7 +18,7 @@
 {% endblock contentmenu %}
 
 {% block content %}
-	<link rel="stylesheet" type="text/css" href="{% static 'barbearia/css/perfil_barbearia.css' %}">
+<main>
 	<div class="barbearia-profile-container">
 		<div class="background-image-container">
 			<div class="background-image">
@@ -72,6 +76,7 @@
 			</div>
 		</div>
 	</div>
+</main>
 {% endblock content %}
 </body>
 </html>
