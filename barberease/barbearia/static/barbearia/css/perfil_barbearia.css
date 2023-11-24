@@ -178,12 +178,16 @@ main {
 	}
 
 	.barbearia-nome {
-		font-size: 36px;
+		font-size: 20px;
 		font-weight: 500;
 	}
 
 	.barbearia-info-top-container {
 		gap: 10px;
+	}
+
+	.barbearia-info-contaier {
+		font-size: 12px;
 	}
 
 	.background-image{
