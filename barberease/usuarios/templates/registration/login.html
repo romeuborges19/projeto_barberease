@@ -28,6 +28,11 @@
 								<div class="form-control-container">
 									{% render_field form.username class="form-control" placeholder="Digite seu e-mail"%}
 								</div>
+								{% if form.username.errors %}
+								<div class="error">
+									{{ form.username.errors }}
+								</div>
+								{% endif %}
 							</label>
 						</div>
 
@@ -36,6 +41,12 @@
 								<div class="form-control-container">
 								{% render_field form.password class="form-control" placeholder="Digite sua senha"%}
 								</div>
+								{% if form.password.errors %}	
+								<div class="error">
+									{{ form.password.errors }}
+								</div>
+								{% endif %}
+
 							</label>
 					</div>
 					<a href="{% url 'usuario:redefinir' %}">

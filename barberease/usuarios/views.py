@@ -125,6 +125,7 @@ class UsuarioAtualizarView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
+        print(self)
         return reverse_lazy('usuario:perfil', kwargs={'pk': self.kwargs['pk']})
     
 # class UsuarioDeleteView(DeleteView):
