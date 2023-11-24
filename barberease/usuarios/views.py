@@ -72,7 +72,7 @@ class UsuarioCadastrarView(CreateView):
 class UsuarioHomeView(ListView):
     # Views para renderizar a tela inicial Cliente
 
-    template_name = "usuario_home.html"
+    template_name = "home_usuario.html"
     model = Barbearia
     context_object_name = 'usuario'
 

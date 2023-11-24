@@ -19,6 +19,7 @@ class PerfilBarbeariaView(DetailView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
+
         context['usuario'] = self.request.user
 
         return context
@@ -79,6 +80,7 @@ class ProfileBarbeariaView(DetailView):
         context = super().get_context_data(**kwargs)
         barbearia = Barbearia.objects.filter(dono=self.request.user).first()
         context['barbearia'] = barbearia
+        context['usuario'] = self.request.user
         return context
     
 class CadastrarBarbeirosView(CreateView):

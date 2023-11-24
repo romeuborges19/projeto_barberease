@@ -1,0 +1,57 @@
+
+{% extends 'base/header.html' %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+
+{% block extra_css %}
+    <link href="{% static 'usuarios/css/stylehome.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+
+{% block content %}
+
+	<div class="container">
+			<form method="POST">
+				<div class="centro">
+					{% csrf_token %}
+                    
+                    <div class="form-input-container">
+						<div class="field-container">
+								<div class="form-control-container">
+                                        <span>Seu próximo horário:</span> 
+								</div>
+						</div>
+                        <div class="field-container">
+                            <div class="form-name">
+                                    <span>Bolt's Barber Shop</span> 
+                            </div>
+                        <div class="field-container">
+                            <div class="form-address">
+                                    <span>Av. Teotônio, Qd. 602s, Lt.0</span> 
+                            </div>       
+                    </div>
+                    </div>
+                    <div class="logo-container">
+                        <div class="logo"> </div>   
+                    </div>
+                    <div class="form-input-container">
+					    <div class="form-button-container">
+						    <input class="bottoment" type="submit" value="Cancelar"/>
+					    </div> 
+                    </div>    
+                </div> 
+                <div class="mess">
+                    <span>Mais barbearias perto de você</span>  
+                </div>   
+			</form>
+    </div>
+{% endblock content %}
+</html>
