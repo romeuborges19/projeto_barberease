@@ -19,6 +19,14 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <h1 class="text-center custom">Perfil</h1>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" id="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome:</label>
                     <input type="text" class="form-control custom-bg-color-input" id="nome" value="{{ usuario.nome }}" disabled>
@@ -62,6 +70,15 @@
         </div>
     </div>
 </div>
+<script>
+    // $('.link-senha').click(function(){
+    //     $('#confirmModal').modal('show');
+    // });
+
+    setTimeout(function(){
+        $('.alert').alert('close');
+  }, 12);
+</script>
 
 
 

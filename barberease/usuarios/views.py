@@ -134,6 +134,7 @@ class UsuarioAtualizarView(UpdateView):
 
     def form_valid(self, form):
         form.instance.id = self.request.user.id
+        messages.success(self.request, 'Dados atualizados com sucesso!')
         return super().form_valid(form)
 
     def get_success_url(self):
