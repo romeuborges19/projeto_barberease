@@ -90,7 +90,7 @@ main {
 	font-weight: 400;
 	background-color: #754B2B;
 	padding: .6rem 3rem;
-	min-inline-size: 20%;
+	max-width: 30rem;
 	border-radius: 10px;
 	text-decoration: none;
 	color: white;
@@ -166,6 +166,25 @@ main {
 	.barbearia-nome {
 		font-size: 36px;
 		font-weight: 500;
+	}
+}
+
+@media (max-width: 795px) {
+	.barbearia-profile-container {
+		width: 100%;
+	}
+
+	.barbearia-nome {
+		font-size: 30px;
+		font-weight: 500;
+	}
+
+	.barbearia-horario-container{
+		font-size: 16px;
+	}
+
+	.agendar-horario-button-container {
+		padding: 0.6rem 2rem;
 	}
 }
 

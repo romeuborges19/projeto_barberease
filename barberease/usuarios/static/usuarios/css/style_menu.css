@@ -82,7 +82,7 @@ a.navbar-brand{
   flex-direction: column;
   justify-content: space-between;
   gap: 50%;
-  height: 100vh;
+  height: 100%;
 }
 
 .side-bar-buttons {

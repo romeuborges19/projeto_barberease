@@ -1,5 +1,6 @@
+from typing import Any
 from allauth.socialaccount.signals import pre_social_login
-from django.http import HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import HttpResponse, redirect, render
 from django.urls import reverse_lazy
 from allauth.account.models import EmailAddress
@@ -28,10 +29,8 @@ def logged_in(sender, **kwargs):
     global should_redirect
 
     if EmailAddress.objects.filter(email=email).exists():
-        print("email existe")
         should_redirect = True 
     else:
-        print("email nao existe")
         should_redirect = False
 
 pre_social_login.connect(logged_in)
@@ -67,7 +66,7 @@ class UsuarioCadastrarView(CreateView):
     form_class = UsuarioForm  
     template_name = "usuario_cadastro.html"
     model = Usuario
-    success_url = reverse_lazy("usuario:home")
+    success_url = reverse_lazy("usuario:login")
 
 class UsuarioHomeView(ListView):
     # Views para renderizar a tela inicial Cliente
@@ -79,9 +78,12 @@ class UsuarioHomeView(ListView):
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         id = get_token_user_id(self.request)
+
         usuario = Usuario.objects.filter(pk=id).first()
-        print(usuario)
         context['usuario'] = usuario
+
+        if usuario.dono_barbearia:
+            context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
 
         return context 
  
@@ -91,9 +93,12 @@ class UsuarioLogoutView(LogoutView):
     template_name = "registration/login.html"
 
     def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        response = HttpResponseRedirect('/')
+        response.delete_cookie('jwt_token', domain='127.0.0.1')
         request.session.flush()
-    
-        return super().get(request, *args, **kwargs)
+
+        return response
         
 class UsuarioView(TemplateView):    
     # Views para renderizar o perfil do usuario
