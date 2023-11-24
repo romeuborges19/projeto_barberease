@@ -117,13 +117,10 @@ class UsuarioRedefinePasswordForm(forms.Form):
         if email and not Usuario.objects.filter(email=email).exists():
             self.add_error('email', "E-mail não cadastrado")
 
-    
-
     def process_password_reset(self ):
         email = self.cleaned_data.get('email')
         usuario = Usuario.objects.get(email=email)
         token = token_generator_password.make_token(usuario)
-        
         
         enviar_email(token, email)
        

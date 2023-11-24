@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap');
+
+main {
+    font-family: 'Kanit', sans-serif;
+}
+
 .form-label{
     font-family: "Abhaya Libre SemiBold";
     font-size: 18px;
@@ -59,4 +66,17 @@ input#sobrenome{
 .link-editar:hover{
     text-decoration: none;
     color:#754B2B;
+}
+
+.submit-button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.submit-button{
+    height: 40px;
+    padding-inline: 2rem;
+    border-radius: 15px;
 }

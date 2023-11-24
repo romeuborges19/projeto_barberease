@@ -56,7 +56,6 @@ class ProcessGoogleLoginView(TemplateView):
     template_name = "process_login.html"
 
     def get(self, request, *args, **kwargs):
-        print(f"global variables:  {globals()}")
         if should_redirect:
             return redirect(reverse_lazy("usuario:home"))
         else:
@@ -104,9 +103,12 @@ class UsuarioView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         id = get_token_user_id(self.request)
-        print(id)
         user =  Usuario.objects.filter(pk=id).first()
-        context['usuario'] = Usuario.objects.filter(pk=id).first()
+        context['usuario'] = user
+
+        if user.dono_barbearia:
+            context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
+
         return context
 
 class UsuarioAtualizarView(UpdateView):
@@ -115,6 +117,17 @@ class UsuarioAtualizarView(UpdateView):
     form_class = UsuarioUpdateForm
     template_name = "usuario_atualizar.html"
     model = Usuario
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        id = get_token_user_id(self.request)
+        user =  Usuario.objects.filter(pk=id).first()
+        context['usuario'] = user
+
+        if user.dono_barbearia:
+            context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
+
+        return context
 
     def get_object(self):
         return self.request.user
