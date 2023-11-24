@@ -2,7 +2,7 @@ from typing import Any
 from django.shortcuts import HttpResponse, render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
-from usuarios.authentication import create_acess_token, get_acess_token
+from usuarios.authentication import create_acess_token, get_acess_token, get_token_user_id
 from usuarios.forms import UsuarioForm
 from barbearia.forms import BarbeariaForm, BarbeirosForm
 from .models import Barbearia
@@ -12,16 +12,6 @@ from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 from django.contrib.auth import login
 from barbearia.models import Barbeiros
 
-
-class PerfilBarbeariaView(DetailView):
-    model = Barbearia
-    template_name = "perfil_barbearia.html"
-
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context['usuario'] = self.request.user
-
-        return context
 
 class CadastrarDonoview(CreateView):
     # Views para renderizar a tela de cadastro de Dono
@@ -77,8 +67,12 @@ class ProfileBarbeariaView(DetailView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
+        id_usuario = get_token_user_id(self.request)
+        usuario = Usuario.objects.filter(id=id_usuario).first()
+        context['usuario'] = usuario
         barbearia = Barbearia.objects.filter(dono=self.request.user).first()
         context['barbearia'] = barbearia
+
         return context
     
 class CadastrarBarbeirosView(CreateView):
