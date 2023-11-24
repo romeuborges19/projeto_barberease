@@ -84,10 +84,8 @@ class UsuarioUpdateForm(forms.ModelForm):
         old_email = self.instance.email 
         
         if email:
-            if Usuario.objects.filter(email=email).exists():
+            if Usuario.objects.filter(email=email).exclude(username=self.instance.email).exists():
                 self.add_error('email', 'E-mail já cadastrado')
-            elif email == old_email:
-                self.add_error('email', 'E-mail não pode ser igual ao anterior')
 
         return cleaned_data
     
