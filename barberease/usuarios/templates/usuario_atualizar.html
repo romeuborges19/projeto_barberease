@@ -24,14 +24,29 @@
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome:</label>
                     <input type="text" class="form-control custom-bg-color-input" id="id_nome" name="nome" value="{{ usuario.nome }}" >
+                    {% if form.nome.errors %}
+                    <div class="error">
+                        {{ form.nome.errors }}
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="mb-3">
                     <label for="sobrenome" class="form-label">Sobrenome:</label>
                     <input type="text" class="form-control custom-bg-color-input" id="id_sobrenome" name="sobrenome" value="{{ usuario.sobrenome }}" >
+                    {% if form.sobrenome.errors %}
+                    <div class="error">
+                        {{ form.sobrenome.errors }}
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">E-mail:</label>
                     <input type="email" class="form-control custom-bg-color-input" id="id_email" name="email" value="{{ usuario.email }}" >
+                    {% if form.email.errors %}
+                    <div class="error">
+                        {{ form.email.errors }}
+                    </div>
+                    {% endif %}
                 </div>
                 <input type="submit" class="btn btn-primary color-button-custom"/>
             </form>

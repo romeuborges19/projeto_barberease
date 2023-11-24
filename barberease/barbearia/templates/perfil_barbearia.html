@@ -8,8 +8,9 @@
 {% if usuario.dono_barbearia %}
   {% include 'base/menu_barbearia.html' %}
 {% else %}
-
+	{% include 'base/menu_usuario.html' %}
 {% endif %}
+
 {% endblock contentmenu %}
 
 {% block content %}
@@ -19,7 +20,6 @@
 			<div class="background-image">
 			</div>
 		</div>
-        {{ usuario.id }}
 		<div class="barbearia-header-container">
 
 			<div class="barbearia-logo-container">
@@ -29,7 +29,6 @@
 			<div class="barbearia-info-container">
 				<div class="barbearia-info-top-container">
 					<div class="barbearia-nome-container">
-                           id: {{ usuario }} <br>
 						<p class="barbearia-nome"> Barbearia do Gabriel </p>
 					</div>
 					<a class="agendar-horario-button-container" href="#">Agende seu horário</a>
