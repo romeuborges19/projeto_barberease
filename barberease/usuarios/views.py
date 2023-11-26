@@ -85,3 +85,18 @@ class UsuarioLogoutView(LogoutView):
         request.session.flush()
         return super().get(request, *args, **kwargs)
   
+class UsuarioView(TemplateView):    
+    # Views para renderizar o perfil do usuario
+
+    template_name = "usuario_perfil.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        id = get_token_user_id(self.request)
+        user =  Usuario.objects.filter(pk=id).first()
+        context['usuario'] = user
+
+        if user.dono_barbearia:
+            context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
+
+        return context

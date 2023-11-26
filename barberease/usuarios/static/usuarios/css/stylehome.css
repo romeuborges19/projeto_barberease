@@ -3,18 +3,221 @@
     src: url(../fonts/AbhayaLibre-ExtraBold.ttf) format('truetype');
 }
 @font-face {
-    font-family: 'Kanit';
+    font-family: 'Kanit Regular';
     src: url(../fonts/Kanit-Regular.ttf) format('truetype');
 }
-body {
-    background-image: url(../images/cadastro.png);
-    background-position: center center;
-    background-size: cover;
+@font-face {
+    font-family: 'Abhaya Libre SemiBold';
+    src: url(../fonts/AbhayaLibre-SemiBold.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'Kanit ExtraLight';
+    src: url(../fonts/Kanit-ExtraLight.ttf) format('truetype');
+}
+
+.mess{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 300px;
+    height: 10px;
+    border-radius: 15px;
+    margin-top: 80px;
+    margin-bottom: 5px;
+    background: #fff; 
+    color: #000;
     text-align: center;
-    margin: 0;
-    padding: 0;
+    font-family: Abhaya Libre SemiBold;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 100;
+}
+
+.logo{
+	background-image: url(../images/imagebarb.png);
+	background-size: 100px 95px;
+	width: 100px;
+	height: 95px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.logo-container {
+	margin-bottom: -15px;
+}
+
+input:focus, input:active{
+	background: transparent;
+}
+
+.agendamento-centro-container {
     display: flex;
+}
+
+.agendamento-container-container {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    background-color: #DDCEBE;
+    padding: 0.5rem 1rem;
+    margin-top: 75px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+}
+
+.agendamento-top-container{
+    background-color: #FFF;
+    border-radius: 10px;
+    padding-left: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin-left: -10px;
+    color: #402009;
+    font-family: Abhaya Libre SemiBold;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+    width: 167px;
+}
+
+.agendamento-centro-container{
+    display: flex;
+}
+
+.agendamento-buttom-container{
+    margin-left: 480px;
+    margin-bottom: -5px;
+}
+
+.bottoment{
+    width: 65px;
+    height: 18px;
+    border: none;
+    border-radius: 18px;
+    background: rgba(176, 48, 40, 0.80);
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25) inset;
+    font-family: Kanit ExtraLight;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+	color: white;
+	transition: 200ms;
+    padding: 0px 0px;
+}
+
+.agendamento-nome{
+    font-size: 25px;
+    font-family: Kanit regular;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+}
+
+.agendamento-nome-container{
+    margin-top: 10px;
+}
+
+.agendamento-info-container{
+    margin-left: 10px;
+    margin-top: 15px;
+}
+
+.agendamento-data-hora-container{
+    margin-left: 55px;
+    margin-top: 23px;
+}
+
+.agendamento-address-container{
+    margin-top: -5px;
+}
+.agendamento-address{
+    font-size: 16px;
+    font-family: Kanit Regular;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+}
+
+.agendamento-data-container{
+    font-size: 19px;
+    font-family: Kanit Regular;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+    margin-top: 8px;
+}
+
+.agendamento-hora-container{
+    font-size: 15px;
+    font-family: Kanit Regular;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+}
+
+.mais-barbearias-container{
+    background-color: #ECE4DC;
+    width: 30%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1rem;
+    margin-bottom: 30px;
+    margin-top: 8px;
+}
+
+.barbearia-container-container{
+    display: flex;
+}
+.barbearia-info-container{
+    font-family: Kanit  Regular;   
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.barbearia-nome{
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+}
+
+.barbearia-address-container{
+    margin-top: -5px;
+    margin-left: 15px;
+}
+
+.barbearia-address{
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+}
+
+.logo-more{
+	background-image: url(../images/imagemore.png);
+	background-size: 50px 50px;
+	width: 50px;
+	height: 50px;
+    margin-left: 40px;
+    margin-top: 10px;
+}
+
+.logo-more-container {
+	margin-bottom: 0px;
+}
+@media (max-width: 450px) {
+    button {
+        width: 70%;
+    }
 }

@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-from .views import ProcessGoogleLoginView, UsuarioLoginView, UsuarioCadastrarView, UsuarioHomeView, UsuarioLogoutView
+from .views import ProcessGoogleLoginView, UsuarioLoginView, UsuarioCadastrarView, UsuarioHomeView, UsuarioLogoutView, UsuarioView
 
 
 
@@ -14,6 +14,7 @@ urlpatterns = [
     path("home/", UsuarioHomeView.as_view(), name="home"),
     path("logout/", UsuarioLogoutView.as_view(), name="logout"),
     path("process/", ProcessGoogleLoginView.as_view(), name="process"),
+    path("perfil/<int:pk>", UsuarioView.as_view(), name="perfil"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
