@@ -1,5 +1,6 @@
 from typing import Any
 from allauth.socialaccount.signals import pre_social_login
+from django import http
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import HttpResponse, redirect, render
 from django.urls import reverse_lazy
@@ -11,6 +12,7 @@ from .models import Usuario
 from .forms import UsuarioForm, UsuarioUpdateForm, UsuarioRedefinePasswordForm, UsuarioNewPasswordForm
 from allauth.account.views import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.detail import DetailView
 from django.contrib.auth.views import LoginView, LogoutView
 from .utils import manage_login_redirect
 from django.utils import timezone
@@ -68,13 +70,23 @@ class UsuarioCadastrarView(CreateView):
     model = Usuario
     success_url = reverse_lazy("usuario:login")
 
-class UsuarioHomeView(ListView):
+class UsuarioHomeView(DetailView):
     # Views para renderizar a tela inicial Cliente
 
     template_name = "home_usuario.html"
     model = Barbearia
     context_object_name = 'usuario'
 
+
+    def dispatch(self, request, *args, **kwargs):
+        usuario_atual = self.get_object()
+        if request.user.is_authenticated:
+            if not request.user.dono_barbearia and usuario_atual.id == request.user.id:
+                return super().dispatch(request, *args, **kwargs)
+            return http.HttpResponseForbidden()
+        else:
+            return redirect(reverse_lazy("usuario:login"))
+        
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         id = get_token_user_id(self.request)

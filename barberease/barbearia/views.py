@@ -1,4 +1,6 @@
+import http
 from typing import Any
+from django.db import models
 from django.shortcuts import HttpResponse, render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
@@ -11,7 +13,8 @@ from usuarios.models import Usuario
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 from django.contrib.auth import login
 from barbearia.models import Barbeiros
-
+from django.http import HttpResponse
+from django import http
 
 class PerfilBarbeariaView(DetailView):
     model = Barbearia
@@ -62,12 +65,29 @@ class HomeBarbeariaView(DetailView):
     
     template_name = "home_barbearia.html"
     model = Barbearia
+    
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset=queryset)
+
+        
+        if not obj:
+            raise http.HttpResponseForbidden()
+        return obj
+
+    # annotation pronto
+    def dispatch(self, request, *args, **kwargs):
+            barbearia_atual = self.get_object()
+            if request.user.is_authenticated:
+                if barbearia_atual.dono == request.user:
+                    return super().dispatch(request, *args, **kwargs)
+            return http.HttpResponseForbidden()
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['usuario'] = self.request.user
         context['barbearia'] = self.request.user.barbearia
         return context
+    
     
 class ProfileBarbeariaView(DetailView):
     # Views para renderizar a tela de perfil da barbearia
@@ -84,6 +104,20 @@ class ProfileBarbeariaView(DetailView):
         context['barbearia'] = barbearia
         return context
     
+class EditarBarbeariaView(UpdateView):
+    # Views para renderizar a tela de edição da barbearia
+    
+    model = Barbearia
+    form_class = BarbeariaForm
+    template_name = "editar_barbearia.html"
+    success_url = reverse_lazy("barbearia:home")
+
+    def form_valid(self, form):
+        user = self.request.user
+        form.instance.dono = user
+        return super().form_valid(form)
+    
+
 class CadastrarBarbeirosView(CreateView):
     # Views para renderizar a tela de cadastro de barbeiros
     
