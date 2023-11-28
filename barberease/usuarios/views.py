@@ -158,6 +158,16 @@ class UsuarioAtualizarView(UpdateView):
         print(self)
         return reverse_lazy('usuario:perfil', kwargs={'pk': self.kwargs['pk']})
     
+    def dispatch(self, request, *args, **kwargs):
+        usuario_atual = self.get_object()
+        if request.user.is_authenticated:
+            if not request.user.dono_barbearia and usuario_atual.id == request.user.id:
+                return super().dispatch(request, *args, **kwargs)
+            return http.HttpResponseForbidden()
+        else:
+            return redirect(reverse_lazy("usuario:login"))
+    
+    
 # class UsuarioDeleteView(DeleteView):
 #     # Views para renderizar a tela de deletar dados do usuario
 
