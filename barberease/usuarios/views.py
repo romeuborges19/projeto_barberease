@@ -22,6 +22,7 @@ from django.http import Http404
 from .token import token_generator_password
 from django.contrib import messages
 import time
+from django.contrib.auth.models import Group as Groups
 
 def logged_in(sender, **kwargs):
     print("logged in")
@@ -69,36 +70,47 @@ class UsuarioCadastrarView(CreateView):
     template_name = "usuario_cadastro.html"
     model = Usuario
     success_url = reverse_lazy("usuario:login")
+    
+    def form_valid(self, form):
+        self.object = form.save()
+        user = self.object
+        clientes = Groups.objects.get(name='clientes')
+        user.groups.add(clientes)  
+        user.save()
+        return redirect(self.get_success_url())
+
 
 class UsuarioHomeView(DetailView):
     # Views para renderizar a tela inicial Cliente
 
     template_name = "home_usuario.html"
-    model = Barbearia
+    model = Usuario
     context_object_name = 'usuario'
 
 
-    def dispatch(self, request, *args, **kwargs):
-        usuario_atual = self.get_object()
-        if request.user.is_authenticated:
-            if not request.user.dono_barbearia and usuario_atual.id == request.user.id:
-                return super().dispatch(request, *args, **kwargs)
-            return http.HttpResponseForbidden()
-        else:
-            return redirect(reverse_lazy("usuario:login"))
+    # def dispatch(self, request, *args, **kwargs):
+    #     usuario_atual = self.get_object()
+    #     if request.user.is_authenticated:
+    #         if not request.user.dono_barbearia and usuario_atual.id == request.user.id:
+    #             return super().dispatch(request, *args, **kwargs)
+    #         return http.HttpResponseForbidden()
+    #     else:
+    #         return redirect(reverse_lazy("usuario:login"))
         
     def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         id = get_token_user_id(self.request)
 
         usuario = Usuario.objects.filter(pk=id).first()
         context['usuario'] = usuario
-
+        context['barbearias'] = Barbearia.objects.all()
+        
         if usuario.dono_barbearia:
             context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
 
         return context 
- 
+
+
 class UsuarioLogoutView(LogoutView):
     # Views para renderizar a tela inicial Cliente
 
@@ -111,7 +123,8 @@ class UsuarioLogoutView(LogoutView):
         request.session.flush()
 
         return response
-        
+
+
 class UsuarioView(TemplateView):    
     # Views para renderizar o perfil do usuario
     
@@ -120,13 +133,14 @@ class UsuarioView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         id = get_token_user_id(self.request)
-        user =  Usuario.objects.filter(pk=id).first()
+        user = Usuario.objects.filter(pk=id).first()
         context['usuario'] = user
 
         if user.dono_barbearia:
             context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
 
         return context
+
 
 class UsuarioAtualizarView(UpdateView):
     # Views para renderizar a tela de atualizar dados do usuario

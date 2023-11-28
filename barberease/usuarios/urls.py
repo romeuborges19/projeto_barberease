@@ -1,6 +1,5 @@
 from django.urls import path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
 from .views import UsuarioLoginView, UsuarioCadastrarView, UsuarioHomeView, UsuarioLogoutView, UsuarioRedefinePasswordView , UsuarioNewPasswordView, UsuarioView, UsuarioAtualizarView, ProcessGoogleLoginView
 
 

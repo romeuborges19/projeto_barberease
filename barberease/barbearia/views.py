@@ -16,6 +16,7 @@ from barbearia.models import Barbeiros
 from django.http import HttpResponse
 from django import http
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.models import Group as Groups
 
 
 class CadastrarDonoview(CreateView):
@@ -30,6 +31,8 @@ class CadastrarDonoview(CreateView):
         self.object = form.save()
         user = self.object
         user.dono_barbearia = True
+        dono_barbearia = Groups.objects.get(name='dono_barbearia')
+        user.groups.add(dono_barbearia)
         user.save()
         user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(self.request, user)
@@ -171,17 +174,12 @@ class CadastrarBarbeirosView(CreateView):
         barbearia = Barbearia.objects.filter(dono=user).first()
         return reverse_lazy("barbearia:home", kwargs={'pk': barbearia.id})
     
-    # def dispatch(self, request, *args, **kwargs):
-    #     obj = self.get_object()
-    #     user = self.request.user
-    #     barbearia = Barbearia.objects.filter(dono=user).first()
-        
-    #     if not request.user.is_authenticated:
-    #         return redirect("usuarios:login")
-    #     elif obj.barbearia_id != barbearia.id:
-    #             raise PermissionDenied()
-    #     return super().dispatch(request, *args, **kwargs)
-    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect("usuarios:login")
+        elif not request.user.dono_barbearia:
+            return http.HttpResponseForbidden()
+        return super().dispatch(request, *args, **kwargs)
 
 class ListarBarbeiros(ListView):
     # Views para renderizar a tela de listagem de barbeiros
