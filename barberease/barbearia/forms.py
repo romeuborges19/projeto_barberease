@@ -9,8 +9,6 @@ import os
 
 validate_cnpj = CNPJ()  # validador de cnpj
 
-
-
 class BarbeariaForm(forms.ModelForm):
 
     class Meta:

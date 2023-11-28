@@ -107,10 +107,12 @@ class ProfileBarbeariaView(DetailView):
         id_usuario = get_token_user_id(self.request)
         usuario = Usuario.objects.filter(id=id_usuario).first()
         context['usuario'] = usuario
-        barbearia = Barbearia.objects.filter(dono=self.request.user).first()
-        context['barbearia'] = barbearia
 
-        agenda = Agenda.objects.get(barbearia=barbearia)
+        if usuario.dono_barbearia:
+            barbearia = Barbearia.objects.filter(dono=self.request.user).first()
+            context['barbearia'] = barbearia
+
+        agenda = Agenda.objects.get(barbearia=self.kwargs['pk'])
 
         # Verifica se a barbearia está aberta
         now = datetime.now()
@@ -137,11 +139,11 @@ class ProfileBarbeariaView(DetailView):
             return redirect("usuarios:login")
         return super().dispatch(request, *args, **kwargs)
     
-    def get_object(self):
-        obj = super().get_object()
-        if obj.dono != self.request.user:
-            raise PermissionDenied()
-        return obj
+    # def get_object(self):
+    #     obj = super().get_object()
+    #     if obj.dono != self.request.user:
+    #         raise PermissionDenied()
+    #     return obj
 
 
 class EditarBarbeariaView(UpdateView):
