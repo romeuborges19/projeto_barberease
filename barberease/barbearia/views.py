@@ -42,8 +42,6 @@ class CadastrarDonoview(CreateView):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect("usuarios:login")
-        elif request.user.dono_barbearia:
-            return redirect("barbearia:home", kwargs=request.user.barbearia.id)
         return super().dispatch(request, *args, **kwargs)
 
 
