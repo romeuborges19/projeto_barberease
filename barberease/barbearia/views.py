@@ -150,6 +150,15 @@ class CadastrarBarbeirosView(CreateView):
     model = Barbeiros 
     form_class = BarbeirosForm
     template_name = "cadastrar_barbeiros.html"
+     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        id = get_token_user_id(self.request)
+        user =  Usuario.objects.filter(pk=id).first()
+        context['usuario'] = user
+        barbearia = Barbearia.objects.filter(dono_id=id).first()
+        context['barbearia'] = barbearia
+        return context
 
     def form_valid(self, form):
         user = self.request.user
@@ -162,16 +171,16 @@ class CadastrarBarbeirosView(CreateView):
         barbearia = Barbearia.objects.filter(dono=user).first()
         return reverse_lazy("barbearia:home", kwargs={'pk': barbearia.id})
     
-    def dispatch(self, request, *args, **kwargs):
-        obj = self.get_object()
-        user = self.request.user
-        barbearia = Barbearia.objects.filter(dono=user).first()
+    # def dispatch(self, request, *args, **kwargs):
+    #     obj = self.get_object()
+    #     user = self.request.user
+    #     barbearia = Barbearia.objects.filter(dono=user).first()
         
-        if not request.user.is_authenticated:
-            return redirect("usuarios:login")
-        elif obj.barbearia_id != barbearia.id:
-                raise PermissionDenied()
-        return super().dispatch(request, *args, **kwargs)
+    #     if not request.user.is_authenticated:
+    #         return redirect("usuarios:login")
+    #     elif obj.barbearia_id != barbearia.id:
+    #             raise PermissionDenied()
+    #     return super().dispatch(request, *args, **kwargs)
     
 
 class ListarBarbeiros(ListView):
@@ -183,12 +192,14 @@ class ListarBarbeiros(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        barbearia = self.request.user.barbearia
-        barbeiros = Barbeiros.objects.filter(barbearia=barbearia)
-        context['barbeiros'] = barbeiros
-        
+        id = get_token_user_id(self.request)
+        user =  Usuario.objects.filter(pk=id).first()
+        context['usuario'] = user
+        barbearia = Barbearia.objects.filter(dono_id=id).first()
+        context['barbearia'] = barbearia
+        context['barbeiros'] = Barbeiros.objects.filter(barbearia=barbearia)
         return context
-    
+        
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect("usuarios:login")
