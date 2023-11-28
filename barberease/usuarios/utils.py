@@ -18,4 +18,4 @@ def manage_login_redirect(request):
             return reverse_lazy("barbearia:cadastrar_barbearia")
     else:
         request.session['dono'] = False
-        return reverse_lazy("usuario:home")
+        return reverse_lazy("usuario:home", kwargs={'pk': usuario.id})

@@ -15,16 +15,8 @@ from django.contrib.auth import login
 from barbearia.models import Barbeiros
 from django.http import HttpResponse
 from django import http
+from django.core.exceptions import PermissionDenied
 
-class PerfilBarbeariaView(DetailView):
-    model = Barbearia
-    template_name = "perfil_barbearia.html"
-
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context['usuario'] = self.request.user
-
-        return context
 
 class CadastrarDonoview(CreateView):
     # Views para renderizar a tela de cadastro de Dono
@@ -43,6 +35,13 @@ class CadastrarDonoview(CreateView):
         login(self.request, user)
         return redirect(self.get_success_url())
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect("usuarios:login")
+        elif request.user.dono_barbearia:
+            return redirect("barbearia:home", kwargs=request.user.barbearia.id)
+        return super().dispatch(request, *args, **kwargs)
+
 
 class CadastrarBarbeariaview(CreateView):
     # Views para renderizar a tela de cadastro de Barbearia
@@ -60,28 +59,32 @@ class CadastrarBarbeariaview(CreateView):
         barbearia = Barbearia.objects.get(dono_id=self.request.user.pk)
         return reverse_lazy("agendamento:cadastrar_agenda")
     
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect("usuarios:login")
+        elif request.user.dono_barbearia:
+            return redirect("barbearia:home", kwargs=request.user.barbearia.id)
+        
+        return super().dispatch(request, *args, **kwargs)
+
+
 class HomeBarbeariaView(DetailView):
     # Views para renderizar a tela de home da barbearia
     
     template_name = "home_barbearia.html"
     model = Barbearia
-    
-    def get_object(self, queryset=None):
-        obj = super().get_object(queryset=queryset)
 
-        
-        if not obj:
-            raise http.HttpResponseForbidden()
+    def get_object(self):
+        obj = super().get_object()  
+        if obj.dono != self.request.user:
+            raise PermissionDenied()
         return obj
-
-    # annotation pronto
+    
     def dispatch(self, request, *args, **kwargs):
-            barbearia_atual = self.get_object()
-            if request.user.is_authenticated:
-                if barbearia_atual.dono == request.user:
-                    return super().dispatch(request, *args, **kwargs)
-            return http.HttpResponseForbidden()
-
+        if not request.user.is_authenticated:
+            return redirect("usuarios:login")
+        return super().dispatch(request, *args, **kwargs)
+       
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['usuario'] = self.request.user
@@ -104,6 +107,18 @@ class ProfileBarbeariaView(DetailView):
         context['barbearia'] = barbearia
         return context
     
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect("usuarios:login")
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_object(self):
+        obj = super().get_object()
+        if obj.dono != self.request.user:
+            raise PermissionDenied()
+        return obj
+
+
 class EditarBarbeariaView(UpdateView):
     # Views para renderizar a tela de edição da barbearia
     
@@ -116,6 +131,17 @@ class EditarBarbeariaView(UpdateView):
         user = self.request.user
         form.instance.dono = user
         return super().form_valid(form)
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect("usuarios:login")
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_object(self):
+        obj = super().get_object()
+        if obj.dono != self.request.user:
+            raise PermissionDenied()
+        return obj
     
 
 class CadastrarBarbeirosView(CreateView):
@@ -130,12 +156,24 @@ class CadastrarBarbeirosView(CreateView):
         barbearia = Barbearia.objects.filter(dono=user).first()
         form.instance.barbearia = barbearia
         return super().form_valid(form)
-
+    
     def get_success_url(self):
         user = self.request.user
         barbearia = Barbearia.objects.filter(dono=user).first()
-        return reverse_lazy("barbearia:home", kwargs={'pk':barbearia.id })
+        return reverse_lazy("barbearia:home", kwargs={'pk': barbearia.id})
     
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        user = self.request.user
+        barbearia = Barbearia.objects.filter(dono=user).first()
+        
+        if not request.user.is_authenticated:
+            return redirect("usuarios:login")
+        elif obj.barbearia_id != barbearia.id:
+                raise PermissionDenied()
+        return super().dispatch(request, *args, **kwargs)
+    
+
 class ListarBarbeiros(ListView):
     # Views para renderizar a tela de listagem de barbeiros
     
@@ -150,7 +188,13 @@ class ListarBarbeiros(ListView):
         context['barbeiros'] = barbeiros
         
         return context
- 
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect("usuarios:login")
+        return super().dispatch(request, *args, **kwargs)
+
+
 class DeletarBarbeiros(DeleteView):
     # Views para renderizar a tela de deletar barbeiros
     
@@ -159,6 +203,18 @@ class DeletarBarbeiros(DeleteView):
     template_name = 'barbeiros_deletar.html'
     context_object_name = 'barbeiro'
     
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        user = self.request.user
+        barbearia = Barbearia.objects.filter(dono=user).first()
+        
+        if not request.user.is_authenticated:
+            return redirect("usuarios:login")
+        elif obj.barbearia_id != barbearia.id:
+                raise PermissionDenied()
+        return super().dispatch(request, *args, **kwargs)
+    
+
 class EditarBarbeirosView(UpdateView):
     # Views para renderizar a tela de edição de barbeiros
     
@@ -173,3 +229,15 @@ class EditarBarbeirosView(UpdateView):
         form.instance.barbearia = barbearia
 
         return super().form_valid(form)
+    
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        user = self.request.user
+        barbearia = Barbearia.objects.filter(dono=user).first()
+        
+        if not request.user.is_authenticated:
+            return redirect("usuarios:login")
+        elif obj.barbearia_id != barbearia.id:
+                raise PermissionDenied()
+        return super().dispatch(request, *args, **kwargs)
+    
