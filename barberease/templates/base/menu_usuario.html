@@ -3,7 +3,7 @@
 
 	<nav class="navbar navbar-expand-lg navbar-dark custom-bg-color">
     <div class="container-fluid">
-      <a class="navbar-brand ms-5 mt-1 mb-4" href="{% url 'usuario:home' pk=usuario.pk %}">BarberEase</a>
+      <a class="navbar-brand ms-5 mt-1 mb-4" href="{% url 'usuario:home' pk=usuario.pk usuario.pk %}">BarberEase</a>
     </div>
   </nav>
   <div id="sidebar">
@@ -26,7 +26,7 @@
               </a>
             </div>
             <div class="item ms-2 mt-0">
-              <a class="side-bar-button" href="{% url 'usuario:home' pk=usuario.pk %}">
+              <a class="side-bar-button" href="{% url 'usuario:home' %}">
                 <div class="button-container">
                   <div class="button-img">
                     <img src="{% static 'usuarios/icons/home.png' %}">   
