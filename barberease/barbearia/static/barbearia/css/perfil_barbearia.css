@@ -149,6 +149,7 @@ main {
 	font-size: 14px;
 	font-weight: 500;
 	text-decoration: none;
+	text-align: center;
 	border-radius: 10px;;
 	color: #402009;
 	transition: 200ms;
@@ -156,6 +157,14 @@ main {
 
 .barbearia-local-button-container:hover {
 	background-color: #ddb9a1;
+}
+
+.agendar-horario-button-container-responsive {
+	display: none;
+}
+
+.barbearia-center-container {
+	display: none;
 }
 
 @media (max-width: 1000px) {
@@ -170,12 +179,17 @@ main {
 }
 
 @media (max-width: 795px) {
+	.barbearia-logo-container {
+		width: 100px;
+		height: 100px;
+	}
+
 	.barbearia-profile-container {
 		width: 100%;
 	}
 
 	.barbearia-nome {
-		font-size: 30px;
+		font-size: 24px;
 		font-weight: 500;
 	}
 
@@ -184,11 +198,52 @@ main {
 	}
 
 	.agendar-horario-button-container {
-		padding: 0.6rem 2rem;
+		font-size: 12px;
+		padding: 0.3rem 1rem;
 	}
+
 }
 
-@media (max-width: 500px) {
+@media (max-width: 540px) {
+	.barbearia-local-endereco-container {
+		font-size: 12px;
+	}
+
+	.barbearia-sobre {
+		color: black;
+	}
+
+	.barbearia-center-container {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	.barbearia-sobre-box-container {
+		margin-top: 1rem;
+		background-color: white;
+		box-shadow: none;
+		padding: 0px;
+	}
+
+	.agendar-horario-button-container-responsive {
+		display: block;
+		font-family: 'Kanit', sans-serif;
+		font-weight: 400;
+		background-color: #754B2B;
+		padding: .6rem 3rem;
+		width: 90%;
+		border-radius: 10px;
+		text-decoration: none;
+		color: white;
+		transition: 200ms;
+		text-align: center;
+	}
+
+	.agendar-horario-button-container {
+		display: none;
+	}
+
 	main{
 		padding-top: 0px;
 	}
@@ -197,16 +252,17 @@ main {
 	}
 
 	.barbearia-nome {
-		font-size: 20px;
+		font-size: 24px;
 		font-weight: 500;
 	}
 
-	.barbearia-info-top-container {
-		gap: 10px;
+
+	.barbearia-horario-container p{
+		margin: 0px;
 	}
 
-	.barbearia-info-contaier {
-		font-size: 12px;
+	.barbearia-info-top-container {
+		display: flex;
 	}
 
 	.background-image{
@@ -215,7 +271,8 @@ main {
 	}
 
 	.barbearia-logo-container {
-		width: 100px;
-		height: 100px;
+		width: 75px;
+		height: 75px;
 	}
+
 }
