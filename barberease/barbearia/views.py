@@ -1,3 +1,4 @@
+from datetime import date, datetime, time
 import http
 from typing import Any
 from django.db import models
@@ -8,7 +9,7 @@ from usuarios.authentication import create_acess_token, get_acess_token, get_tok
 from usuarios.forms import UsuarioForm
 from barbearia.forms import BarbeariaForm, BarbeirosForm
 from .models import Barbearia
-from agendamento.models import Servico 
+from agendamento.models import Agenda, Servico 
 from usuarios.models import Usuario
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 from django.contrib.auth import login
@@ -103,11 +104,34 @@ class ProfileBarbeariaView(DetailView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
+
+        # Carregando dados do usuário
         id_usuario = get_token_user_id(self.request)
         usuario = Usuario.objects.filter(id=id_usuario).first()
         context['usuario'] = usuario
         barbearia = Barbearia.objects.filter(dono=self.request.user).first()
         context['barbearia'] = barbearia
+
+        agenda = Agenda.objects.get(barbearia=barbearia)
+
+        # Verifica se a barbearia está aberta
+        now = datetime.now()
+        now = now.strftime("%H")
+        now = now + ':00'
+
+        # Vetor que relaciona o índice da função weekday com o índice de cada dia da semana no banco
+        dias = [6, 4, 1, 2, 0, 3, 5]
+        hoje = date.today().weekday()
+        horarios_hoje = list(agenda.horarios_funcionamento.values())[dias[hoje]]
+
+        for hora in horarios_hoje:
+            if hora == now:
+                context['aberto'] = "Aberto agora"
+                break
+            context['aberto'] = "Fechado"
+
+        context['fecha_as'] = horarios_hoje[-1].strip(":00")
+
         return context
     
     def dispatch(self, request, *args, **kwargs):
