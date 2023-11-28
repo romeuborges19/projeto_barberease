@@ -33,14 +33,14 @@
 			<div class="barbearia-info-container">
 				<div class="barbearia-info-top-container">
 					<div class="barbearia-nome-container">
-						<p class="barbearia-nome"> Barbearia do Gabriel </p>
+						<p class="barbearia-nome"> {{ barbearia.nome }} </p>
 					</div>
 					<a class="agendar-horario-button-container" href="#">Agende seu horário</a>
 				</div>
 				
 				<div class="barbearia-horario-container">
-					<p class="barbearia-horario-bool"> Aberto agora </p>
-					<p class="barbearia-horario-fechamento">  • Fecha às 18h </p>
+					<p class="barbearia-horario-bool"> {{ aberto }} </p>
+					<p class="barbearia-horario-fechamento">  • Fecha às {{ fecha_as }}h </p>
 				</div>
 			</div>
 
