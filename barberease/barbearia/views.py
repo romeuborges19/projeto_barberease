@@ -18,6 +18,7 @@ from django.http import HttpResponse
 from django import http
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import Group as Groups
+from django.contrib import messages
 
 
 class CadastrarDonoview(CreateView):
@@ -191,12 +192,13 @@ class CadastrarBarbeirosView(CreateView):
         user = self.request.user
         barbearia = Barbearia.objects.filter(dono=user).first()
         form.instance.barbearia = barbearia
+        messages.success(self.request, 'Barbeiro cadastrado com sucesso!')  
         return super().form_valid(form)
     
     def get_success_url(self):
         user = self.request.user
         barbearia = Barbearia.objects.filter(dono=user).first()
-        return reverse_lazy("barbearia:home", kwargs={'pk': barbearia.id})
+        return reverse_lazy("barbearia:listar_barbeiros")
     
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -246,6 +248,12 @@ class DeletarBarbeiros(DeleteView):
         elif obj.barbearia_id != barbearia.id:
                 raise PermissionDenied()
         return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        id = get_token_user_id(self.request)
+        user =  Usuario.objects.filter(pk=id).first()
+        context['usuario'] = user
     
 
 class EditarBarbeirosView(UpdateView):

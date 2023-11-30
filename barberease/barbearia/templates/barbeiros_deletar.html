@@ -1,15 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base/header.html' %}
+{% load static %}
+
+{% block title %}Deletar Barbeiro{% endblock title %}
+{% block extra_css %}
+    <link href="{% static 'barbearia/css/style_deletar.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
     <form method="post">
         {% csrf_token %}
-        <h1>Voce deseja apagar o barbeiro(a) {{ barbeiro.nome }}?</h1>
-        <a href="{% url 'barbearia:listar_barbeiros' %}">cancelar</a>
+        <div class="container">
+            <p class="texto">Você deseja apagar o barbeiro (a) {{ barbeiro.nome }}?</p>
+        <a href="{% url 'barbearia:listar_barbeiros' %}"></a>
         <input type="submit" value="Excluir">
+        </div>
+        
 </form>
-</body> 
-</html>
+{% endblock content %}
+

@@ -4,7 +4,7 @@ import jwt
 def create_acess_token(id_usuario):
     return jwt.encode({
         'id_usuario': id_usuario,
-        'exp': datetime.utcnow() + timedelta(seconds=3600),
+        'exp': datetime.utcnow() + timedelta(seconds=12000),
         'iat': datetime.now()
     }, 'refresh_secret', algorithm='HS256')
 

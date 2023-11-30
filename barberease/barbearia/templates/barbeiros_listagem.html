@@ -19,6 +19,13 @@
 		</button>
 		</a>
 	</div>
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" id="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endif %}
     <div class="table-responsive-sm">
         <table class="table">
             <thead>
@@ -47,5 +54,10 @@
         </table>
     </div>
 </div>
+<script>
+    // TODO: remover alerta após 3 segundos fazer isso dar certoooo
+        $('.alert').fadeOut('fast')
+</script>
+
 </div>
 {% endblock content %}
