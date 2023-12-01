@@ -108,15 +108,21 @@ class AgendaBarbeariaView(DetailView):
         context['agenda'] = agenda 
         id_barbearia = agenda.barbearia_id
 
-
         # Gerando uma lista que armazena os horários disponíveis da barbearia, 
         # sem repetir valores
         coluna_horarios = []
 
         agenda.horarios_funcionamento = semana_sort(agenda.horarios_funcionamento.items())
-
         dias_semana = get_dias_semana()
         context['dias_semana'] = get_dias_semana()
+        print(f'{context["dias_semana"]}')
+        dias_semana[0] = datetime.strptime(dias_semana[0], "%d-%m-%Y").strftime("%Y-%m-%d")
+        dias_semana[-1] = datetime.strptime(dias_semana[-1], "%d-%m-%Y").strftime("%Y-%m-%d")
+        
+        agendamentos = Agendamento.objects.filter(
+            data__date__range=(dias_semana[0], dias_semana[-1]), 
+            agenda_id=agenda.pk, 
+            aprovado=True)
         
         for _, horarios in agenda.horarios_funcionamento.items():
             for horario in horarios:
@@ -133,7 +139,7 @@ class AgendaBarbeariaView(DetailView):
             for _, horarios in agenda.horarios_funcionamento.items():
                 if hora in horarios:
                     celula = Celula(dias_semana[i], hora, True)
-                    celula.get_agendamentos(id_barbearia)
+                    celula.get_agendamentos(agendamentos)
                     row.append(celula)
                 else: 
                     row.append(Celula(dias_semana[i], hora, False))
@@ -228,12 +234,10 @@ class ListarServicosView(ListView):
     template_name = 'servicos_listagem.html'
     paginate_by = 10
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_queryset(self):
         barbearia = self.request.user.barbearia
-        servicos = Servico.objects.filter(barbearia=barbearia)
-        context['servicos'] = servicos
-        return context
+        servicos = Servico.objects.filter(barbearia_id=barbearia.id)
+        return servicos
     
 class DeletarServicoView(DeleteView):
     # Views para renderizar a tela de deletar Serviço

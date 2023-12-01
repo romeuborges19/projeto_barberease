@@ -38,17 +38,21 @@ class Celula:
         if int(self.hora_hora) < 10:
             self.hora_hora = '0' + self.hora_hora
 
-    def get_agendamentos(self, barbearia_id):
+    def get_agendamentos(self, agendamentos):
         #TODO: Otimizar esta função
-        dia = datetime.strptime(self.dia, "%d-%m-%Y").strftime("%Y-%m-%d")
-        print(f'id barbearia: {barbearia_id}')
-        agenda_id = Agenda.objects.values_list('id', flat=True).get(barbearia_id=barbearia_id)
+        dia = self.dia
 
-        self.agendamentos = Agendamento.objects.filter(
-            data__date=dia, data__hour=self.hora_hora,
-            agenda_id=agenda_id,
-            aprovado=True,
-        ).order_by('data')
+        # self.agendamentos = Agendamento.objects.filter(
+        #     data__date=dia, data__hour=self.hora_hora,
+        #     agenda_id=agenda_id,
+        #     aprovado=True,
+        # ).order_by('data')
+
+        self.agendamentos = []
+
+        for agendamento in agendamentos:
+            if agendamento.data.date().strftime("%Y-%m-%d") == dia and agendamento.data.strftime("%H") == self.hora_hora:
+                self.agendamentos.append(agendamento)
 
         for agendamento in self.agendamentos:
             agendamento.hora_inicio = agendamento.data.strftime("%H:%M")

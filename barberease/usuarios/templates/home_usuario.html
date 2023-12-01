@@ -53,12 +53,14 @@
             <span>Mais barbearias</span>
         </div>
         {% for barbearia in barbearias %}
+		{% if barbearia.logo %}
         {{ barbearia.logo.url }}
+		{% endif %}
         <div class="mais-barbearias-container">
           <div class="barbearia-container-container">
             <div class="logo-more-container">
                 <div class="logo-more">
-                    <img src="{{barbearia.logo.url}}" alt="{{ barbearia.nome }} logo">
+					<img src="{% if barbearia.logo %} {{barbearia.logo.url}} {% endif %}" alt="{{ barbearia.nome }} logo">
                    
                 </div>
             </div>
