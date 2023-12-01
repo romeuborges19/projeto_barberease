@@ -21,6 +21,9 @@ from django.contrib.auth.models import Group as Groups
 from django.contrib import messages
 
 
+
+# TODO: CRIAR VIEW HERANÇA COM METODOS USUAVEIS PARA TODAS AS VIEWS
+
 class CadastrarDonoview(CreateView):
     # Views para renderizar a tela de cadastro de Dono
     
@@ -252,9 +255,9 @@ class DeletarBarbeiros(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         id = get_token_user_id(self.request)
-        user =  Usuario.objects.filter(pk=id).first()
-        context['usuario'] = user
-    
+        context['usuario'] = Usuario.objects.filter(pk=id).first()
+        context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
+
 
 class EditarBarbeirosView(UpdateView):
     # Views para renderizar a tela de edição de barbeiros
@@ -263,6 +266,7 @@ class EditarBarbeirosView(UpdateView):
     form_class = BarbeirosForm
     template_name = "barbeiros_editar.html"
     success_url = reverse_lazy("barbearia:listar_barbeiros")
+    context_object_name = 'barbeiro'
 
     def form_valid(self, form):
         user = self.request.user
@@ -281,4 +285,12 @@ class EditarBarbeirosView(UpdateView):
         elif obj.barbearia_id != barbearia.id:
                 raise PermissionDenied()
         return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        id = get_token_user_id(self.request)
+        user =  Usuario.objects.filter(pk=id).first()
+        context['usuario'] = user
+        context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
+        return context
     
