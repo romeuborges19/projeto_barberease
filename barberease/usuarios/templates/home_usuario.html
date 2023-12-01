@@ -1,10 +1,9 @@
-
 {% extends 'base/header.html' %}
 {% load static %}
 {% block title %}Home{% endblock title %}
 
-{% block extra_css %}
-    <link href="{% static 'usuarios/css/stylehome.css' %}" rel="stylesheet">
+{% block extra_css%}
+        <link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/stylehome.css' %}">
 {% endblock extra_css %}
 
 {% block contentmenu %}
@@ -15,46 +14,65 @@
 {% endif %}
 {% endblock contentmenu %}
 
-
 {% block content %}
+    <div class="main-container">
+        <div class="agendamento-container-container">
+            <div class="agendamento-top-container">
+                <div class="agendamento-titulo-container">
+                    <span>Seu próximo horário:</span>   
+                </div>
+            </div>
+            <div class="agendamento-centro-container">
+                <div class="logo-container">
+                    <div class="logo">
+                    </div>
+                </div>
+                <div class="agendamento-info-container">
+                    <div class="agendamento-nome-container">
+                        <span class="agendamento-nome">Bolt's Barber Shop</span>
+                    </div>
+                    <div class="agendamento-address-container">
+                        <span class="agendamento-address">Av. Teotônio, Qd. 602s, Lt.0</span>
+                    </div>
+                </div>
+                <div class="agendamento-data-hora-container">
+                    <div class="agendamento-data-container">
+                        <span> Seg. 24/11/2023</span>
+                    </div>
+                    <div class="agendamento-hora-container">
+                        <span>15:00h - 16:00h</span>
+                    </div>
+                </div>
+            </div>
+            <div class="agendamento-buttom-container">
+                    <input class="bottoment" type="submit" value="Cancelar"/>
+            </div>
+        </div>
+    
+        <div class="mess">
+            <span>Mais barbearias</span>
+        </div>
+        {% for barbearia in barbearias %}
+        {{ barbearia.logo.url }}
+        <div class="mais-barbearias-container">
+          <div class="barbearia-container-container">
+            <div class="logo-more-container">
+                <div class="logo-more">
+                    <img src="{{barbearia.logo.url}}" alt="{{ barbearia.nome }} logo">
+                   
+                </div>
+            </div>
+            <div class="barbearia-info-container">
+                <div class="barbearia-nome-container">
+                    <span class="barbearia-nome">{{ barbearia.nome }}</span>
+                </div>
+                <div class="barbearia-address-container">
+                    <span class="barbearia-address">{{ barbearia.endereco }}</span>
+                </div>
 
-	<div class="container">
-			<form method="POST">
-				<div class="centro">
-					{% csrf_token %}
-                    
-                    <div class="form-input-container">
-						<div class="field-container">
-								<div class="form-control-container">
-                                        <span>Seu próximo horário:</span> 
-								</div>
-						</div>
-                        <div class="field-container">
-                            <div class="form-name">
-                                    <span>Bolt's Barber Shop</span> 
-                            </div>
-                        <div class="field-container">
-                            <div class="form-address">
-                                    <span>Av. Teotônio, Qd. 602s, Lt.0</span> 
-                            </div>       
-                    </div>
-                    </div>
-                    <div class="logo-container">
-                        <div class="logo"> </div>   
-                    </div>
-                    <div class="form-input-container">
-					    <div class="form-button-container">
-						    <input class="bottoment" type="submit" value="Cancelar"/>
-					    </div> 
-                    </div>    
-                </div> 
-                <div class="mess">
-                    <span>Mais barbearias perto de você</span>  
-                </div>   
-                {% for barbearia in barbearias %}
-                    <p>{{ barbearia }} -> <a href="{% url 'agendamento:agendar' barbearia.pk %}">Realizar Agendamento</a></p>
-              {% endfor %}
-			</form>
+            </div>
+          </div>
+          {% endfor %}
     </div>
 {% endblock content %}
 </html>
