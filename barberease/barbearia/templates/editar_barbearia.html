@@ -1,11 +1,13 @@
 {% extends 'base/header.html' %}
 
+
 {% load static %}
-  
+{% load widget_tweaks %}
+
 {% block title %}Perfil{% endblock title %}
 
 {% block extra_css %}
-<link rel="stylesheet" type="text/css" href="{% static 'barbearia/css/perfil_barbearia.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'barbearia/css/editar_barbearia.css' %}">
 {% endblock extra_css %}
 
 {% block contentmenu %}
@@ -18,7 +20,27 @@
 {% endblock contentmenu %}
 
 {% block content %}
-{{ form.as_p }}
+<main>
+	<form method="POST">
+		{% csrf_token %}
+		<div class="form-title-container">
+			<p class="form-title"> Editar Perfil da Barbearia </p>
+		</div>
+		<div class="form-fields-container">
+			{% for field in form %}
+				{{ field.label }}
+				{% render_field field class="form-control" %}
+				{% if field.errors %}
+					{% for error in field.errors %}
+						{{ error }}
+					{% endfor %}
+				{% endif %}
+				<br>
+			{% endfor %}
+			<input type="submit" class="form-submit-button" value="Editar">
+		</div>
+	</form>
+</main>
 {% endblock content %}
 </body>
 </html>

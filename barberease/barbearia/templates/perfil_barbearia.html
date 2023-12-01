@@ -35,7 +35,11 @@
 					<div class="barbearia-nome-container">
 						<p class="barbearia-nome"> {{ barbearia.nome }} </p>
 					</div>
-					<a class="agendar-horario-button-container" href="{% url 'agendamento:agendar' barbearia.id %}">Agende seu horário</a>
+					{% if usuario.dono_barbearia %}
+						<a class="agendar-horario-button-container" href="{% url 'barbearia:editar' barbearia.pk %}">Editar perfil</a>
+					{% else %}
+						<a class="agendar-horario-button-container" href="{% url 'agendamento:agendar' %}">Agende seu horário</a>
+					{% endif %}
 				</div>
 				
 				<div class="barbearia-horario-container">
@@ -46,12 +50,18 @@
 
 		</div>
 		<div class="barbearia-center-container">
-			<a class="agendar-horario-button-container-responsive" href="#">Agende seu horário</a>
+			{% if usuario.dono_barbearia%}
+				<a class="agendar-horario-button-container-responsive" href="{% url 'barbearia:editar' barbearia.pk %}">Editar perfil</a>
+			{% else %}
+				<a class="agendar-horario-button-container-responsive" href="{% url 'agendamento:agendar' %}">Agende seu horário</a>
+			{% endif %}
 		</div>
 		<div class="barbearia-body-container">
 			<div class="barbearia-sobre-box-container">
 				<div class="barbearia-sobre-container">
-					<p class="barbearia-sobre"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+					{% if barbearia.descricao %}
+						<p class="barbearia-sobre"> {{ barbearia.descricao}} </p>
+					{% endif %}
 				</div>
 				<div class="barbearia-local-container">
 					<div class="barbearia-local-endereco-container">
@@ -67,7 +77,7 @@
 							</svg>
 						</div>
 						<div class="barbearia-local-endereco">
-							<p>Quadra 704 Sul Avenida Norte-Sul 04, Lote 05, Plano Diretor Sul, Palmas - TO, 77022-356</p>
+							<p> {{ barbearia.setor}}, {% if barbearia.complemento %} {{barbearia.complemento }}, {% endif %} {{ barbearia.cidade}} ({{ barbearia.estado}}) - {{ barbearia.cep }}</p>
 						</div>
 					</div>
 					

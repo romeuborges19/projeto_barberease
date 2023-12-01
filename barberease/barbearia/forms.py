@@ -1,4 +1,6 @@
 from logging import raiseExceptions
+
+from django.db.models import Q
 from usuarios.models import Usuario
 from .models import Barbearia, Barbeiros
 from django import forms
@@ -65,7 +67,7 @@ class BarbeariaForm(forms.ModelForm):
 class BarbeariaUpdateForm(forms.ModelForm):
     class Meta:
         model = Barbearia
-        fields = ['nome', 'logo', 'telefone', 'cep', 'setor', 'cidade', 'estado', 'complemento']
+        fields = ['nome', 'logo', 'descricao', 'telefone', 'cep', 'setor', 'cidade', 'estado', 'complemento']
 
     def clean(self):
         cleaned_data = super(BarbeariaUpdateForm, self).clean()
@@ -74,7 +76,7 @@ class BarbeariaUpdateForm(forms.ModelForm):
         cep = self.cleaned_data.get("cep")
         self.cleaned_data["cep"] = remove_mask(cep)
 
-        logo = self.cleaned_data("logo")
+        logo = self.cleaned_data.get("logo")
         tamanho = 5 * 1024 * 1024
 
         if logo:
@@ -90,7 +92,7 @@ class BarbeariaUpdateForm(forms.ModelForm):
             if len(telefone) < 10:
                 self.add_error('telefone', 'Telefone inválido')
 
-            elif Barbearia.objects.filter(telefone=telefone).exists():
+            elif Barbearia.objects.filter(~Q(id=self.instance.pk), telefone=telefone).exists():
                 self.add_error('telefone', 'Telefone já cadastrado')       
 
         if cep and len(cep) < 8:

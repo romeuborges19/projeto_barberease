@@ -172,7 +172,7 @@ class EditarBarbeariaView(UpdateView):
 
     def get_success_url(self):
         id_barbearia = self.kwargs['pk']
-        return reverse_lazy("barbearia:home", kwargs={'pk':id_barbearia})
+        return reverse_lazy("barbearia:perfil_barbearia", kwargs={'pk':id_barbearia})
 
     def form_valid(self, form):
         user = self.request.user
