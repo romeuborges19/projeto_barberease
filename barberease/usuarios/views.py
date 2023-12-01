@@ -104,9 +104,6 @@ class UsuarioHomeView(DetailView):
         usuario = Usuario.objects.filter(pk=id).first()
         context['usuario'] = usuario
         context['barbearias'] = Barbearia.objects.all()
-        
-        if usuario.dono_barbearia:
-            context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
 
         return context 
 
