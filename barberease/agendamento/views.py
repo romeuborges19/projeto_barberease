@@ -16,6 +16,15 @@ from agendamento.models import Agenda, Agendamento, Servico, Barbeiros
 from agendamento.utils import Celula, get_dias_semana, is_ajax, semana_sort
 from barbearia.models import Barbearia
 
+DIAS = (
+    (0, "Segunda-feira"),
+    (1, "Terça-feira"),
+    (2, "Quarta-feira"),
+    (3, "Quinta-feira"),
+    (4, "Sexta-feira"),
+    (5, "Sábado"),
+    (6, "Domingo")
+)
 
 # Create your views here.
 
@@ -256,6 +265,12 @@ class GerenciarPedidosView(ListView):
         agenda_id = self.kwargs['pk']
         queryset = Agendamento.objects.filter(agenda_id=agenda_id)
         
+        for pedido in queryset:
+            pedido.hora_fim = pedido.hora_fim.strftime("%H:%M")
+            pedido.hora_inicio = pedido.data.time().strftime("%H:%M")
+            pedido.dia = pedido.data.date().strftime("%d/%m/%Y")
+            pedido.dia_semana = DIAS[pedido.data.weekday()][1]
+
         return queryset
     
     def get_context_data(self, *, object_list=None, **kwargs):
