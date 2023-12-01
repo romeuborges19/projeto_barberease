@@ -35,7 +35,7 @@
 					<div class="barbearia-nome-container">
 						<p class="barbearia-nome"> {{ barbearia.nome }} </p>
 					</div>
-					<a class="agendar-horario-button-container" href="#">Agende seu horário</a>
+					<a class="agendar-horario-button-container" href="{% url 'agendamento:agendar' barbearia.id %}">Agende seu horário</a>
 				</div>
 				
 				<div class="barbearia-horario-container">

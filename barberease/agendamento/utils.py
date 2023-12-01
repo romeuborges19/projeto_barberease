@@ -41,6 +41,7 @@ class Celula:
     def get_agendamentos(self, barbearia_id):
         #TODO: Otimizar esta função
         dia = datetime.strptime(self.dia, "%d-%m-%Y").strftime("%Y-%m-%d")
+        print(f'id barbearia: {barbearia_id}')
         agenda_id = Agenda.objects.values_list('id', flat=True).get(barbearia_id=barbearia_id)
 
         self.agendamentos = Agendamento.objects.filter(

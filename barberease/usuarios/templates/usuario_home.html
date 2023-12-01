@@ -25,7 +25,7 @@
     {% endif %}
     <p><a href="{% url 'usuario:perfil' pk=usuario.pk %}">Ver perfil</a></p>
     {% for barbearia in object_list %}
-      <p>{{ barbearia }} -> <a href="{% url 'agendamento:agenda_agendamento' barbearia.pk %}">Realizar Agendamento</a></p>
+      <p>{{ barbearia }} -> <a href="{% url 'agendamento:agendar' barbearia.pk %}">Realizar Agendamento</a></p>
     {% endfor %}
 {% endblock content %}
 

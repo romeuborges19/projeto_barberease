@@ -7,6 +7,7 @@ app_name = "barbearia"
 
 urlpatterns = [
     path("perfil/<int:pk>", ProfileBarbeariaView.as_view(), name="perfil_barbearia"),
+    path("editar/<int:pk>", EditarBarbeariaView.as_view(), name="editar"),
     path("cadastrar/dono", CadastrarDonoview.as_view(), name="cadastrar_dono"),
     path("cadastrar/", CadastrarBarbeariaview.as_view(), name="cadastrar_barbearia"),
     path("home/<int:pk>", HomeBarbeariaView.as_view(), name="home"),

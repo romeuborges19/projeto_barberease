@@ -52,7 +52,7 @@
                     <span>Mais barbearias perto de você</span>  
                 </div>   
                 {% for barbearia in barbearias %}
-                    <p>{{ barbearia }} -> <a href="{% url 'agendamento:agenda_agendamento' barbearia.pk %}">Realizar Agendamento</a></p>
+                    <p>{{ barbearia }} -> <a href="{% url 'agendamento:agendar' barbearia.pk %}">Realizar Agendamento</a></p>
               {% endfor %}
 			</form>
     </div>

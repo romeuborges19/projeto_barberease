@@ -1,0 +1,24 @@
+{% extends 'base/header.html' %}
+
+{% load static %}
+  
+{% block title %}Perfil{% endblock title %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'barbearia/css/perfil_barbearia.css' %}">
+{% endblock extra_css %}
+
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+	{% include 'base/menu_usuario.html' %}
+{% endif %}
+
+{% endblock contentmenu %}
+
+{% block content %}
+{{ form.as_p }}
+{% endblock content %}
+</body>
+</html>

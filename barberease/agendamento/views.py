@@ -23,7 +23,10 @@ class RealizarAgendamentoView(CreateView):
     model = Agendamento
     form_class = AgendamentoForm
     template_name = "agendamento_cadastro.html"
-    success_url = reverse_lazy("usuario:home")
+
+    def get_success_url(self):
+        usuario_id = self.request.user.id
+        return reverse_lazy("usuario:home", kwargs={'pk': usuario_id})
 
     def get_form_kwargs(self):
         queryset = Servico.objects.filter(barbearia_id=self.kwargs['pk'])
@@ -94,6 +97,7 @@ class AgendaBarbeariaView(DetailView):
         context = super().get_context_data(**kwargs)
         agenda = self.object
         context['agenda'] = agenda 
+        id_barbearia = agenda.barbearia_id
 
 
         # Gerando uma lista que armazena os horários disponíveis da barbearia, 
@@ -120,7 +124,7 @@ class AgendaBarbeariaView(DetailView):
             for _, horarios in agenda.horarios_funcionamento.items():
                 if hora in horarios:
                     celula = Celula(dias_semana[i], hora, True)
-                    celula.get_agendamentos(self.kwargs['pk'])
+                    celula.get_agendamentos(id_barbearia)
                     row.append(celula)
                 else: 
                     row.append(Celula(dias_semana[i], hora, False))
@@ -146,6 +150,7 @@ class AgendaAgendamentoView(DetailView):
         context = super().get_context_data(**kwargs)
         agenda = self.object
         context['agenda'] = agenda 
+        id_barbearia = agenda.barbearia_id
 
         # Gerando uma lista que armazena os horários disponíveis da barbearia, 
         # sem repetir valores
@@ -172,7 +177,7 @@ class AgendaAgendamentoView(DetailView):
                 if hora in horarios:
                     hora = datetime.strptime(f"{hora}", "%H:%M").strftime("%H:%M")
                     celula = Celula(dias_semana[i], hora, True)
-                    celula.get_agendamentos(self.kwargs['pk'])
+                    celula.get_agendamentos(id_barbearia)
                     celula.get_disponibilidade()
                     row.append(celula)
                 else: 

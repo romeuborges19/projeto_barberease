@@ -31,6 +31,7 @@ class BarbeariaForm(forms.ModelForm):
         self.cleaned_data['cep'] = remove_mask(cep)
         usuario = self.usuario
         tamanho = 5 * 1024 * 1024
+
         if Barbearia.objects.filter(dono=usuario).exists() and usuario.dono_barbearia:
             return raiseExceptions("Você já possui uma barbearia cadastrada com esse usuario")
         
@@ -61,6 +62,48 @@ class BarbeariaForm(forms.ModelForm):
                 self.add_error('logo', 'Formato de imagem inválido, formatos aceitos: png, jpeg, jpg')
         return cleaned_data
 
+class BarbeariaUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Barbearia
+        fields = ['nome', 'logo', 'telefone', 'cep', 'setor', 'cidade', 'estado', 'complemento']
+
+    def clean(self):
+        cleaned_data = super(BarbeariaUpdateForm, self).clean()
+
+        telefone = self.cleaned_data.get("telefone")
+        cep = self.cleaned_data.get("cep")
+        self.cleaned_data["cep"] = remove_mask(cep)
+
+        logo = self.cleaned_data("logo")
+        tamanho = 5 * 1024 * 1024
+
+        if logo:
+            ext = os.path.splitext(logo.name)
+            print(ext)
+            if logo.size > tamanho:
+                self.add_error('logo', 'Imagem muito grande, tamanho máximo 5MB')
+        
+            elif ext[1] not in ['.png', '.jpeg', '.jpg']:
+                self.add_error('logo', 'Formato de imagem inválido, formatos aceitos: png, jpeg, jpg')
+
+        if telefone:
+            if len(telefone) < 10:
+                self.add_error('telefone', 'Telefone inválido')
+
+            elif Barbearia.objects.filter(telefone=telefone).exists():
+                self.add_error('telefone', 'Telefone já cadastrado')       
+
+        if cep and len(cep) < 8:
+            self.add_error('cep', 'CEP inválido')
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        instance = super(BarbeariaUpdateForm, self).save(commit=False)
+
+        if commit:
+            instance.save()
+        return instance
 
 class BarbeirosForm(forms.ModelForm):
     class Meta:

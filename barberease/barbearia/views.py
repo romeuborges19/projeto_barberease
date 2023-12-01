@@ -1,5 +1,6 @@
 from datetime import date, datetime, time
 import http
+from os import getpid
 from typing import Any
 from django.db import models
 from django.shortcuts import HttpResponse, render, redirect
@@ -7,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
 from usuarios.authentication import create_acess_token, get_acess_token, get_token_user_id
 from usuarios.forms import UsuarioForm
-from barbearia.forms import BarbeariaForm, BarbeirosForm
+from barbearia.forms import BarbeariaForm, BarbeariaUpdateForm, BarbeirosForm
 from .models import Barbearia
 from agendamento.models import Agenda, Servico 
 from usuarios.models import Usuario
@@ -52,7 +53,7 @@ class CadastrarBarbeariaview(CreateView):
     model = Barbearia
     form_class = BarbeariaForm
     template_name = "cadastro_barbearia.html"
-
+    
     def form_valid(self, form):
         usuario = Usuario.objects.get(pk=self.request.user.pk)
         form.instance.dono = usuario
@@ -65,11 +66,11 @@ class CadastrarBarbeariaview(CreateView):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect("usuarios:login")
-        elif request.user.dono_barbearia:
-            return redirect("barbearia:home", kwargs=request.user.barbearia.id)
+        # elif request.user.dono_barbearia:
+        #     barbearia_id = Barbearia.objects.filter(dono=request.user).values_list('id', flat=True)
+        #     return redirect("barbearia:home", kwargs={'pk':barbearia_id})
         
         return super().dispatch(request, *args, **kwargs)
-
 
 class HomeBarbeariaView(DetailView):
     # Views para renderizar a tela de home da barbearia
@@ -92,6 +93,7 @@ class HomeBarbeariaView(DetailView):
         context = super().get_context_data(**kwargs)
         context['usuario'] = self.request.user
         context['barbearia'] = self.request.user.barbearia
+        context['agenda_id'] = self.request.user.barbearia.agenda.id
         return context
     
     
@@ -151,9 +153,23 @@ class EditarBarbeariaView(UpdateView):
     # Views para renderizar a tela de edição da barbearia
     
     model = Barbearia
-    form_class = BarbeariaForm
+    form_class = BarbeariaUpdateForm
     template_name = "editar_barbearia.html"
-    success_url = reverse_lazy("barbearia:home")
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        id_usuario = self.request.user.id
+        usuario = Usuario.objects.filter(id=id_usuario).first()
+        context['usuario'] = usuario
+
+        context['barbearia'] = Barbearia.objects.filter(dono_id=id_usuario).first()
+
+        return context
+
+    def get_success_url(self):
+        id_barbearia = self.kwargs['pk']
+        return reverse_lazy("barbearia:home", kwargs={'pk':id_barbearia})
 
     def form_valid(self, form):
         user = self.request.user
