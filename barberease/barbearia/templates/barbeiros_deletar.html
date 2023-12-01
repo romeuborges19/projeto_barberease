@@ -7,7 +7,7 @@
 {% endblock extra_css %}
 
 {% block contentmenu %}
-{% if usuario.dono_barbearia %}
+{% if request.user.dono_barbearia %}
   {% include 'base/menu_barbearia.html' %}
 {% else %}
   {% include 'base/menu_usuario.html' %}
@@ -21,8 +21,8 @@
             <p class="texto">Você deseja apagar o barbeiro (a) {{ barbeiro.nome }}?</p>
         <a href="{% url 'barbearia:listar_barbeiros' %}"></a>
         <input type="submit" value="Excluir">
+        <a href="{% url 'barbearia:listar_barbeiros' %}">Cancelar</a>
         </div>
-        
 </form>
 {% endblock content %}
 

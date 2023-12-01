@@ -1,29 +1,37 @@
 {% extends 'base/header.html' %}
+{% load static %}
+
+
 
 {% block title %}Listagem Barbeiros{% endblock title %}
 
 {% block contentmenu %}
 {% if usuario.dono_barbearia %}
-  {% include 'base/menu_barbearia.html' %}
+{% include 'base/menu_barbearia.html' %}
 {% else %}
-  {% include 'base/menu_usuario.html' %}
+{% include 'base/menu_usuario.html' %}
 {% endif %}
 {% endblock contentmenu %}
 
 {% block content %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'barbearia/css/barbeiroslistagem.css' %}">
+{% endblock head %}
+
+
+<div class="button_add">
+    <a href="{% url 'barbearia:cadastrar_barbeiro' %}">
+        <button class="btn btn-primary">
+            Adicionar Barbeiro
+        </button>
+    </a>
+</div>
 <div class="container">
-	<div class="button_add">
-		<a href="{% url 'barbearia:cadastrar_barbeiro' %}">
-		<button class="btn btn-primary">
-			Adicionar Barbeiro
-		</button>
-		</a>
-	</div>
     {% if messages %}
     {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}" id="alert">
-            {{ message }}
-        </div>
+    <div class="alert alert-{{ message.tags }}" id="alert">
+        {{ message }}
+    </div>
     {% endfor %}
     {% endif %}
     <div class="table-responsive-sm">
@@ -56,7 +64,7 @@
 </div>
 <script>
     // TODO: remover alerta após 3 segundos fazer isso dar certoooo
-        $('.alert').fadeOut('fast')
+    $('.alert').fadeOut('fast')
 </script>
 
 </div>

@@ -21,8 +21,8 @@
         <li>
             <span>{{ servico.nome }} - {{ servico.tempo_servico }} {{ servico.get_medida_tempo_display }}</span>
             <div class="service-actions">
-                <a href="{% url 'agendamento:deletar_servicos' pk=servico.pk %}">Excluir Serviços</a>
-                <a href="{% url 'agendamento:editar_servicos' pk=servico.pk %}">Editar Serviços</a>
+                <a href="{% url 'agendamento:deletar_servicos' pk=servico.pk %}">Excluir Serviço</a>
+                <a href="{% url 'agendamento:editar_servicos' pk=servico.pk %}">Editar Serviço</a>
             </div>
         </li>
         {% empty %}
