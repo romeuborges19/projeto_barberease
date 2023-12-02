@@ -1,11 +1,12 @@
 from datetime import date, datetime, time
 import http
-from os import getpid
+from os import getpid, walk
 from typing import Any
 from django.db import models
 from django.shortcuts import HttpResponse, render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
+from agendamento.utils import get_menu_data_context
 from usuarios.authentication import create_acess_token, get_acess_token, get_token_user_id
 from usuarios.forms import UsuarioForm
 from barbearia.forms import BarbeariaForm, BarbeariaUpdateForm, BarbeirosForm
@@ -117,6 +118,9 @@ class ProfileBarbeariaView(DetailView):
         if usuario.dono_barbearia:
             barbearia = Barbearia.objects.filter(dono=self.request.user).first()
             context['barbearia'] = barbearia
+        else:
+            barbearia = Barbearia.objects.filter(id=self.kwargs['pk']).first()
+            context['barbearia'] = barbearia
 
         agenda = Agenda.objects.get(barbearia=self.kwargs['pk'])
 
@@ -161,12 +165,7 @@ class EditarBarbeariaView(UpdateView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-
-        id_usuario = self.request.user.id
-        usuario = Usuario.objects.filter(id=id_usuario).first()
-        context['usuario'] = usuario
-
-        context['barbearia'] = Barbearia.objects.filter(dono_id=id_usuario).first()
+        context = get_menu_data_context(self.request, context)
 
         return context
 
@@ -200,11 +199,8 @@ class CadastrarBarbeirosView(CreateView):
      
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = get_token_user_id(self.request)
-        user =  Usuario.objects.filter(pk=id).first()
-        context['usuario'] = user
-        barbearia = Barbearia.objects.filter(dono_id=id).first()
-        context['barbearia'] = barbearia
+        context = get_menu_data_context(self.request, context)
+        
         return context
 
     def form_valid(self, form):
@@ -235,12 +231,9 @@ class ListarBarbeiros(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = get_token_user_id(self.request)
-        user =  Usuario.objects.filter(pk=id).first()
-        context['usuario'] = user
-        barbearia = Barbearia.objects.filter(dono_id=id).first()
-        context['barbearia'] = barbearia
+        context = get_menu_data_context(self.request, context)
         context['barbeiros'] = Barbeiros.objects.filter(barbearia=barbearia)
+
         return context
         
     def dispatch(self, request, *args, **kwargs):
@@ -270,9 +263,9 @@ class DeletarBarbeiros(DeleteView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = get_token_user_id(self.request)
-        context['usuario'] = Usuario.objects.filter(pk=id).first()
-        context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
+        context = get_menu_data_context(self.request, context)
+
+        return context
 
 
 class EditarBarbeirosView(UpdateView):
@@ -304,9 +297,7 @@ class EditarBarbeirosView(UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = get_token_user_id(self.request)
-        user =  Usuario.objects.filter(pk=id).first()
-        context['usuario'] = user
-        context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
+        context = get_menu_data_context(self.request, context) 
+        
         return context
     

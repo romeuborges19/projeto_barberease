@@ -1,6 +1,9 @@
 from datetime import datetime, timedelta
 from django.db.models import Q
 from agendamento.models import Agenda, Agendamento
+from barbearia.models import Barbearia
+from usuarios.authentication import get_token_user_id
+from usuarios.models import Usuario
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
@@ -26,6 +29,17 @@ def get_dias_semana():
         dias_semana.append(weekday.date().strftime("%d-%m-%Y"))
 
     return dias_semana
+
+def get_menu_data_context(request, context):
+    id_usuario = get_token_user_id(request)
+    usuario = Usuario.objects.filter(id=id_usuario).first()
+    context['usuario'] = usuario
+
+    if usuario.dono_barbearia:
+        barbearia = Barbearia.objects.filter(dono=usuario).first()
+        context['barbearia'] = barbearia
+
+    return context
 
 class Celula:
     def __init__(self, dia, hora, funciona):

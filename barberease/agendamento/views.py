@@ -13,7 +13,7 @@ import time
 
 from agendamento.forms import AgendaForm, AgendamentoForm, ServicoForm
 from agendamento.models import Agenda, Agendamento, Servico, Barbeiros
-from agendamento.utils import Celula, get_dias_semana, is_ajax, semana_sort
+from agendamento.utils import Celula, get_dias_semana, get_menu_data_context, is_ajax, semana_sort
 from barbearia.models import Barbearia
 
 DIAS = (
@@ -102,11 +102,9 @@ class AgendaBarbeariaView(DetailView):
     template_name = "agenda_barbearia.html"
 
     def get_context_data(self, **kwargs):
-        start = time.time()
         context = super().get_context_data(**kwargs)
         agenda = self.object
         context['agenda'] = agenda 
-        id_barbearia = agenda.barbearia_id
 
         # Gerando uma lista que armazena os horários disponíveis da barbearia, 
         # sem repetir valores
@@ -150,6 +148,8 @@ class AgendaBarbeariaView(DetailView):
         context['coluna_horarios'] = coluna_horarios
         context['linha_horarios'] = linha_horarios
 
+        context = get_menu_data_context(self.request, context)
+
         return context
 
     def get_object(self):
@@ -165,7 +165,6 @@ class AgendaAgendamentoView(DetailView):
         context = super().get_context_data(**kwargs)
         agenda = self.object
         context['agenda'] = agenda 
-        id_barbearia = agenda.barbearia_id
 
         # Gerando uma lista que armazena os horários disponíveis da barbearia, 
         # sem repetir valores
@@ -175,6 +174,12 @@ class AgendaAgendamentoView(DetailView):
 
         dias_semana = get_dias_semana()
         context['dias_semana'] = dias_semana 
+        dias_semana[0] = datetime.strptime(dias_semana[0], "%d-%m-%Y").strftime("%Y-%m-%d")
+        dias_semana[-1] = datetime.strptime(dias_semana[-1], "%d-%m-%Y").strftime("%Y-%m-%d")
+        agendamentos = Agendamento.objects.filter(
+            data__date__range=(dias_semana[0], dias_semana[-1]), 
+            agenda_id=agenda.pk, 
+            aprovado=True)
         
         for _, horarios in agenda.horarios_funcionamento.items():
             for horario in horarios:
@@ -192,7 +197,7 @@ class AgendaAgendamentoView(DetailView):
                 if hora in horarios:
                     hora = datetime.strptime(f"{hora}", "%H:%M").strftime("%H:%M")
                     celula = Celula(dias_semana[i], hora, True)
-                    celula.get_agendamentos(id_barbearia)
+                    celula.get_agendamentos(agendamentos)
                     celula.get_disponibilidade()
                     row.append(celula)
                 else: 
@@ -279,7 +284,7 @@ class GerenciarPedidosView(ListView):
     
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
-        context['pk'] = self.kwargs['pk']
+        context = get_menu_data_context(self.request, context)
 
         return context
 

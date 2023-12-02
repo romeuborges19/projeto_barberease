@@ -1,74 +1,78 @@
+{% extends 'base/header.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% block title %}Listagem Barbeiros{% endblock title %}
+
+{% block extra_css %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="{% static 'agendamento/css/styleagenda.css' %}">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-Barbearia:
+	<link rel="stylesheet" type="text/css" href="{% static 'agendamento/css/agenda.css' %}">
+{% endblock extra_css %}
 
-{{ agenda }}
 
-<br>
-<div class="agenda-container">
-	<table>
-		<!-- Gerando cabeçalho da tabela da agenda -->
-		<thead>
-			<tr>
-				<th> -- </th>
-				{% for dia in dias_semana %}
-					<td>{{ dia }}</td>
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+{% include 'base/menu_barbearia.html' %}
+{% else %}
+{% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+<main>
+	<div class="agenda-container">
+		<table class="agenda-tabela-container">
+			<!-- Gerando cabeçalho da tabela da agenda -->
+			<thead>
+				<tr class="agenda-head-dias-container">
+					<th class="agenda-head-cell"> -- </th>
+					{% for dia in dias_semana %}
+						<td class="agenda-head-cell">{{ dia }}</td>
+					{% endfor %}
+				</tr>
+				<tr class="agenda-head-semana-container">
+					<th class="agenda-head-cell"> Horários </th>
+					<!-- Loop que lê os dias da semana para o cabeçalho -->
+					{% for dia in agenda.horarios_funcionamento %}
+						<th class="agenda-head-cell">{{ dia }}</th>
+					{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Este loop renderiza: -->
+				<!-- 	1 - A coluna de horários -->
+				<!-- 	2 - Os horários disponíveis em cada linha da tabela -->
+
+				{% for horario in coluna_horarios %}
+				<tr>
+					<td>
+						{{ horario }}
+					</td>
+					{% for hora, celulas in linha_horarios.items %}
+						{% if hora is horario %}
+							{% for celula in celulas %}
+							<td> 
+								{% if celula.funciona %}
+									Funciona
+									<div class="cell-container">
+									{% for agendamento in celula.agendamentos %} 
+										<div class="cell-content-container">
+										{{ agendamento.cliente }} [{{ agendamento.hora_inicio }} - {{ agendamento.hora_fim }}] <br>
+										</div>
+									 {% endfor %}
+								{% endif %}
+								</div>
+							</td>
+							{% endfor %}
+						{% endif %}
+					{% endfor %}
+				</tr>
 				{% endfor %}
-			</tr>
-			<tr>
-				<th> Horários </th>
-				<!-- Loop que lê os dias da semana para o cabeçalho -->
-				{% for dia in agenda.horarios_funcionamento %}
-					<th>{{ dia }}</th>
-				{% endfor %}
-			</tr>
-		</thead>
-		<tbody>
-			<!-- Este loop renderiza: -->
-			<!-- 	1 - A coluna de horários -->
-			<!-- 	2 - Os horários disponíveis em cada linha da tabela -->
+			</tbody>
+		</table>
+	</div>
+	<a href="{% url 'agendamento:gerenciar_pedidos' agenda.pk %}">Gerenciar Pedidos </a>
+</main>
+{% endblock content %}
 
-			{% for horario in coluna_horarios %}
-			<tr>
-				<td>
-					{{ horario }}
-				</td>
-				{% for hora, celulas in linha_horarios.items %}
-					{% if hora is horario %}
-						{% for celula in celulas %}
-						<td> 
-							{% if celula.funciona %}
-								Funciona
-								<div class="cell-container">
-								{% for agendamento in celula.agendamentos %} 
-									<div class="cell-content-container">
-									{{ agendamento.cliente }} [{{ agendamento.hora_inicio }} - {{ agendamento.hora_fim }}] <br>
-									</div>
-								 {% endfor %}
-							{% endif %}
-							</div>
-						</td>
-						{% endfor %}
-					{% endif %}
-				{% endfor %}
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
 
-		<a href="{% url 'agendamento:gerenciar_pedidos' agenda.pk %}">Gerenciar Pedidos </a>
-		
-</body>
-</html>

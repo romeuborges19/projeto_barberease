@@ -1,0 +1,45 @@
+main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+}
+
+.agenda-head-dias-container {
+	background-color: brown;
+	border-radius: 5px;
+}
+
+.agenda-head-semana-container {
+	background-color: red;
+}
+
+.agenda-head-cell {
+	border-radius: 5px;
+}
+
+.agenda-tabela-container{
+	border-radius: 5px;
+}
+
+.agenda-container{
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+table, th, td {
+	border: none;
+}
+
+.cell-content-container{
+	border: 1px solid black;
+	padding: 5px;
+}
+
+.cell-container{
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}

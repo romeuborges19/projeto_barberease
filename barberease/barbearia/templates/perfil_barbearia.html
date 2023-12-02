@@ -38,7 +38,7 @@
 					{% if usuario.dono_barbearia %}
 						<a class="agendar-horario-button-container" href="{% url 'barbearia:editar' barbearia.pk %}">Editar perfil</a>
 					{% else %}
-						<a class="agendar-horario-button-container" href="{% url 'agendamento:agendar' %}">Agende seu horário</a>
+						<a class="agendar-horario-button-container" href="{% url 'agendamento:agendar' barbearia.agenda.pk %}">Agende seu horário</a>
 					{% endif %}
 				</div>
 				
@@ -53,7 +53,7 @@
 			{% if usuario.dono_barbearia%}
 				<a class="agendar-horario-button-container-responsive" href="{% url 'barbearia:editar' barbearia.pk %}">Editar perfil</a>
 			{% else %}
-				<a class="agendar-horario-button-container-responsive" href="{% url 'agendamento:agendar' %}">Agende seu horário</a>
+				<a class="agendar-horario-button-container-responsive" href="{% url 'agendamento:agendar' barbearia.agenda.pk%}">Agende seu horário</a>
 			{% endif %}
 		</div>
 		<div class="barbearia-body-container">

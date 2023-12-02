@@ -35,7 +35,7 @@
 			{% endif %}
 			
 			{% csrf_token %}
-			<button data-pedido-id="{{ pedido.id }}" data-update-url="{% url 'agendamento:gerenciar_pedidos' pk %}" class="approve-button">Aprovar</button><br>
+			<button data-pedido-id="{{ pedido.id }}" data-update-url="{% url 'agendamento:gerenciar_pedidos' barbearia.pk %}" class="approve-button">Aprovar</button><br>
 		</div>
 	{% endif %}
 {% endfor %}
@@ -58,7 +58,7 @@
 			{% endif %}
 			
 			{% csrf_token %}
-			<button data-pedido-id="{{ pedido.id }}" data-update-url="{% url 'agendamento:gerenciar_pedidos' pk %}" class="approve-button">Cancelar</button><br>
+			<button data-pedido-id="{{ pedido.id }}" data-update-url="{% url 'agendamento:gerenciar_pedidos' barbearia.pk %}" class="approve-button">Cancelar</button><br>
 		</div>
 	{% endif %}
 {% endfor %}
