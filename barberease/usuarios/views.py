@@ -23,7 +23,7 @@ from .token import token_generator_password
 from django.contrib import messages
 import time
 from django.contrib.auth.models import Group as Groups
-
+from agendamento.models import Agendamento
 def logged_in(sender, **kwargs):
     print("logged in")
     sociallogin = kwargs['sociallogin']
@@ -74,8 +74,6 @@ class UsuarioCadastrarView(CreateView):
     def form_valid(self, form):
         self.object = form.save()
         user = self.object
-        clientes = Groups.objects.get(name='clientes')
-        user.groups.add(clientes)  
         user.save()
         return redirect(self.get_success_url())
 
@@ -100,12 +98,22 @@ class UsuarioHomeView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         id = get_token_user_id(self.request)
-
         usuario = Usuario.objects.filter(pk=id).first()
         context['usuario'] = usuario
         context['barbearias'] = Barbearia.objects.all()
+        agendamentos = Agendamento.objects.filter(cliente_id=id).select_related('agenda__barbearia')
+        
+        agenda_informacao = []
+        if agendamentos:
+            for agendamento in agendamentos:
+                if agendamento.aprovado:
+                    barbearia = agendamento.agenda.barbearia  
+                    agenda_informacao.append({'barbearia': barbearia, 'agendamento': agendamento})
+            context['agendamentos'] = agenda_informacao
+        else:
+            context['agendamentos'] = False
 
-        return context 
+        return context
 
 
 class UsuarioLogoutView(LogoutView):
