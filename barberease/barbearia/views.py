@@ -38,17 +38,11 @@ class CadastrarDonoview(CreateView):
         self.object = form.save()
         user = self.object
         user.dono_barbearia = True
-        dono_barbearia = Groups.objects.get(name='donos_barbearia')
-        user.groups.add(dono_barbearia)
         user.save()
         user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(self.request, user)
         return redirect(self.get_success_url())
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect("usuarios:login")
-        return super().dispatch(request, *args, **kwargs)
 
 
 class CadastrarBarbeariaview(CreateView):
