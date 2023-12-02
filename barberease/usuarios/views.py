@@ -126,17 +126,60 @@ class UsuarioView(TemplateView):
     # Views para renderizar o perfil do usuario
     
     template_name = "usuario_perfil.html"
-    
+    success_url = '/'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         id = get_token_user_id(self.request)
         user = Usuario.objects.filter(pk=id).first()
         context['usuario'] = user
-
+        
         if user.dono_barbearia:
             context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
 
         return context
+    
+    def post(self, request, *args, **kwargs):
+        
+        if request.method == 'POST':
+            form = UsuarioRedefinePasswordForm(request.POST)
+            id = get_token_user_id(request)
+            user = Usuario.objects.filter(pk=id).first()
+            context = {
+                    'usuario': user,
+                    'barbearia': Barbearia.objects.filter(dono_id=id).first() if user.dono_barbearia else None,
+                    
+                }
+                    
+            if 'password_reset_last_attempt' in request.session:
+                last_attempt_time = datetime.fromisoformat(request.session['password_reset_last_attempt'])
+                time_elapsed = timezone.now() - last_attempt_time
+
+                # Define o intervalo de tempo que o usuário deve aguardar antes de fazer outra solicitação (por exemplo, 1 hora)
+                time_limit = timezone.timedelta(minutes = 5)
+
+                if time_elapsed < time_limit:
+                    time_to_request = time_limit - time_elapsed
+                    context['mensagem_time'] = f"Aguarde {int(time_to_request.total_seconds() // 60)} minuto(s) e {int(time_to_request.total_seconds() % 60)} segundo(s) para fazer outra solicitação de redefinição de senha."
+                    return render(request, "usuario_perfil.html" ,context)
+
+
+            if form.is_valid():
+                
+                result = form.process_password_reset()
+                
+                if result == None :
+                    context['mensagem'] =  "Será enviado um e-mail com instruções para redefinição de senha. O logout será realizado agora."
+                    response = super().get(request, *args, **kwargs)
+                    response = render(request, "usuario_perfil.html" , context) 
+                    response.delete_cookie('jwt_token', domain='127.0.0.1')
+                    request.session.flush()
+                    
+                    # Atualiza a última tentativa de redefinição de senha na sessão
+                    request.session['password_reset_last_attempt'] = timezone.now().isoformat()
+                    request.session['email_para_redefinicao'] = user.email
+                    return response
+        
+            return render(request, "usuario_perfil.html", {'form': form})
 
 
 class UsuarioAtualizarView(UpdateView):
