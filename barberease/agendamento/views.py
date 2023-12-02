@@ -113,7 +113,6 @@ class AgendaBarbeariaView(DetailView):
         agenda.horarios_funcionamento = semana_sort(agenda.horarios_funcionamento.items())
         dias_semana = get_dias_semana()
         context['dias_semana'] = get_dias_semana()
-        print(f'{context["dias_semana"]}')
         dias_semana[0] = datetime.strptime(dias_semana[0], "%d-%m-%Y").strftime("%Y-%m-%d")
         dias_semana[-1] = datetime.strptime(dias_semana[-1], "%d-%m-%Y").strftime("%Y-%m-%d")
         
