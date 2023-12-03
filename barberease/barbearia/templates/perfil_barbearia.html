@@ -27,8 +27,7 @@
 		<div class="barbearia-header-container">
 
 			<div class="barbearia-logo-container">
-				<div class="barbearia-logo">
-				</div>
+					<img src="{% if barbearia.logo %} {{ barbearia.logo.url}} {% endif %}" class="barbearia-logo-container">
 			</div>
 			<div class="barbearia-info-container">
 				<div class="barbearia-info-top-container">

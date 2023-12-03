@@ -28,6 +28,7 @@ class BarbeariaForm(forms.ModelForm):
         telefone = self.cleaned_data.get("telefone")
         cep = self.cleaned_data.get("cep")  
         logo = self.cleaned_data.get("logo")
+
         self.cleaned_data['cnpj'] = remove_mask(cnpj)
         self.cleaned_data['telefone'] = remove_mask(telefone)
         self.cleaned_data['cep'] = remove_mask(cep)
@@ -77,6 +78,7 @@ class BarbeariaUpdateForm(forms.ModelForm):
         self.cleaned_data["cep"] = remove_mask(cep)
 
         logo = self.cleaned_data.get("logo")
+        print(f'logo: {logo}')
         tamanho = 5 * 1024 * 1024
 
         if logo:

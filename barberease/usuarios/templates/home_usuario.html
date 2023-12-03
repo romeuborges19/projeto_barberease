@@ -26,9 +26,7 @@
                     </div>
                     <div class="agendamento-centro-container">
                         <div class="logo-container">
-                            <div class="logo">
-                                <img src="{% if agendamento.barbearia.logo %} {{agendamento.barbearia.logo.url}} {% endif %}" alt="{{ agendamento.barbearia.nome }} logo">
-                            </div>
+                                <img src="{% if agendamento.barbearia.logo %} {{agendamento.barbearia.logo.url}} {% endif %}" alt="{{ agendamento.barbearia.nome }} logo" class="logo">
                         </div>
                         <div class="agendamento-info-container">
                             <div class="agendamento-nome-container">
@@ -63,17 +61,15 @@
         <div class="mais-barbearias-container">
           <div class="barbearia-container-container">
             <div class="logo-more-container">
-                <div class="logo-more">
-					<img src="{% if barbearia.logo %} {{barbearia.logo.url}} {% endif %}" alt="{{ barbearia.nome }} logo">
+					<img src="{% if barbearia.logo %} {{ barbearia.logo.url }} {% endif %}" alt="{{ barbearia.nome }} logo" class="logo-more">
                    
-                </div>
             </div>
             <div class="barbearia-info-container">
                 <div class="barbearia-nome-container">
                     <span class="barbearia-nome">{{ barbearia.nome }}</span>
                 </div>
                 <div class="barbearia-address-container">
-                    <span class="barbearia-address">{{ barbearia.endereco }}</span>
+                    <span class="barbearia-address">{{ barbearia.setor}}, {% if barbearia.complemento %} {{barbearia.complemento }}, {% endif %} {{ barbearia.cidade}} ({{ barbearia.estado}}) - {{ barbearia.cep }}</span>
                 </div>
 				<a href="{% url 'barbearia:perfil_barbearia' barbearia.pk %}"> Ver Barbearia </a>
 

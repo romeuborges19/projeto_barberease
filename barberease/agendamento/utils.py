@@ -31,12 +31,10 @@ def get_dias_semana():
     return dias_semana
 
 def get_menu_data_context(request, context):
-    id_usuario = get_token_user_id(request)
-    usuario = Usuario.objects.filter(id=id_usuario).first()
-    context['usuario'] = usuario
+    context['usuario'] = request.user
 
-    if usuario.dono_barbearia:
-        barbearia = Barbearia.objects.filter(dono=usuario).first()
+    if request.user.dono_barbearia:
+        barbearia = Barbearia.objects.filter(dono=request.user).first()
         context['barbearia'] = barbearia
 
     return context

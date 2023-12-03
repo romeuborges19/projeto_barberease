@@ -21,7 +21,7 @@
 
 {% block content %}
 <main>
-	<form method="POST">
+	<form method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		<div class="form-title-container">
 			<p class="form-title"> Editar Perfil da Barbearia </p>
