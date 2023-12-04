@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from django.db.models import Q
 from agendamento.models import Agenda, Agendamento
-from barbearia.models import Barbearia
+from barbearia.models import Barbearia, Barbeiros
 from usuarios.authentication import get_token_user_id
 from usuarios.models import Usuario
 
@@ -36,10 +36,12 @@ def get_menu_data_context(request, context):
     if request.user.dono_barbearia:
         barbearia = Barbearia.objects.filter(dono=request.user).first()
         agenda = Agenda.objects.filter(barbearia=barbearia).first()
-        print(f'ID: {agenda.pk}')
 
         context['barbearia'] = barbearia
         context['id_agenda'] = agenda.pk
+
+        barbeiros = Barbeiros.objects.filter(barbearia=barbearia)
+        context['barbeiros'] = barbeiros
 
     return context
 
