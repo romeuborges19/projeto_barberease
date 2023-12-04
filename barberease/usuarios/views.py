@@ -102,7 +102,7 @@ class UsuarioHomeView(DetailView):
         context['usuario'] = usuario
         context['barbearias'] = Barbearia.objects.all()
         agendamentos = Agendamento.objects.filter(cliente_id=id).select_related('agenda__barbearia')
-        
+
         agenda_informacao = []
         if agendamentos:
             for agendamento in agendamentos:
