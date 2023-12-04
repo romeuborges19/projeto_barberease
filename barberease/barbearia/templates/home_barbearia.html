@@ -12,13 +12,11 @@
 {% endblock contentmenu %}
 
 {% block content %}
-<h1>barabearia</h1>
+<h1>{{ object.nome }} </h1>
 
-{{ object.nome }} <br>
-
-	id: {{ usuario.id }} <br>
+	id do dono: {{ usuario.id }} <br>
 <a href="{% url 'usuario:logout' %}">logout</a><br>
-<a href="{% url 'agendamento:agenda' agenda_id %}">Ver Agenda</a><br>
+<a href="{% url 'agendamento:agenda' id_agenda %}">Ver Agenda</a><br>
 <a href="{% url 'agendamento:listar_servicos' %}">gerenciar Serviço</a>
 <a href="{% url 'barbearia:listar_barbeiros' %}">gerenciar barbeiros</a>
 {% endblock content %}

@@ -25,9 +25,9 @@
 			<!-- Gerando cabeçalho da tabela da agenda -->
 			<thead>
 				<tr class="agenda-head-dias-container">
-					<th class="agenda-head-cell"> -- </th>
+					<th class="agenda-head-cell"> </th>
 					{% for dia in dias_semana %}
-						<td class="agenda-head-cell">{{ dia }}</td>
+						<th class="agenda-head-cell">{{ dia }}</th>
 					{% endfor %}
 				</tr>
 				<tr class="agenda-head-semana-container">
@@ -45,19 +45,24 @@
 
 				{% for horario in coluna_horarios %}
 				<tr>
-					<td>
+					<td class="horario-coluna">
 						{{ horario }}
 					</td>
 					{% for hora, celulas in linha_horarios.items %}
 						{% if hora is horario %}
 							{% for celula in celulas %}
-							<td> 
+							<td class="body-cell-container"> 
 								{% if celula.funciona %}
-									Funciona
+									Livre
 									<div class="cell-container">
 									{% for agendamento in celula.agendamentos %} 
 										<div class="cell-content-container">
-										{{ agendamento.cliente }} [{{ agendamento.hora_inicio }} - {{ agendamento.hora_fim }}] <br>
+											<div class="cell-top-container">
+												{{ agendamento.cliente }} - {{ agendamento.servico.nome }} 											
+											</div>
+											<div class="cell-bottom-container">
+												Das {{ agendamento.hora_inicio }} às {{ agendamento.hora_fim }}
+											</div>
 										</div>
 									 {% endfor %}
 								{% endif %}

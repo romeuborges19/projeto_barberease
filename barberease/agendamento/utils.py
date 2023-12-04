@@ -35,7 +35,11 @@ def get_menu_data_context(request, context):
 
     if request.user.dono_barbearia:
         barbearia = Barbearia.objects.filter(dono=request.user).first()
+        agenda = Agenda.objects.filter(barbearia=barbearia).first()
+        print(f'ID: {agenda.pk}')
+
         context['barbearia'] = barbearia
+        context['id_agenda'] = agenda.pk
 
     return context
 

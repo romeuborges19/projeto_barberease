@@ -2,6 +2,7 @@ from datetime import date, datetime, time
 import http
 from os import getpid, walk
 from typing import Any
+from django.core.serializers.json import PythonDeserializer
 from django.db import models
 from django.shortcuts import HttpResponse, render, redirect
 from django.urls import reverse_lazy
@@ -21,6 +22,7 @@ from django import http
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import Group as Groups
 from django.contrib import messages
+import pytz
 
 
 
@@ -42,8 +44,6 @@ class CadastrarDonoview(CreateView):
         user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(self.request, user)
         return redirect(self.get_success_url())
-
-
 
 class CadastrarBarbeariaview(CreateView):
     # Views para renderizar a tela de cadastro de Barbearia
@@ -91,7 +91,7 @@ class HomeBarbeariaView(DetailView):
         context = super().get_context_data(**kwargs)
         context['usuario'] = self.request.user
         context['barbearia'] = self.request.user.barbearia
-        context['agenda_id'] = self.request.user.barbearia.agenda.id
+        context['id_agenda'] = self.request.user.barbearia.agenda.id
         return context
     
     
@@ -117,9 +117,10 @@ class ProfileBarbeariaView(DetailView):
             context['barbearia'] = barbearia
 
         agenda = Agenda.objects.get(barbearia=self.kwargs['pk'])
+        context['id_agenda'] = agenda.pk
 
         # Verifica se a barbearia está aberta
-        now = datetime.now()
+        now = datetime.now(pytz.timezone('America/Sao_Paulo'))
         now = now.strftime("%H")
         now = now + ':00'
 
