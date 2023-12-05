@@ -1,5 +1,5 @@
 body {
-    background-color: #7b573a; 
+    background-color: #fff; 
 }
 
 .container {
@@ -8,28 +8,34 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-top: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
     
 }
 
 .button_add {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 20px;
-    text-align: left;
+    bottom: 20px; 
+    right: 20px; 
+    margin: 0; 
+    text-align: right;
+    align-self: flex-end;
+    padding: 10px 0;
 }
 
 .button_add a button {
-    background-color: #4285f4; 
-    color: white;
+    background-color: #7B573A; 
+    color: rgb(255, 255, 255);
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-right: 0;
 }
 
 .button_add a button:hover {
-    background-color: #306fcd; 
+    background-color: #6b6863; 
 }
 
 .alert {
@@ -74,6 +80,10 @@ body {
 
 .table tbody a:hover {
     text-decoration: underline;
+}
+
+.table-responsive-sm {
+    flex-grow: 1; 
 }
 
 @media (max-width: 768px) {

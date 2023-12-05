@@ -16,16 +16,9 @@
 {% block content %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'barbearia/css/barbeiroslistagem.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
 {% endblock head %}
 
-
-<div class="button_add">
-    <a href="{% url 'barbearia:cadastrar_barbeiro' %}">
-        <button class="btn btn-primary">
-            Adicionar Barbeiro
-        </button>
-    </a>
-</div>
 <div class="container">
     {% if messages %}
     {% for message in messages %}
@@ -49,8 +42,8 @@
                     <td>{{ barbeiro.nome }}</td>
                     <td>{{ barbeiro.email }}</td>
                     <td>
-                        <a href="{% url 'barbearia:editar_barbeiro' pk=barbeiro.pk %}">Editar</a>
-                        <a href="{% url 'barbearia:deletar_barbeiro' pk=barbeiro.pk %}">Excluir</a>
+                        <a href="{% url 'barbearia:editar_barbeiro' pk=barbeiro.pk %}"><i class="bi bi-pencil-fill"></i></a>
+                        <a href="{% url 'barbearia:deletar_barbeiro' pk=barbeiro.pk %}" class="ml-2"><i class="bi bi-trash-fill"></i></a>
                     </td>
                 </tr>
                 {% empty %}
@@ -61,7 +54,17 @@
             </tbody>
         </table>
     </div>
+    <div class="button_add">
+        <a href="{% url 'barbearia:cadastrar_barbeiro' %}">
+            <button class="btn btn-primary">
+                Adicionar Barbeiro
+            </button>
+        </a>
+    </div>
 </div>
+
+
+
 <script>
     // TODO: remover alerta após 3 segundos fazer isso dar certoooo
     $('.alert').fadeOut('fast')
