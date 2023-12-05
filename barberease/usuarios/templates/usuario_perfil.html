@@ -35,15 +35,34 @@
                     <label for="sobrenome" class="form-label">Sobrenome:</label>
                     <input type="text" class="form-control custom-bg-color-input" id="sobrenome" value="{{ usuario.sobrenome }}" disabled>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">E-mail:</label>
-                    <input type="text" class="form-control custom-bg-color-input" id="email" value="{{ usuario.email }}" disabled>
-                </div>
-                <div class="btn_password d-flex align-items-center">
-                    <p class="mb-0 me-2 custom-p">Esqueceu sua senha?
-                    <a href="#" class="link-senha"><u>Redefinir senha</u></a>
-                </p>
-                </div>
+                <form method="post" >
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail:</label>
+                        <input type="email" name="email" class="form-control custom-bg-color-input" id="email" value="{{ usuario.email }}" readonly  >
+                    </div>
+                    <div class="btn_password d-flex align-items-center">
+                        <p class="mb-0 me-2 custom-p">Esqueceu sua senha?
+                            <button type="submit" class="link-senha"><u>Redefinir senha</u></button>
+                        </p>
+                    </div>
+                    <div style="display: flex;">
+                        {{ form.email.errors }}
+                        {% if mensagem  %}
+                            <p>{{ mensagem  }}</p>
+        
+                            <script>
+                            setTimeout(function () {
+                                window.location.href = "/";
+                            }, 5000); 
+                            </script>
+                        {% endif %}
+
+                        {% if mensagem_time  %}
+                        <p>{{ mensagem_time  }}</p>
+                        {% endif %}
+                    </div>
+                </form>
             <!-- Modal de confirmação -->
             <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -70,15 +89,7 @@
         </div>
     </div>
 </div>
-<script>
-    // $('.link-senha').click(function(){
-    //     $('#confirmModal').modal('show');
-    // });
 
-    setTimeout(function(){
-        $('.alert').alert('close');
-  }, 12);
-</script>
 
 
 

@@ -27,31 +27,40 @@
 		<div class="barbearia-header-container">
 
 			<div class="barbearia-logo-container">
-				<div class="barbearia-logo">
-				</div>
+					<img src="{% if barbearia.logo %} {{ barbearia.logo.url}} {% endif %}" class="barbearia-logo-container">
 			</div>
 			<div class="barbearia-info-container">
 				<div class="barbearia-info-top-container">
 					<div class="barbearia-nome-container">
 						<p class="barbearia-nome"> {{ barbearia.nome }} </p>
 					</div>
-					<a class="agendar-horario-button-container" href="#">Agende seu horário</a>
+					{% if usuario.dono_barbearia %}
+						<a class="agendar-horario-button-container" href="{% url 'barbearia:editar' barbearia.pk %}">Editar perfil</a>
+					{% else %}
+						<a class="agendar-horario-button-container" href="{% url 'agendamento:agendar' barbearia.agenda.pk %}">Agende seu horário</a>
+					{% endif %}
 				</div>
 				
 				<div class="barbearia-horario-container">
 					<p class="barbearia-horario-bool"> {{ aberto }} </p>
-					<p class="barbearia-horario-fechamento">  • Fecha às {{ fecha_as }}h </p>
+					<p class="barbearia-horario-fechamento">  {% if fecha_as %} • Fecha às {{ fecha_as }}h  {% endif %} </p>
 				</div>
 			</div>
 
 		</div>
 		<div class="barbearia-center-container">
-			<a class="agendar-horario-button-container-responsive" href="#">Agende seu horário</a>
+			{% if usuario.dono_barbearia%}
+				<a class="agendar-horario-button-container-responsive" href="{% url 'barbearia:editar' barbearia.pk %}">Editar perfil</a>
+			{% else %}
+				<a class="agendar-horario-button-container-responsive" href="{% url 'agendamento:agendar' barbearia.agenda.pk%}">Agende seu horário</a>
+			{% endif %}
 		</div>
 		<div class="barbearia-body-container">
 			<div class="barbearia-sobre-box-container">
 				<div class="barbearia-sobre-container">
-					<p class="barbearia-sobre"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+					{% if barbearia.descricao %}
+						<p class="barbearia-sobre"> {{ barbearia.descricao}} </p>
+					{% endif %}
 				</div>
 				<div class="barbearia-local-container">
 					<div class="barbearia-local-endereco-container">
@@ -67,7 +76,7 @@
 							</svg>
 						</div>
 						<div class="barbearia-local-endereco">
-							<p>Quadra 704 Sul Avenida Norte-Sul 04, Lote 05, Plano Diretor Sul, Palmas - TO, 77022-356</p>
+							<p> {{ barbearia.setor}}, {% if barbearia.complemento %} {{barbearia.complemento }}, {% endif %} {{ barbearia.cidade}} ({{ barbearia.estado}}) - {{ barbearia.cep }}</p>
 						</div>
 					</div>
 					

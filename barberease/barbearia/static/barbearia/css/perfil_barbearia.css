@@ -44,7 +44,6 @@ main {
 
 .barbearia-logo-container {
 	flex-shrink: 0;
-	background-color: gray;
 	width: 150px;
 	height: 150px;
 	border-radius: 50%;
@@ -115,7 +114,7 @@ main {
 	padding: 2rem;
 	border-radius: 10px;
 	margin-top: 2rem;
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .barbearia-sobre {

@@ -55,6 +55,8 @@ input#sobrenome{
     color:#754B2B;
     font-family: "Abhaya Libre SemiBold";
     text-underline-position: under;
+    background: none;
+    border: none;
 }
 .link-senha:hover{
     color: #412108;

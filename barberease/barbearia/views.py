@@ -1,13 +1,15 @@
 from datetime import date, datetime, time
 import http
+from os import getpid, walk
 from typing import Any
 from django.db import models
 from django.shortcuts import HttpResponse, render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
+from agendamento.utils import get_menu_data_context
 from usuarios.authentication import create_acess_token, get_acess_token, get_token_user_id
 from usuarios.forms import UsuarioForm
-from barbearia.forms import BarbeariaForm, BarbeirosForm
+from barbearia.forms import BarbeariaForm, BarbeariaUpdateForm, BarbeirosForm
 from .models import Barbearia
 from agendamento.models import Agenda, Servico 
 from usuarios.models import Usuario
@@ -36,17 +38,11 @@ class CadastrarDonoview(CreateView):
         self.object = form.save()
         user = self.object
         user.dono_barbearia = True
-        dono_barbearia = Groups.objects.get(name='dono_barbearia')
-        user.groups.add(dono_barbearia)
         user.save()
         user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(self.request, user)
         return redirect(self.get_success_url())
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect("usuarios:login")
-        return super().dispatch(request, *args, **kwargs)
 
 
 class CadastrarBarbeariaview(CreateView):
@@ -55,7 +51,7 @@ class CadastrarBarbeariaview(CreateView):
     model = Barbearia
     form_class = BarbeariaForm
     template_name = "cadastro_barbearia.html"
-
+    
     def form_valid(self, form):
         usuario = Usuario.objects.get(pk=self.request.user.pk)
         form.instance.dono = usuario
@@ -68,11 +64,11 @@ class CadastrarBarbeariaview(CreateView):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect("usuarios:login")
-        elif request.user.dono_barbearia:
-            return redirect("barbearia:home", kwargs=request.user.barbearia.id)
+        # elif request.user.dono_barbearia:
+        #     barbearia_id = Barbearia.objects.filter(dono=request.user).values_list('id', flat=True)
+        #     return redirect("barbearia:home", kwargs={'pk':barbearia_id})
         
         return super().dispatch(request, *args, **kwargs)
-
 
 class HomeBarbeariaView(DetailView):
     # Views para renderizar a tela de home da barbearia
@@ -95,6 +91,7 @@ class HomeBarbeariaView(DetailView):
         context = super().get_context_data(**kwargs)
         context['usuario'] = self.request.user
         context['barbearia'] = self.request.user.barbearia
+        context['agenda_id'] = self.request.user.barbearia.agenda.id
         return context
     
     
@@ -109,11 +106,13 @@ class ProfileBarbeariaView(DetailView):
 
         # Carregando dados do usuário
         id_usuario = get_token_user_id(self.request)
-        usuario = Usuario.objects.filter(id=id_usuario).first()
-        context['usuario'] = usuario
+        context['usuario'] = self.request.user
 
-        if usuario.dono_barbearia:
+        if self.request.user.dono_barbearia:
             barbearia = Barbearia.objects.filter(dono=self.request.user).first()
+            context['barbearia'] = barbearia
+        else:
+            barbearia = Barbearia.objects.filter(id=self.kwargs['pk']).first()
             context['barbearia'] = barbearia
 
         agenda = Agenda.objects.get(barbearia=self.kwargs['pk'])
@@ -128,13 +127,14 @@ class ProfileBarbeariaView(DetailView):
         hoje = date.today().weekday()
         horarios_hoje = list(agenda.horarios_funcionamento.values())[dias[hoje]]
 
-        for hora in horarios_hoje:
-            if hora == now:
-                context['aberto'] = "Aberto agora"
-                break
+        if horarios_hoje == []:
             context['aberto'] = "Fechado"
-
-        context['fecha_as'] = horarios_hoje[-1].strip(":00")
+        else:
+            for hora in horarios_hoje:
+                if hora == now:
+                    context['aberto'] = "Aberto agora"
+                    break
+            context['fecha_as'] = horarios_hoje[0].strip(":00")
 
         return context
     
@@ -154,9 +154,18 @@ class EditarBarbeariaView(UpdateView):
     # Views para renderizar a tela de edição da barbearia
     
     model = Barbearia
-    form_class = BarbeariaForm
+    form_class = BarbeariaUpdateForm
     template_name = "editar_barbearia.html"
-    success_url = reverse_lazy("barbearia:home")
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context = get_menu_data_context(self.request, context)
+
+        return context
+
+    def get_success_url(self):
+        id_barbearia = self.kwargs['pk']
+        return reverse_lazy("barbearia:perfil_barbearia", kwargs={'pk':id_barbearia})
 
     def form_valid(self, form):
         user = self.request.user
@@ -184,11 +193,8 @@ class CadastrarBarbeirosView(CreateView):
      
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = get_token_user_id(self.request)
-        user =  Usuario.objects.filter(pk=id).first()
-        context['usuario'] = user
-        barbearia = Barbearia.objects.filter(dono_id=id).first()
-        context['barbearia'] = barbearia
+        context = get_menu_data_context(self.request, context)
+        
         return context
 
     def form_valid(self, form):
@@ -219,12 +225,9 @@ class ListarBarbeiros(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = get_token_user_id(self.request)
-        user =  Usuario.objects.filter(pk=id).first()
-        context['usuario'] = user
-        barbearia = Barbearia.objects.filter(dono_id=id).first()
-        context['barbearia'] = barbearia
-        context['barbeiros'] = Barbeiros.objects.filter(barbearia=barbearia)
+        context = get_menu_data_context(self.request, context)
+
+
         return context
         
     def dispatch(self, request, *args, **kwargs):
@@ -254,9 +257,9 @@ class DeletarBarbeiros(DeleteView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = get_token_user_id(self.request)
-        context['usuario'] = Usuario.objects.filter(pk=id).first()
-        context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
+        context = get_menu_data_context(self.request, context)
+
+        return context
 
 
 class EditarBarbeirosView(UpdateView):
@@ -288,9 +291,7 @@ class EditarBarbeirosView(UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = get_token_user_id(self.request)
-        user =  Usuario.objects.filter(pk=id).first()
-        context['usuario'] = user
-        context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
+        context = get_menu_data_context(self.request, context) 
+        
         return context
     

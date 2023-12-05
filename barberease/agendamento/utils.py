@@ -1,6 +1,9 @@
 from datetime import datetime, timedelta
 from django.db.models import Q
 from agendamento.models import Agenda, Agendamento
+from barbearia.models import Barbearia, Barbeiros
+from usuarios.authentication import get_token_user_id
+from usuarios.models import Usuario
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
@@ -27,6 +30,17 @@ def get_dias_semana():
 
     return dias_semana
 
+def get_menu_data_context(request, context):
+    context['usuario'] = request.user
+
+    if request.user.dono_barbearia:
+        barbearia = Barbearia.objects.filter(dono=request.user).first()
+        barbeiros = Barbeiros.objects.filter(barbearia=barbearia)
+        context['barbearia'] = barbearia
+        context['barbeiros'] = barbeiros
+
+    return context
+
 class Celula:
     def __init__(self, dia, hora, funciona):
         self.dia = dia
@@ -38,16 +52,21 @@ class Celula:
         if int(self.hora_hora) < 10:
             self.hora_hora = '0' + self.hora_hora
 
-    def get_agendamentos(self, barbearia_id):
+    def get_agendamentos(self, agendamentos):
         #TODO: Otimizar esta função
-        dia = datetime.strptime(self.dia, "%d-%m-%Y").strftime("%Y-%m-%d")
-        agenda_id = Agenda.objects.values_list('id', flat=True).get(barbearia_id=barbearia_id)
+        dia = self.dia
 
-        self.agendamentos = Agendamento.objects.filter(
-            data__date=dia, data__hour=self.hora_hora,
-            agenda_id=agenda_id,
-            aprovado=True,
-        ).order_by('data')
+        # self.agendamentos = Agendamento.objects.filter(
+        #     data__date=dia, data__hour=self.hora_hora,
+        #     agenda_id=agenda_id,
+        #     aprovado=True,
+        # ).order_by('data')
+
+        self.agendamentos = []
+
+        for agendamento in agendamentos:
+            if agendamento.data.date().strftime("%Y-%m-%d") == dia and agendamento.data.strftime("%H") == self.hora_hora:
+                self.agendamentos.append(agendamento)
 
         for agendamento in self.agendamentos:
             agendamento.hora_inicio = agendamento.data.strftime("%H:%M")

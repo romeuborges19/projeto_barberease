@@ -21,3 +21,14 @@ def get_token_user_id(request):
         id_usuario = 0
 
     return id_usuario
+
+# Verify if token expired
+def verify_token(token):
+    payload = get_acess_token(token)
+    exp = payload.get('exp')
+    iat = payload.get('iat')
+    now = datetime.now()
+    if now < exp and now > iat:
+        return True
+    else:
+        return False
