@@ -43,7 +43,7 @@
 				
 				<div class="barbearia-horario-container">
 					<p class="barbearia-horario-bool"> {{ aberto }} </p>
-					<p class="barbearia-horario-fechamento">  • Fecha às {{ fecha_as }}h </p>
+					<p class="barbearia-horario-fechamento">  {% if fecha_as %} • Fecha às {{ fecha_as }}h  {% endif %} </p>
 				</div>
 			</div>
 

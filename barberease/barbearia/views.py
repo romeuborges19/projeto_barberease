@@ -106,10 +106,9 @@ class ProfileBarbeariaView(DetailView):
 
         # Carregando dados do usuário
         id_usuario = get_token_user_id(self.request)
-        usuario = Usuario.objects.filter(id=id_usuario).first()
-        context['usuario'] = usuario
+        context['usuario'] = self.request.user
 
-        if usuario.dono_barbearia:
+        if self.request.user.dono_barbearia:
             barbearia = Barbearia.objects.filter(dono=self.request.user).first()
             context['barbearia'] = barbearia
         else:
@@ -128,13 +127,14 @@ class ProfileBarbeariaView(DetailView):
         hoje = date.today().weekday()
         horarios_hoje = list(agenda.horarios_funcionamento.values())[dias[hoje]]
 
-        for hora in horarios_hoje:
-            if hora == now:
-                context['aberto'] = "Aberto agora"
-                break
+        if horarios_hoje == []:
             context['aberto'] = "Fechado"
-
-        context['fecha_as'] = horarios_hoje[-1].strip(":00")
+        else:
+            for hora in horarios_hoje:
+                if hora == now:
+                    context['aberto'] = "Aberto agora"
+                    break
+            context['fecha_as'] = horarios_hoje[0].strip(":00")
 
         return context
     
@@ -226,7 +226,7 @@ class ListarBarbeiros(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context = get_menu_data_context(self.request, context)
-        context['barbeiros'] = Barbeiros.objects.filter(barbearia=barbearia)
+
 
         return context
         
