@@ -8,10 +8,7 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/styleclient.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/style.css' %}">
-  
+		<link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/styleclient.css' %}">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,7 +82,14 @@
 					</div>
 					</label>
 			</div>
-		</div>	
+		</div>
+		<div class="form-button-container">
+			<div class="bottomgg" id="googleButton">
+				<a href="{% provider_login_url 'google' %}" class="google-login-button">
+					Cadastrar com o Google
+				</a>			
+			</div>
+			
 		<div class="form-button-container">
 			<input class="bottoment" type="submit" value="Cadastrar"/>
 		</div>
@@ -93,13 +97,6 @@
 			<a href="{% url 'barbearia:cadastrar_dono' %}" class="barb-sigin">
 				<u>profissional</u>
 			</a>
-		</div>
-		{% get_providers as socialaccount_providers %}
-		<div class="bottomgg" id="googleButton">
-		<a href="{% provider_login_url 'google' %}" class="google-login-button">
-			Cadastrar com o Google
-		</a>
-		</div>
 		</div>   
 	</form>
 	</div>
