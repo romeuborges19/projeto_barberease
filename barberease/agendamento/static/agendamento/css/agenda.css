@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap');
+
+main {
+	font-family: 'Kanit', sans-serif;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+}
+
+.agenda-head-dias-container {
+	background-color: brown;
+}
+
+.agenda-head-semana-container {
+	background-color: red;
+}
+
+.agenda-tabela-container{
+}
+
+.agenda-container{
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+
+th {
+	padding-inline: 0.5rem;
+	text-align: center;
+	font-weigth: 300;
+}
+
+tbody {
+	background-color: #FFF9EE;
+	border: 1px solid black;
+}
+
+.body-cell-container {
+	padding: 0.5rem 1rem;
+	margin: 5px;
+	background-color: #D9D9D9;
+	border-radius: 3px;
+}
+
+table, th, td {
+	border: none;
+}
+
+table {
+	border-spacing: 10px;
+}
+
+.horario-coluna{
+	text-align: center;
+	font-weigth: 500;
+}
+
+.cell-content-container{
+	border: 1px solid black;
+	padding: 0.3rem 0.7rem;
+}
+
+.cell-container{
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}

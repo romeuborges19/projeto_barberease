@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'agendamento/css/servicoslistagem.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Serviços</title>
+
+</head>
+
+<body>
+    <h1>Lista de serviços</h1>
+    <ul>
+        {% for servico in object_list %}
+        <li>
+            <span>{{ servico.nome }} - {{ servico.tempo_servico }} {{ servico.get_medida_tempo_display }}</span>
+            <div class="service-actions">
+                <a href="{% url 'agendamento:deletar_servicos' pk=servico.pk %}" class="btn btn-danger">
+                    <i class="bi bi-trash-fill"></i>
+                </a>
+                <a href="{% url 'agendamento:editar_servicos' pk=servico.pk %}" class="btn btn-primary">
+                    <i class="bi bi-pencil-fill"></i>
+                </a>
+        </li>
+        {% empty %}
+        <li>SEM SERVIÇOS CADASTRADOS</li>
+        {% endfor %}
+    </ul>
+    <div class="cadastrar-container">
+        <a href="{% url 'agendamento:cadastrar_servico' %}" class="cadastrar">Cadastrar Serviços</a>
+    </div>
+</body>
+
+</html>

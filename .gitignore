@@ -1,6 +1,7 @@
 .vscode
 .env
 venv
+.idea
 
 __pycache__
 db.sqlite3
@@ -11,7 +12,9 @@ barberease/barberease/__pycache__
 barberease/extras/__pycache__
 barberease/usuarios/__pycache__
 barberease/usuarios/migrations/__pycache__
+barberease/agendamento/migrations/__pycache__
 
 barberease/.vscode
 barberease/.env
 barberease/venv
+barberease/.idea
