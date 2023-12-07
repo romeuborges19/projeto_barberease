@@ -1,10 +1,14 @@
 {% extends 'base/header.html' %}
+
 {% load static %}
 {% block title %}Home{% endblock title %}
 
 {% block extra_css%}
         <link rel="stylesheet" type="text/css" href="{% static 'barbearia/css/stylehomebarb.css' %}">
 {% endblock extra_css %}
+
+{% block title %}Home{% endblock title %}
+
 
 {% block contentmenu %}
 {% if usuario.dono_barbearia %}
@@ -15,6 +19,7 @@
 {% endblock contentmenu %}
 
 {% block content %}
+
 <body>
     <div class="main-container">
          <div class="agenda-dia-container">
@@ -77,8 +82,7 @@
                     <div class="agendamento-buttom-container">
                             <input class="bottoment" type="submit" value="Ver seguintes"/> 
                     </div>
-                
-  
+               
         </div>
   
     </div>

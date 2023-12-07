@@ -1,0 +1,97 @@
+{% load static %}
+
+
+	<nav class="navbar navbar-expand-lg navbar-dark custom-bg-color">
+    <div class="container-fluid">
+      <a class="navbar-brand ms-5 mt-1 mb-4" href="{% url 'usuario:home' pk=usuario.pk %}">BarberEase</a>
+    </div>
+  </nav>
+  <div id="sidebar">
+    <div class="side-bar-buttons-container">
+      
+        <div class="side-bar-buttons p-3">
+          <div class="side-bar-anaflavia">
+           <div class="side-bar-top-buttons-container">
+            <p class="nome mb-5 ms-5">BarberEase</p>
+            <div class="item ms-2 mt-0">
+              <a class="side-bar-button" href="{% url 'usuario:perfil' pk=usuario.pk %}">
+                <div class="button-container">
+                  <div class="button-img">
+                    <img src="{% static 'usuarios/icons/perfil.png' %}"> 
+                  </div>
+                  <div class="button-text">
+                    <p class="itens ms-3 mt-3"> Perfil </p>  
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="item ms-2 mt-0">
+              <a class="side-bar-button" href="{% url 'usuario:home' pk=usuario.pk %}">
+                <div class="button-container">
+                  <div class="button-img">
+                    <img src="{% static 'usuarios/icons/home.png' %}">   
+                  </div>
+                  <div class="button-text">
+                    <p class="itens ms-3 mt-3"> Home </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="item ms-2 mt-0">
+              <a class="side-bar-button" href="{% url 'usuario:perfil' pk=usuario.pk %}">
+                <div class="button-container">
+                  <div class="button-img">
+                    <img src="{% static 'usuarios/icons/calendario.png' %}">
+                  </div>
+                  <div class="button-text">
+                    <p class="texto itens ms-2 mt-3"> Horários Agendados</p> 
+                  </div>
+                </div>
+              </a>
+            </div> 
+            <div class="item ms-2 mt-0">
+              <a class="side-bar-button" href="{% url 'usuario:perfil' pk=usuario.pk %}">
+                <div class="button-container">
+                  <div class="button-img">
+                    <img width="20" height="20" src="{% static 'usuarios/icons/historico.png' %}">
+                  </div>
+                  <div class="button-text">
+                    <p class="texto itens ms-2 mt-3">Histórico Agendamentos</p> 
+                  </div>
+                </div>
+              </a>
+            </div>    
+          </div>   
+        </div>
+          <div class="side-bar-logout-container">
+            <div class="item ms-2 mt-0">
+              <a href="{% url 'usuario:logout' %}" class="side-bar-button">
+                <div class="button-container">
+                  <div class="button-img">
+                    <img width="18" height="18" src="{% static 'usuarios/icons/logout.png' %}"> 
+                  </div>
+                  <div class="button-text">
+                    <p class="texto itens ms-2 mt-3"> Logout </p>
+                  </div>
+                </div>
+              </a>
+          </div>  
+          </div>
+          
+        </div>
+          
+      </div>
+      
+    </div>
+  </div>
+  </div>
+  <button id="sidebarCollapse" class="btn custom-btn-color mt-4">&#9776;</button>
+  <div id="sidebarOverlay"></div>
+
+  <script>
+    document.getElementById('sidebarCollapse').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

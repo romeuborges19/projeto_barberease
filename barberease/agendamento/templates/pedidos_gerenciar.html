@@ -1,0 +1,108 @@
+{% extends 'base/header.html' %}
+
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'agendamento/css/pedidos_gerenciar.css' %}">
+{% endblock extra_css %}
+
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+<h3> Pedidos de agendamento realizados </h3>
+{% for pedido in pedidos %}
+	{% if not pedido.aprovado %}
+		<div class="pedido-container">
+			<p>{{ pedido.id }}</p>
+			<p>{{ pedido.cliente }}</p>
+			<p>{{ pedido.servico.nome }}</p>
+			<p>{{ pedido.dia_semana }}</p>
+			<p>{{ pedido.dia }}</p>
+			<p>{{ pedido.hora_inicio }}</p>
+			<p>{{ pedido.hora_fim }}</p>
+			{% if pedido.aprovado %}
+				<p>Aprovado</p>
+			{% else %}
+				<p>Pendente</p>
+			{% endif %}
+			
+			{% csrf_token %}
+			<button data-pedido-id="{{ pedido.id }}" data-update-url="{% url 'agendamento:gerenciar_pedidos' barbearia.pk %}" class="approve-button">Aprovar</button><br>
+		</div>
+	{% endif %}
+{% endfor %}
+
+<h3> Pedidos de agendamento aprovados </h3>
+{% for pedido in pedidos %}
+	{% if pedido.aprovado %}
+		<div class="pedido-container">
+			<p>{{ pedido.id }}</p>
+			<p>{{ pedido.cliente }}</p>
+			<p>{{ pedido.servico.nome }}</p>
+			<p>{{ pedido.dia_semana }}</p>
+			<p>{{ pedido.dia }}</p>
+			<p>{{ pedido.hora_inicio }}</p>
+			<p>{{ pedido.hora_fim }}</p>
+			{% if pedido.aprovado %}
+				<p>Aprovado</p>
+			{% else %}
+				<p>Pendente</p>
+			{% endif %}
+			
+			{% csrf_token %}
+			<button data-pedido-id="{{ pedido.id }}" data-update-url="{% url 'agendamento:gerenciar_pedidos' barbearia.pk %}" class="approve-button">Cancelar</button><br>
+		</div>
+	{% endif %}
+{% endfor %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('.approve-button').click(function() {
+			function getCookie(name) {
+				let cookieValue = null;
+				if (document.cookie && document.cookie !== '') {
+					const cookies = document.cookie.split(';');
+					for (let i = 0; i < cookies.length; i++) {
+						const cookie = cookies[i].trim();
+						// Does this cookie string begin with the name we want?
+						if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+			const csrftoken = getCookie('csrftoken');
+			
+			const pedidoId = $(this).data('pedido-id');
+			const updateUrl = $(this).data('update-url');
+			$.ajax({
+				url: updateUrl,
+				method: 'POST',
+				headers: {'X-CSRFToken': csrftoken},
+				data: { pedido_id: pedidoId },
+				mode: 'same-origin',
+				success: function(response){
+					if (response.error) {
+						alert(response.error);
+					} else {
+						location.reload();
+					}
+				}
+			})
+		}) 
+	})
+</script>
+{% endblock content %}
+
+

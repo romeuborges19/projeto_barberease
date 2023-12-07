@@ -7,6 +7,8 @@ from .token import token_generator_password
 from django.contrib.sessions.models import Session
 
 class UsuarioForm(forms.ModelForm):
+    # Formulário para cadastro de usuário
+    
     password = forms.CharField(widget=forms.PasswordInput) 
     password2 = forms.CharField(widget=forms.PasswordInput)
     
@@ -38,7 +40,7 @@ class UsuarioForm(forms.ModelForm):
             self.add_error('password2', 'Senhas não conferem')
 
         if email and Usuario.objects.filter(email=email).exists():
-            self.add_error('email', 'Email já cadastrado')
+            self.add_error('email', 'E-mail já cadastrado')
 
         return cleaned_data
 
@@ -50,6 +52,50 @@ class UsuarioForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+    
+class UsuarioUpdateForm(forms.ModelForm):
+    # Formulário para atualização de usuário
+    
+    class Meta: 
+        model = Usuario
+        fields = ['nome', 'sobrenome', 'email']
+        
+    def clean(self):
+        cleaned_data = super(UsuarioUpdateForm, self).clean()
+        email = cleaned_data.get("email")
+        nome = cleaned_data.get("nome")
+        sobrenome = cleaned_data.get("sobrenome")
+
+        if nome:
+            if len(nome) < 3:
+                self.add_error('nome', 'Nome deve ter no mínimo 3 caracteres')
+            elif len(nome) > 100:
+                self.add_error('nome', 'Nome deve ter no máximo 50 caracteres')
+            elif re.search('[^a-zA-Z]', nome) is not None:
+                self.add_error('nome', 'Nome deve conter apenas letras')
+                
+        if sobrenome:
+            if len(sobrenome) < 3:
+                self.add_error('sobrenome', 'sobrenome deve ter no mínimo 3 caracteres')
+            elif len(sobrenome) > 100:
+                self.add_error('sobrenome', 'sobrenome deve ter no máximo 50 caracteres')
+            elif re.search('[^a-zA-Z]', sobrenome) is not None:
+                self.add_error('sobrenome', 'sobrenome deve conter apenas letras')
+        old_email = self.instance.email 
+        
+        if email:
+            if Usuario.objects.filter(email=email).exclude(username=self.instance.email).exists():
+                self.add_error('email', 'E-mail já cadastrado')
+
+        return cleaned_data
+    
+    def save(self, commit=True):
+        instance = super(UsuarioUpdateForm, self).save(commit=False)
+        instance.username = self.cleaned_data['email']
+        if commit:
+            instance.save()
+        return instance
+
 
 class UsuarioRedefinePasswordForm(forms.Form):
     email = forms.EmailField(
@@ -70,23 +116,17 @@ class UsuarioRedefinePasswordForm(forms.Form):
         if email and not Usuario.objects.filter(email=email).exists():
             self.add_error('email', "E-mail não cadastrado")
 
-    
-
     def process_password_reset(self ):
         email = self.cleaned_data.get('email')
         usuario = Usuario.objects.get(email=email)
         token = token_generator_password.make_token(usuario)
-        
-        
         enviar_email(token, email)
        
             
-            
-
-
 class UsuarioNewPasswordForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
     ConfirmPassword = forms.CharField(widget=forms.PasswordInput)
+    
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
@@ -103,6 +143,7 @@ class UsuarioNewPasswordForm(forms.Form):
                 self.add_error('password', 'Senha deve conter pelo menos uma letra maiúscula')
         else:
             self.add_error('ConfirmPassword', 'Senhas não conferem')
+            
     def save(self, user):
         user.set_password(self.cleaned_data['password'])
         user.save()

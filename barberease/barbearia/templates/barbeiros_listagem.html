@@ -1,0 +1,74 @@
+{% extends 'base/header.html' %}
+{% load static %}
+
+
+
+{% block title %}Listagem Barbeiros{% endblock title %}
+
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+{% include 'base/menu_barbearia.html' %}
+{% else %}
+{% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'barbearia/css/barbeiroslistagem.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+{% endblock head %}
+
+<div class="container">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" id="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="table-responsive-sm">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for barbeiro in barbeiros %}
+                <tr>
+                    <td>{{ barbeiro.nome }}</td>
+                    <td>{{ barbeiro.email }}</td>
+                    <td>
+                        <a href="{% url 'barbearia:editar_barbeiro' pk=barbeiro.pk %}"><i class="bi bi-pencil-fill"></i></a>
+                        <a href="{% url 'barbearia:deletar_barbeiro' pk=barbeiro.pk %}" class="ml-2"><i class="bi bi-trash-fill"></i></a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">Sem barbeiros cadastrados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="button_add">
+        <a href="{% url 'barbearia:cadastrar_barbeiro' %}">
+            <button class="btn btn-primary">
+                Adicionar Barbeiro
+            </button>
+        </a>
+    </div>
+</div>
+
+
+
+<script>
+    // TODO: remover alerta após 3 segundos fazer isso dar certoooo
+    $('.alert').fadeOut('fast')
+</script>
+
+</div>
+{% endblock content %}

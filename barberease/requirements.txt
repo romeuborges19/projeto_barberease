@@ -2,11 +2,13 @@ asgiref==3.7.2
 certifi==2023.7.22
 cffi==1.16.0
 charset-normalizer==3.3.0
+coverage==7.2.7
 cryptography==41.0.4
 defusedxml==0.7.1
 Django==4.2.5
 django-allauth==0.57.0
 django-widget-tweaks==1.5.0
+gunicorn==21.2.0
 idna==3.4
 oauthlib==3.2.2
 pip==23.2.1
