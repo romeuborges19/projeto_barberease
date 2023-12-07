@@ -95,12 +95,13 @@ input:focus, input:active{
 }
 
 .agendamento-buttom-container{
-    margin-left: 480px;
-    margin-bottom: -5px;
+    display: flex;
+    flex-direction: row-reverse;
+    margin-top: 10px;
 }
 
 .bottoment{
-    width: 65px;
+    width: 15%;
     height: 18px;
     border: none;
     border-radius: 18px;
@@ -116,7 +117,7 @@ input:focus, input:active{
 }
 
 .agendamento-nome{
-    font-size: 25px;
+    font-size: 23px;
     font-family: Kanit regular;
     font-style: normal;
     font-weight: 100;
@@ -217,8 +218,122 @@ input:focus, input:active{
 	margin-bottom: 0px;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 1033px) {
     button {
         width: 70%;
     }
+
+    .bottoment{
+        width: 12%;
+    }
+
+    .agendamento-container-container {
+        width: 75%;
+    } 
+
+    .mais-barbearias-container{
+        width: 40%;
+    }
 }
+
+@media (max-width: 745px) {
+    button {
+        width: 70%;
+    }
+
+    .bottoment{
+        width: 15%;
+    }
+
+    .agendamento-container-container {
+        width: 75%;
+    } 
+    
+    .mais-barbearias-container{
+        width: 50%;
+    }
+
+    .agendamento-nome{
+        font-size: 19px;
+    }
+
+    .agendamento-address{
+        font-size: 13px;
+    }
+
+    .agendamento-top-container{
+        font-size: 15px;
+        width: 147px;
+    }
+}
+
+@media (max-width: 600px) {
+    button {
+        width: 70%;
+    }
+
+    .bottoment{
+        width: 19%;
+    }
+
+    .agendamento-container-container {
+        width: 75%;
+    }  
+
+    .mais-barbearias-container{
+        width: 50%;
+    }
+
+    .agendamento-nome{
+        font-size: 18x;
+    }
+
+    .agendamento-address{
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 445px) {
+    button {
+        width: 70%;
+    }
+
+    .bottoment{
+        width: 28%;
+    }
+
+    .agendamento-container-container {
+        width: 75%;
+    }    
+
+    .mais-barbearias-container{
+        width: 50%;
+    }
+
+    .agendamento-nome{
+        font-size: 16px;
+    }
+
+    .agendamento-address{
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 300px) {
+    button {
+        width: 70%;
+    }
+
+    .bottoment{
+        width: 30%;
+    }
+
+    .agendamento-container-container {
+        width: 90%;
+    }  
+
+    .mais-barbearias-container{
+        width: 60%;
+    }
+}
+
