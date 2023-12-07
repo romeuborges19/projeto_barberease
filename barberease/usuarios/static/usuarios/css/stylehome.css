@@ -216,6 +216,7 @@ input:focus, input:active{
 .logo-more-container {
 	margin-bottom: 0px;
 }
+
 @media (max-width: 450px) {
     button {
         width: 70%;
