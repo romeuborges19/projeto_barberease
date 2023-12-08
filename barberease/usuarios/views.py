@@ -60,11 +60,21 @@ class ProcessGoogleLoginView(TemplateView):
     template_name = "process_login.html"
 
     def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        
+        id_usuario = self.request.user.id
+        token = create_acess_token(id_usuario)
+
+        response.set_cookie('jwt_token', token, max_age=3600, domain='barberease.onrender.com')
+        response['Location'] = manage_login_redirect(self.request)
 
         if should_redirect:
-            return redirect(reverse_lazy("usuario:home", kwargs={'pk':self.request.user.id}))
+            response['Location'] = reverse_lazy("usuario:home", kwargs={'pk':self.request.user.id})
+            return response
         else:
-            return redirect(manage_login_redirect(self.request)) 
+            response['Location'] = manage_login_redirect(self.request)            
+            return response 
+
 
 class UsuarioCadastrarView(CreateView):
     # Views para renderizar a tela de cadastro de Cliente
