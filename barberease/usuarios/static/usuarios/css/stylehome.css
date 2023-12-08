@@ -241,10 +241,6 @@ input:focus, input:active{
 }
 
 @media (max-width: 1033px) {
-    button {
-        width: 70%;
-    }
-
     .bottoment{
         width: 12%;
     }
@@ -259,10 +255,6 @@ input:focus, input:active{
 }
 
 @media (max-width: 745px) {
-    button {
-        width: 70%;
-    }
-
     .bottoment{
         width: 15%;
     }
@@ -290,10 +282,6 @@ input:focus, input:active{
 }
 
 @media (max-width: 600px) {
-    button {
-        width: 70%;
-    }
-
     .bottoment{
         width: 19%;
     }
@@ -349,10 +337,6 @@ input:focus, input:active{
 }
 
 @media (max-width: 445px) {
-    button {
-        width: 70%;
-    }
-
     .bottoment{
         width: 28%;
     }
@@ -376,10 +360,6 @@ input:focus, input:active{
 }
 
 @media (max-width: 300px) {
-    button {
-        width: 70%;
-    }
-
     .bottoment{
         width: 30%;
     }
