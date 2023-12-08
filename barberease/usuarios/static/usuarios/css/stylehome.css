@@ -91,6 +91,8 @@ input:focus, input:active{
 .agendamento-buttom-container{
     display: flex;
     flex-direction: row-reverse;
+	align-items: center;
+	gap: 5px;
     margin-top: 10px;
 }
 

@@ -36,7 +36,7 @@ def enviar_email(token , toEmail):
     margin-bottom: 20px;">
     Encontre o melhor salão para você!</h2>
      
-    <a href="""+f"http://{os.getenv('HOST')}:{os.getenv('PORT')}/novaSenha/?token={token} " +""" style="
+    <a href="""+f"http://{os.getenv('HOST')}/novaSenha/?token={token} " +""" style="
     margin:0;
     outline:none;
     padding:14px;

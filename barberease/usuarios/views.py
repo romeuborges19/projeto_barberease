@@ -114,13 +114,14 @@ class UsuarioHomeView(DetailView):
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = get_token_user_id(self.request)
+        id = self.request.user.id
         usuario = Usuario.objects.filter(pk=id).first()
         context['usuario'] = usuario
         context['barbearias'] = Barbearia.objects.all()
+        print(id)
         agendamentos = Agendamento.objects.filter(cliente_id=id, aprovado=True).select_related('agenda__barbearia').order_by('-data')
 
-        print(agendamentos)
+        print(f'AGENDAMENTO = {agendamentos}')
         agenda_informacao = []
         i = 0
         if agendamentos:
