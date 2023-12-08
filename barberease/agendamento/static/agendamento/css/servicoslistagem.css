@@ -1,12 +1,5 @@
-@font-face {
-    font-family: 'Abhaya Libre ExtraBold';
-    src: url(../fonts/AbhayaLibre-ExtraBold.ttf) format('truetype');
-}
-
-@font-face {
-    font-family: 'Kanit';
-    src: url(../fonts/Kanit-Regular.ttf) format('truetype');
-}
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap');
 
 body {
     font-family: 'Kanit', serif;
