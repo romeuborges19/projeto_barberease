@@ -60,8 +60,9 @@ class ProcessGoogleLoginView(TemplateView):
     template_name = "process_login.html"
 
     def get(self, request, *args, **kwargs):
+
         if should_redirect:
-            return redirect(reverse_lazy("usuario:home"))
+            return redirect(reverse_lazy("usuario:home", kwargs={'pk':self.request.user.id}))
         else:
             return redirect(manage_login_redirect(self.request)) 
 
