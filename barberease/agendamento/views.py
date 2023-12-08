@@ -181,7 +181,7 @@ class AgendaAgendamentoView(DetailView):
         ultimo_dia_semana = datetime.strptime(dias_semana[-1], "%d-%m-%Y").strftime("%Y-%m-%d")
 
         agendamentos = Agendamento.objects.filter(
-            data_date_range=(primero_dia_semana, ultimo_dia_semana), 
+            data__date__range=(primero_dia_semana, ultimo_dia_semana), 
             agenda_id=agenda.pk, aprovado=True)
 
         print(agendamentos)

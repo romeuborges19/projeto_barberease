@@ -157,7 +157,7 @@ class UsuarioView(TemplateView):
     success_url = '/'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = get_token_user_id(self.request)
+        id = self.request.user.id 
         user = Usuario.objects.filter(pk=id).first()
         context['usuario'] = user
         
