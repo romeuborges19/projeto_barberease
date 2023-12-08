@@ -16,7 +16,7 @@
 {% endblock contentmenu %}
 
 {% block content %}
-<body>
+<main>
     <h1>Lista de serviços</h1>
     <ul>
         {% for servico in object_list %}
@@ -37,7 +37,8 @@
     <div class="cadastrar-container">
         <a href="{% url 'agendamento:cadastrar_servico' %}" class="cadastrar">Cadastrar Serviços</a>
     </div>
-</body>
+</main>
 
+{% endblock content %}
+</body>
 </html>
-{% endblock %}

@@ -6,19 +6,31 @@
     <link href="{% static 'agendamento/css/servicocad.css' %}" rel="stylesheet">
 {% endblock extra_css %}
 
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+{% include 'base/menu_barbearia.html' %}
+{% else %}
+{% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+
 {% block content %}
-{% csrf_token %}
   <div class="main-container">
     <div class="title-container">
        <span class="title">Serviços</span>
      </div>
+	<form method="POST">
         {% csrf_token %}
     <div class="dados-container-container">
-      {{ form.as_p }}
+		<div class="dados-fields-container">
+			  {{ form.as_p }}
+		</div>
       <div class="cadastrar-buttom-container">
-        <button class="bottoment" type="submit">Cadastrar</button>
+        <input class="bottoment" type="submit" value="Cadastrar">
       </div>
     </div> 
+	</div>
 
   </div>
 {% endblock content %}
