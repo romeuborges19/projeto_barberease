@@ -32,7 +32,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="sobrenome" class="form-label">Sobrenome:</label>
-                    <input type="text" class="form-control custom-bg-color-input" id="id_sobrenome" name="sobrenome" value="{{ usuario.sobrenome }}" >
+                    <input type="text" class="form-control custom-bg-color-input" id="id_sobrenome" name="sobrenome" value="{% if usuario.sobrenome %}{{ usuario.sobrenome }} {% endif %}" >
                     {% if form.sobrenome.errors %}
                     <div class="error">
                         {{ form.sobrenome.errors }}
