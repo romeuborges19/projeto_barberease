@@ -39,9 +39,9 @@
 	background-image: url(../images/imagebarb.png);
 	background-size: 100px 95px;
 	width: 100px;
-	height: 95px;
-    margin-left: 20px;
-    margin-top: 10px;
+	height: auto;
+    margin-right: 20px;
+	border-radius: 50%;
 }
 
 .logo-container {
@@ -54,6 +54,15 @@ input:focus, input:active{
 
 .agendamento-centro-container {
     display: flex;
+	margin-top: 10px;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.agendamento-direita-container{
+	display: flex;
+	align-items: center;
 }
 
 .agendamento-container-container {
@@ -61,7 +70,7 @@ input:focus, input:active{
     flex-direction: column;
     width: 45%;
     background-color: #DDCEBE;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.5rem;
     margin-top: 75px;
     border-radius: 15px;
     box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
@@ -95,13 +104,14 @@ input:focus, input:active{
 }
 
 .agendamento-buttom-container{
-    margin-left: 480px;
-    margin-bottom: -5px;
+    display: flex;
+    flex-direction: row-reverse;
+    margin-top: 10px;
 }
 
 .bottoment{
-    width: 65px;
-    height: 18px;
+    width: 15%;
+    height: 25px;
     border: none;
     border-radius: 18px;
     background: rgba(176, 48, 40, 0.80);
@@ -116,7 +126,7 @@ input:focus, input:active{
 }
 
 .agendamento-nome{
-    font-size: 25px;
+    font-size: 23px;
     font-family: Kanit regular;
     font-style: normal;
     font-weight: 100;
@@ -128,13 +138,10 @@ input:focus, input:active{
 }
 
 .agendamento-info-container{
-    margin-left: 10px;
-    margin-top: 15px;
-}
-
-.agendamento-data-hora-container{
-    margin-left: 55px;
-    margin-top: 23px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
 }
 
 .agendamento-address-container{
@@ -154,7 +161,6 @@ input:focus, input:active{
     font-style: normal;
     font-weight: 100;
     line-height: normal;
-    margin-top: 8px;
 }
 
 .agendamento-hora-container{
@@ -167,38 +173,43 @@ input:focus, input:active{
 
 .mais-barbearias-container{
     background-color: #ECE4DC;
-    width: 30%;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
-    padding: 1rem 1rem;
-    margin-bottom: 30px;
+    padding: 1rem 2rem;
+	gap: 1.5rem;
     margin-top: 8px;
 }
 
 .barbearia-container-container{
     display: flex;
+	flex-direction: row;
+	justify-content:start;
+	
 }
 .barbearia-info-container{
+	display: flex;
+	flex-direction: column;
     font-family: Kanit  Regular;   
+	width: 100%;
     margin-left: 20px;
     margin-top: 10px;
 }
 
 .barbearia-nome{
-    font-size: 19px;
+    font-size: 20px;
     font-style: normal;
-    font-weight: 100;
+    font-weight: 300;
     line-height: normal;
 }
 
 .barbearia-address-container{
     margin-top: -5px;
-    margin-left: 15px;
+	width: 70%;
 }
 
 .barbearia-address{
-    font-size: 12px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 100;
     line-height: normal;
@@ -206,19 +217,194 @@ input:focus, input:active{
 
 .logo-more{
 	background-image: url(../images/imagemore.png);
-	background-size: 50px 50px;
-	width: 50px;
-	height: 50px;
-    margin-left: 40px;
-    margin-top: 10px;
+	background-size: 100px 95px;
+	width: 100px;
+	height: auto;
+    margin-right: 20px;
+	border-radius: 50%;
 }
 
 .logo-more-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	margin-bottom: 0px;
 }
 
-@media (max-width: 450px) {
+.barbearia-button{
+	padding: 0.5rem 1rem;
+	width: 10rem;
+	background-color: #754B2B;
+	border-radius: 10px;
+	margin-block: 5px;
+	color: white;
+	text-decoration: none;
+	text-align: center;
+	transition: 120ms;
+}
+
+.barbearia-button-container {
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.barbearia-button:hover {
+	background-color: #8a6243;
+}
+
+.agendamento-esquerda-2-container {
+	display: none;
+}
+
+@media (max-width: 1033px) {
     button {
         width: 70%;
+    }
+
+    .bottoment{
+        width: 12%;
+    }
+
+    .agendamento-container-container {
+        width: 75%;
+    } 
+
+    .mais-barbearias-container{
+        width: 75%;
+    }
+}
+
+@media (max-width: 745px) {
+    button {
+        width: 70%;
+    }
+
+    .bottoment{
+        width: 15%;
+    }
+
+    .agendamento-container-container {
+        width: 75%;
+    } 
+    
+    .mais-barbearias-container{
+        width: 75%;
+    }
+
+    .agendamento-nome{
+        font-size: 19px;
+    }
+
+    .agendamento-address{
+        font-size: 13px;
+    }
+
+    .agendamento-top-container{
+        font-size: 15px;
+        width: 147px;
+    }
+}
+
+@media (max-width: 600px) {
+    button {
+        width: 70%;
+    }
+
+    .bottoment{
+        width: 19%;
+    }
+
+    .agendamento-container-container {
+        width: 90%;
+    }  
+
+    .mais-barbearias-container{
+        width: 90%;
+    }
+
+	.agendamento-esquerda-2-container {
+		display: flex;
+	}
+
+	.agendamento-esquerda-container {
+		display: none;
+	}
+
+	.agendamento-data-hora-container {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 5px;
+	}
+
+	.barbearia-info-container {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.barbearia-address-container {
+		width: 100%;
+	}
+
+	.barbearia-button-container {
+		width: 100%;
+	}
+
+    .agendamento-nome{
+        font-size: 18x;
+    }
+
+    .agendamento-address{
+        font-size: 12px;
+    }
+
+	.mess {
+		margin-top: 30px;
+	}
+
+}
+
+@media (max-width: 445px) {
+    button {
+        width: 70%;
+    }
+
+    .bottoment{
+        width: 28%;
+    }
+
+    .agendamento-container-container {
+        width: 90%;
+		margin-top: 15px;
+    }    
+
+    .mais-barbearias-container{
+        width: 100%;
+    }
+
+    .agendamento-nome{
+        font-size: 16px;
+    }
+
+    .agendamento-address{
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 300px) {
+    button {
+        width: 70%;
+    }
+
+    .bottoment{
+        width: 30%;
+    }
+
+    .agendamento-container-container {
+        width: 90%;
+    }  
+
+    .mais-barbearias-container{
+        width: 60%;
     }
 }

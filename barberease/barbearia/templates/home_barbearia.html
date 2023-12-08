@@ -7,9 +7,6 @@
         <link rel="stylesheet" type="text/css" href="{% static 'barbearia/css/stylehomebarb.css' %}">
 {% endblock extra_css %}
 
-{% block title %}Home{% endblock title %}
-
-
 {% block contentmenu %}
 {% if usuario.dono_barbearia %}
   {% include 'base/menu_barbearia.html' %}

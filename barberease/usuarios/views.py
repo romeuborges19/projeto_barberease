@@ -106,6 +106,9 @@ class UsuarioHomeView(DetailView):
         agenda_informacao = []
         if agendamentos:
             for agendamento in agendamentos:
+                agendamento.hora = agendamento.data.time()
+                agendamento.dia = agendamento.data.date()
+
                 if agendamento.aprovado:
                     barbearia = agendamento.agenda.barbearia  
                     agenda_informacao.append({'barbearia': barbearia, 'agendamento': agendamento})

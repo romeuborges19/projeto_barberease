@@ -30,6 +30,17 @@ def get_dias_semana():
 
     return dias_semana
 
+def get_dias_semana_simplificado():
+    hoje = datetime.now()
+    segunda = hoje - timedelta(days=hoje.weekday())
+    dias_semana = []
+
+    for i in range(0, 7):
+        weekday = segunda + timedelta(days = (segunda.weekday() + i))
+        dias_semana.append(weekday.date().strftime("%d/%m"))
+
+    return dias_semana
+
 def get_menu_data_context(request, context):
     context['usuario'] = request.user
 

@@ -20,20 +20,25 @@
 
 {% block content %}
 <main>
+	<div class="main-container">
+	<div class="page-title-container">
+	<h1 class="page-title">Sua Agenda</h1>
+	</div>
 	<div class="agenda-container">
 		<table class="agenda-tabela-container">
 			<!-- Gerando cabeçalho da tabela da agenda -->
 			<thead>
 				<tr class="agenda-head-dias-container">
 					<th class="agenda-head-cell"> </th>
-					{% for dia in dias_semana %}
+					{% for dia in agenda.horarios_funcionamento %}
 						<th class="agenda-head-cell">{{ dia }}</th>
 					{% endfor %}
+
 				</tr>
 				<tr class="agenda-head-semana-container">
 					<th class="agenda-head-cell"> Horários </th>
 					<!-- Loop que lê os dias da semana para o cabeçalho -->
-					{% for dia in agenda.horarios_funcionamento %}
+					{% for dia in dias_semana %}
 						<th class="agenda-head-cell">{{ dia }}</th>
 					{% endfor %}
 				</tr>
@@ -51,10 +56,9 @@
 					{% for hora, celulas in linha_horarios.items %}
 						{% if hora is horario %}
 							{% for celula in celulas %}
-							<td class="body-cell-container"> 
+					<td class="{% if not celula.funciona %}indisponivel{% else %}disponivel{% endif %} body-cell-container"> 
 								{% if celula.funciona %}
-									Livre
-									<div class="cell-container">
+								<div class="cell-container">
 									{% for agendamento in celula.agendamentos %} 
 										<div class="cell-content-container">
 											<div class="cell-top-container">
@@ -76,7 +80,10 @@
 			</tbody>
 		</table>
 	</div>
-	<a href="{% url 'agendamento:gerenciar_pedidos' agenda.pk %}">Gerenciar Pedidos </a>
+	<div class="button-container-container">
+		<a href="{% url 'agendamento:gerenciar_pedidos' agenda.pk %}" class="agenda-button-container">Gerenciar Pedidos </a>
+	</div>
+	</div>
 </main>
 {% endblock content %}
 

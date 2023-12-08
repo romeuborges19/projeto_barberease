@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap');
+
 #sidebar {
   height: 100vh;
   position: fixed;
@@ -81,7 +84,6 @@ a.navbar-brand{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 50%;
   height: 100%;
 }
 
