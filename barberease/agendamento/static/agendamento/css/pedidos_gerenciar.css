@@ -57,6 +57,7 @@ main {
 .pedidos-container-title h2{
 	font-family: 'Abhaya Libre', sans-serif;
 	font-family: 32px;
+	text-align: center;
 }
 
 .pedido-container {
