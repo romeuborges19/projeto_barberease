@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap');
+
+.container{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    font-family: 'Abhaya Libre', sans-serif;
+}
+.button{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;  
+    gap: 10px;
+}
+.button a{
+    text-decoration: none;
+    color: brown;
+    padding: 10px;
+    border-radius: 5px;
+}
+.button a:hover{
+    color: black;
+}

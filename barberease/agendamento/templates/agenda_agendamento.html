@@ -20,48 +20,24 @@
 
 {% block content %}
 <main>
-	<div class="main-container">
-	<div class="page-title-container">
-	<h1 class="page-title">Sua Agenda</h1>
-	</div>
-	<div class="agenda-container">
-		<table class="agenda-tabela-container">
-			<!-- Gerando cabeçalho da tabela da agenda -->
-			<thead>
-				<tr class="agenda-head-dias-container">
-					<th class="agenda-head-cell"> </th>
-					{% for dia in agenda.horarios_funcionamento %}
-						<th class="agenda-head-cell">{{ dia }}</th>
-					{% endfor %}
 
-				</tr>
-				<tr class="agenda-head-semana-container">
-					<th class="agenda-head-cell"> Horários </th>
-					<!-- Loop que lê os dias da semana para o cabeçalho -->
-					{% for dia in dias_semana %}
-						<th class="agenda-head-cell">{{ dia }}</th>
-					{% endfor %}
-				</tr>
-			</thead>
-			<tbody>
-				<!-- Este loop renderiza: -->
-				<!-- 	1 - A coluna de horários -->
-				<!-- 	2 - Os horários disponíveis em cada linha da tabela -->
-
-				{% for horario in coluna_horarios %}
-				<tr>
-					<td class="horario-coluna">
-						{{ horario }}
-					</td>
-					{% for hora, celulas in linha_horarios.items %}
+	{% for horario in coluna_horarios %}
+	<div class="teste">
+		{% for hora, celulas in linha_horarios.items %}
 						{% if hora == horario %}
 							{% for celula in celulas %}
 								{% if celula.funciona %}
-						<td class="{% if celula.disponivel %}livre{% else %}cheio{% endif %} agendamento-cell">
+						<p class="{% if celula.disponivel %}livre{% else %}cheio{% endif %} agendamento-cell">
 										{% if celula.disponivel %}
-											<a href="{% url 'agendamento:realizar_agendamento' agenda.pk celula.dia celula.hora_slug %}" class="agendamento-button">Agendar</a>										
+										<div class="retangulo-agenda ">
+											<div class="info">
+												<p class="hora custom-bg-font">Hora: {{ celula.hora }}</p>
+												<p class="dia custom-bg-font-2">Dia: {{ celula.dia }}</p>
+											</div>
+
+											<a href="{% url 'agendamento:realizar_agendamento' agenda.pk celula.dia celula.hora_slug %}" class="agendamento-button custom-button">Agendar</a>										
 										{% endif %}
-									</td>
+										</div>
 								{% else %}
 									<td class="indisponivel"> </td>
 								{% endif %}
@@ -70,9 +46,7 @@
 					{% endfor %}
 					</tr>
 				{% endfor %}
-			</tbody>
-		</table>
-	</div>
 	</div>
 </main>
+
 {% endblock content %}

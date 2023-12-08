@@ -73,8 +73,10 @@ input#sobrenome{
 .submit-button-container {
     display: flex;
     justify-content: center;
+    flex-direction: row;
     width: 100%;
     margin-top: 1rem;
+    gap: 10px;
 }
 
 .submit-button{

@@ -34,6 +34,13 @@ class RealizarAgendamentoView(CreateView):
     form_class = AgendamentoForm
     template_name = "agendamento_cadastro.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['hora'] = self.kwargs['hora'].strip('-00')
+        print(self.kwargs['hora'])
+
+        return context
+
     def get_success_url(self):
         usuario_id = self.request.user.id
         return reverse_lazy("usuario:home", kwargs={'pk': usuario_id})
@@ -326,6 +333,7 @@ class GerenciarPedidosView(ListView):
             if agendamento.data.date() >= datetime.today().date():
                 print(agendamento.data.date())
                 context['pedidos'] = agendamento
+        context['pedidos'] = None
 
         
         return context

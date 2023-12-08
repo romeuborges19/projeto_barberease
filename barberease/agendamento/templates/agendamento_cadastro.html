@@ -1,10 +1,47 @@
-<form method="post">
+ {% extends 'base/header.html' %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Realizar Agendamento{% endblock title %}
+
+{% block extra_css%}
+        <link rel="stylesheet" type="text/css" href="{% static 'agendamento/css/agendamento_cadastro.css' %}">
+{% endblock extra_css %}
+
+{% block contentmenu %}
+{% if request.user.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+
   {% csrf_token %}
 
+ <div class="main-container">
+  <div class="title-container">
+     <span class="title">Realizar Agendamento</span>
+   </div>
+      {% csrf_token %}
+      <div class="dados-container-container">
+        <div class="campos-form">
+          <label for="{{ form.servico.id_for_label }}">Serviço</label>
+          {% render_field form.servico class="" %}
+          <p></p>
+          <label for="{{ form.hora.id_for_label }}">Horário</label>
+        <div class="hora-minuto">
+          {{hora}}:{% render_field form.minuto class="" %} 
+         </div>
+        </div>
+        <div class="cadastrar-buttom-container">
+          <button class="bottoment" type="submit" value="Salvar">Salvar</button>
+        </div>
+      </div> 
+  
+ </div>
+{% endblock content %}
 
-  <br>
 
-  {{ form.as_p }}
-
-  <input type="submit" value="Salvar">
-</form>
