@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from .views import UsuarioLoginView, UsuarioCadastrarView, UsuarioHomeView, UsuarioLogoutView, UsuarioRedefinePasswordView , UsuarioNewPasswordView, UsuarioView, UsuarioAtualizarView, ProcessGoogleLoginView
+from .views import  *
 
 
 
@@ -17,6 +17,7 @@ urlpatterns = [
     path("perfil/editar/<int:pk>", UsuarioAtualizarView.as_view(), name="editar"),
     path("redefinir/", UsuarioRedefinePasswordView.as_view(), name="redefinir"),
     path("novaSenha/", UsuarioNewPasswordView.as_view(), name="usuario_new_password"),
+    path("deletar/<int:pk>", UsuarioDeleteView.as_view(), name="deletar"),
 ]
 
 

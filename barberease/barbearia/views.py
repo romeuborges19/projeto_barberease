@@ -278,6 +278,7 @@ class DeletarBarbeiros(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context = get_menu_data_context(self.request, context)
+        context['']
 
         return context
 
@@ -315,3 +316,4 @@ class EditarBarbeirosView(UpdateView):
         
         return context
     
+ 

@@ -85,6 +85,9 @@
                <button type="button" class="submit-button btn btn-primary color-button-custom ">
                     <a href="{% url 'usuario:editar' pk=usuario.pk %}" class="link-editar">Editar</a>
                </button>
+               <button type="button" class="btn btn-danger ">
+                <a href="{% url 'usuario:deletar' pk=usuario.pk %}" class="link-editar">Apagar conta</a>
+           </button>
             </div>
         </div>
     </div>
