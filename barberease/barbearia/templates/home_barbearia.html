@@ -7,7 +7,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'barbearia/css/stylehomebarb.css' %}">
 {% endblock extra_css %}
 
-{% block title %}Home{% endblock title %}
+
 
 
 {% block contentmenu %}
@@ -26,7 +26,7 @@
             <span class="agenda-dia">Hoje</span>
           </div>
           <div class="agenda-data-container">
-            <span class="agenda-data">Dia 12/12</span>
+            <span class="agenda-data">{{ data_atual }}</span>
           </div>
           <div class="agenda-container-coluna">
               <div class="agenda-container-container">
@@ -34,7 +34,7 @@
                   <span class="agenda-nome">Aprovados</span>
                 </div>
                 <div class="agenda-qtd-container">
-                  <span class="agenda-qtd">6</span>
+                  <span class="agenda-qtd">{{ aprovados }}</span>
                 </div>
                 <div class="img-container">
                   <div class="img"></div>
@@ -45,7 +45,7 @@
                   <span class="agenda-nome">Pendentes</span>
                 </div>
                 <div class="agenda-qtd-container">
-                  <span class="agenda-qtd">10</span>
+                  <span class="agenda-qtd">{{ pendentes }}</span>
                 </div>
                 <div class="img-container">
                   <div class="img"></div>
@@ -60,14 +60,14 @@
                     </div>
                     <div class="agendamento-centro-container">
                         <div class="logo-container">
-                                <img src="{% if agendamento.barbearia.logo %} {{agendamento.barbearia.logo.url}} {% endif %}" alt="{{ agendamento.barbearia.nome }} logo" class="logo">
+                                <img src="{% if barbearia.logo %} {{barbearia.logo.url}} {% endif %}" alt="{{ barbearia.nome }} logo" class="logo">
                         </div>
                         <div class="agendamento-info-container">
                             <div class="agendamento-nome-container">
-                                <span class="agendamento-nome">Barbearia Fera da Ana</span>
+                                <span class="agendamento-nome">{{ agendamento.cliente.nome }}</span>
                             </div>
                             <div class="agendamento-address-container">
-                                <span class="agendamento-address">Quadra 804 Sul Lote 40</span>
+                                <span class="agendamento-address">{{ agendamento.servico.nome }}</span>
                             </div>
                         </div>
                         <div class="agendamento-data-hora-container">

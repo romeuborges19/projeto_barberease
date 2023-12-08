@@ -32,7 +32,7 @@ class Agendamento(models.Model):
 
     data = models.DateTimeField()
     hora_fim = models.TimeField(default=None)
-    aprovado = models.BooleanField()
+    aprovado = models.BooleanField(null=True, default=None)
     servico = models.ForeignKey(Servico, verbose_name="Servico", on_delete=models.CASCADE)
     agenda = models.ForeignKey(Agenda, verbose_name="Agenda", on_delete=models.CASCADE)
     cliente = models.ForeignKey(Usuario, verbose_name="Cliente", related_name="cliente", on_delete=models.CASCADE)

@@ -1,9 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+
+{% extends 'base/header.html' %}
+
+{% block title %}Editar Serviço{% endblock title %}
+
+{% block contentmenu %}
+{% if request.user.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
 <body>
     <form method="post">
         {% csrf_token %}
@@ -13,3 +21,5 @@
 </form>
 </body> 
 </html>
+
+{% endblock content %}

@@ -12,7 +12,7 @@ from usuarios.authentication import create_acess_token, get_acess_token, get_tok
 from usuarios.forms import UsuarioForm
 from barbearia.forms import BarbeariaForm, BarbeariaUpdateForm, BarbeirosForm
 from .models import Barbearia
-from agendamento.models import Agenda, Servico 
+from agendamento.models import Agenda, Agendamento, Servico 
 from usuarios.models import Usuario
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 from django.contrib.auth import login
@@ -26,7 +26,7 @@ import pytz
 
 
 
-# TODO: CRIAR VIEW HERANÇA COM METODOS USUAVEIS PARA TODAS AS VIEWS
+
 
 class CadastrarDonoview(CreateView):
     # Views para renderizar a tela de cadastro de Dono
@@ -87,13 +87,32 @@ class HomeBarbeariaView(DetailView):
             return redirect("usuarios:login")
         return super().dispatch(request, *args, **kwargs)
        
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['usuario'] = self.request.user
-        context['barbearia'] = self.request.user.barbearia
-        context['id_agenda'] = self.request.user.barbearia.agenda.id
-        return context
+        usuario = self.request.user
+        barbearia = usuario.barbearia
+        context['usuario'] = usuario
+        context['barbearia'] = barbearia
+        context['id_agenda'] = barbearia.agenda.id
+
+        agendamentos = Agendamento.objects.filter(agenda__barbearia=barbearia).select_related('cliente', 'servico', 'barbeiro').order_by('data')
+        print(agendamentos)
+        quantidade_aprovados = agendamentos.filter(aprovado=True).count()
+        quantidade_reprovados = agendamentos.filter(aprovado=False).count()
+
+        context['aprovados'] = quantidade_aprovados
+        context['pendentes'] = quantidade_reprovados
+        context['data_atual'] = date.today()    
     
+        for agendamento in agendamentos:
+            print(agendamento.data.date())  
+            print(date.today())
+            if agendamento.aprovado and agendamento.data.date() == date.today():
+                print(agendamento)
+                context['agendamento'] = agendamento
+                break
+    
+        return context
     
 class ProfileBarbeariaView(DetailView):
     # Views para renderizar a tela de perfil da barbearia
