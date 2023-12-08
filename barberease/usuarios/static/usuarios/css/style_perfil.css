@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap');
+
+main {
+    font-family: 'Kanit', sans-serif;
+}
+
+.form-label{
+    font-family: "Abhaya Libre SemiBold";
+    font-size: 18px;
+    color: #754B2B;
+}
+.custom{
+    font-family: "Abhaya Libre SemiBold";
+}
+.custom-bg-color-input{
+    background-color: #DDCEBE;
+    border: none;
+    border-radius: 15px;
+    height: 40px;
+    width: 100%;
+    font-family: "Abhaya Libre SemiBold";
+    font-size: 15px;
+    color: rgba(0, 0, 0, 1);
+    padding-left: 10px;
+    padding-right: 10px;
+}
+input#nome{
+    background-color: #ECE4DC;
+}
+input#email{
+    background-color: #ECE4DC;
+}
+input#sobrenome{
+    background-color: #ECE4DC;
+}
+.color-button-custom{
+    border-radius: 18px;
+    background: #754B2B;
+    border-color: #754B2B;
+    width: auto;
+}
+.color-button-custom:hover{
+    background: #ECE4DC;
+    color: #754B2B;
+    border-color: #754B2B;
+}
+ .custom-p{
+    font-family: "Abhaya Libre SemiBold";
+    font-size: 18px;
+    color: #754B2B;
+ }
+.link-senha{
+    text-decoration: none;
+    color:#754B2B;
+    font-family: "Abhaya Libre SemiBold";
+    text-underline-position: under;
+    background: none;
+    border: none;
+}
+.link-senha:hover{
+    color: #412108;
+}
+.link-editar{
+    text-decoration: none;
+    color:#FFFFFF;
+}
+.link-editar:hover{
+    text-decoration: none;
+    color:#754B2B;
+}
+
+.submit-button-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 1rem;
+    gap: 10px;
+}
+
+.submit-button{
+    height: 40px;
+    padding-inline: 2rem;
+    border-radius: 15px;
+}
+.errorlist{
+    color: #AD1B1B;
+    font-family: "Abhaya Libre SemiBold";
+    font-size: 15px;
+}

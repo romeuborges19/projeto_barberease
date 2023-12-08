@@ -1,0 +1,52 @@
+{% extends 'base/header.html' %}
+{% load static %}
+
+{% block title %}Realizar agendamento{% endblock title %}
+
+{% block extra_css %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'agendamento/css/agenda.css' %}">
+{% endblock extra_css %}
+
+
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+{% include 'base/menu_barbearia.html' %}
+{% else %}
+{% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+<main>
+
+	{% for horario in coluna_horarios %}
+	<div class="teste">
+		{% for hora, celulas in linha_horarios.items %}
+						{% if hora == horario %}
+							{% for celula in celulas %}
+								{% if celula.funciona %}
+						<p class="{% if celula.disponivel %}livre{% else %}cheio{% endif %} agendamento-cell">
+										{% if celula.disponivel %}
+										<div class="retangulo-agenda ">
+											<div class="info">
+												<p class="hora custom-bg-font">Hora: {{ celula.hora }}</p>
+												<p class="dia custom-bg-font-2">Dia: {{ celula.dia }}</p>
+											</div>
+
+											<a href="{% url 'agendamento:realizar_agendamento' agenda.pk celula.dia celula.hora_slug %}" class="agendamento-button custom-button">Agendar</a>										
+										{% endif %}
+										</div>
+								{% else %}
+									<td class="indisponivel"> </td>
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+					{% endfor %}
+					</tr>
+				{% endfor %}
+	</div>
+</main>
+
+{% endblock content %}

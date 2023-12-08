@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap');
+
+body{
+    background-color: #fff;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title{
+    font-size: 30px;
+    font-family: Abhaya Libre SemiBold;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+    color:#000;
+}
+
+.title-container{
+    display: flex;
+    flex-direction: column;
+    height: 30px;
+    background-color: transparent;
+    margin-top: 30px;
+    border-radius: 15px;
+}
+
+.dados-container-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 10%;
+    min-width: 150px;
+    height: 180px;
+    background-color: #DDCEBE;
+    padding: 0.5rem 1rem;
+    margin-top: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
+}
+   
+.campos-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    font-family: Kanit Regular;
+}
+   
+.campos-form label {
+    margin-bottom: 0px;
+}
+   
+.hora-minuto {
+    display: flex;
+    align-items: center;
+}
+   
+.hora-minuto label {
+    margin-left: 1rem;
+}
+
+.cadastrar-buttom-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.bottoment{
+    width: 150%;
+    min-width: 100px;
+    height: 30px;
+    border: none;
+    border-radius: 18px;
+    background: #402009;
+    margin-left: 8px;
+    margin-top: 5px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+    font-family: Kanit Regular;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+	color: white;
+	transition: 200ms;
+    padding: 0px 0px;
+}

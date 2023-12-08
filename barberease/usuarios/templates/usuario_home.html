@@ -1,2 +1,33 @@
-<h1>oiii</h1>
-<a href="{% url 'usuario:logout' %}">logout</a>
+
+{% extends 'base/header.html' %}
+  
+{% block title %}Home{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+    <h1>oiii</h1>
+    <p>id: {{ usuario.pk }} <br>
+    <p>id: {{ barbearia.pk }} <br>
+    <a href="{% url 'usuario:logout' %}">Logout</a></p>
+    {% if request.session.dono %}
+      <p><a href="{% url 'agendamento:cadastrar_agenda' %}">Cadastrar Agenda</a></p>
+    {% endif %}
+    <p><a href="{% url 'usuario:perfil' pk=usuario.pk %}">Ver perfil</a></p>
+    {% for barbearia in object_list %}
+      <p>{{ barbearia }} -> <a href="{% url 'agendamento:agendar' barbearia.pk %}">Realizar Agendamento</a></p>
+    {% endfor %}
+{% endblock content %}
+
+</body>
+</html>

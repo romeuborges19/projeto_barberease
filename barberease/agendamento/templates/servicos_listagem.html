@@ -1,0 +1,45 @@
+{% extends 'base/header.html' %}
+{% load static %}
+
+{% block title %}Lista Serviços{% endblock title %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'agendamento/css/servicoslistagem.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+{% endblock extra_css %}
+
+{% block contentmenu %}
+{% if request.user.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+<main>
+    <h1>Lista de serviços</h1>
+    <ul>
+        {% for servico in object_list %}
+        <li>
+            <span>{{ servico.nome }} - {{ servico.tempo_servico }} {{ servico.get_medida_tempo_display }}</span>
+            <div class="service-actions">
+                <a href="{% url 'agendamento:deletar_servicos' pk=servico.pk %}" class="btn btn-danger">
+                    <i class="bi bi-trash-fill"></i>
+                </a>
+                <a href="{% url 'agendamento:editar_servicos' pk=servico.pk %}" class="btn btn-primary">
+                    <i class="bi bi-pencil-fill"></i>
+                </a>
+        </li>
+        {% empty %}
+        <li>SEM SERVIÇOS CADASTRADOS</li>
+        {% endfor %}
+    </ul>
+    <div class="cadastrar-container">
+        <a href="{% url 'agendamento:cadastrar_servico' %}" class="cadastrar">Cadastrar Serviços</a>
+    </div>
+</main>
+
+{% endblock content %}
+</body>
+</html>

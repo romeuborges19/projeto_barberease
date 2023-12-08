@@ -1,0 +1,33 @@
+
+{% extends 'base/header.html' %}
+{% load static %}
+{% block title %}Apagar Conta{% endblock title %}
+{% block contentmenu %}
+{% if request.user.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/style_apagar.css' %}">
+{% endblock extra_css %}
+{% block content %}
+<body>
+    <form method="post">
+        {% csrf_token %} 
+      <div class="container">
+        {% if request.user.dono_barbearia %}
+            <h1>Você vai apagar sua conta de barbearia também</h1>
+        {% endif %}
+		    <h1>Você deseja apagar sua conta "{{ request.user.nome }}"?</h1>
+        </div>
+        <div class="button">
+          <a class="cancelar" href="{% url 'usuario:perfil' pk=request.user.pk %}">Cancelar</a>
+          <input type="submit" class="btn btn-danger" value="Excluir">
+        </div>
+</form>
+</body> 
+</html>
+
+{% endblock content %}

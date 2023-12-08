@@ -7,6 +7,7 @@
 <html lang="en">
 <head>
 		<link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/style.css' %}">
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,8 +24,7 @@
 						<div class="field-container">
 							<label class="label">E-mail:
 								<div class="form-control-container">
-									{% render_field form.username class="form-control" %}
-									</label>
+									{% render_field form.username class="form-control" placeholder="Digite seu e-mail"%}
 								</div>
 							</label>
 						</div>
@@ -32,13 +32,20 @@
 						<div class="field-container">
 							<label class="label">Senha:
 								<div class="form-control-container">
-								{% render_field form.password class="form-control" %}
+								{% render_field form.password class="form-control" placeholder="Digite sua senha"%}
 								</div>
 							</label>
 					</div>
-					<a href="#">
-						recuperar senha
+					<a href="{% url 'usuario:redefinir' %}">
+						Esqueceu sua senha?
 					</a>
+					{% if messages %}
+						{% for message in messages %}
+							<div class="alert alert-{{ message.tags }} error" id="alert">
+								{{ message }}
+							</div>
+						{% endfor %}
+					{% endif %}
 					{% get_providers as socialaccount_providers %}
 					<div class="form-button-container">
 						<div class="bottomgg" id="googleButton">
@@ -46,15 +53,17 @@
 								Fazer login com o Google
 							</a>			
 						</div>
+
 						<input class="bottoment" type="submit" value="Entrar"/>
+
 						<div class="box-end">Cadastre-se como
 							<a href="{% url 'usuario:cadastro' %}" class="client-sigin">
 								cliente
 							</a>
 							ou como
 						    <a href="{% url 'barbearia:cadastrar_dono' %}" class="barb-sigin">
-							barbearia
-						</a>
+							profissional
+						    </a>
 			            </div>
 					</div>   
 			</form>

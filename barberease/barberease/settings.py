@@ -15,6 +15,11 @@ from decouple import config, Csv
 
 import os 
 
+
+from dotenv import load_dotenv
+
+load_dotenv()
+LANGUAGE_CODE = 'pt-br'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -48,6 +53,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'usuarios',
     'barbearia',
+    'agendamento',
 
 ]
 
@@ -82,12 +88,12 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-MEDIA_ROOT = BASE_DIR/'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, 'templates')],
+        "DIRS": [ BASE_DIR / 'templates',],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -187,5 +193,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = 'usuario:process'
 LOGOUT_REDIRECT_URL = "usuario:login"
 AUTH_USER_MODEL = 'usuarios.Usuario'
-
 SOCIALACCOUNT_LOGIN_ON_GET=True
+
+#Secret key to token
+
+SECRET_KEY = "one_piece_pirate_king_gol_d_roger_2023"

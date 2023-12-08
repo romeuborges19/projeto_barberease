@@ -1,0 +1,60 @@
+{% extends 'base/header.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+{% block extra_css %}
+    <link href="{% static 'usuarios/css/style_perfil.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center custom">Editar Perfil</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome:</label>
+                    <input type="text" class="form-control custom-bg-color-input" id="id_nome" name="nome" value="{{ usuario.nome }}" >
+                    {% if form.nome.errors %}
+                    <div class="error">
+                        {{ form.nome.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="sobrenome" class="form-label">Sobrenome:</label>
+                    <input type="text" class="form-control custom-bg-color-input" id="id_sobrenome" name="sobrenome" value="{% if usuario.sobrenome %}{{ usuario.sobrenome }} {% endif %}" >
+                    {% if form.sobrenome.errors %}
+                    <div class="error">
+                        {{ form.sobrenome.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail:</label>
+                    <input type="email" class="form-control custom-bg-color-input" id="id_email" name="email" value="{{ usuario.email }}" >
+                    {% if form.email.errors %}
+                    <div class="error">
+                        {{ form.email.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                <input type="submit" value="Editar" class="btn btn-primary color-button-custom"/>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
