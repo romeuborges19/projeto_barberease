@@ -114,11 +114,11 @@ class AgendaBarbeariaView(DetailView):
         agenda.horarios_funcionamento = semana_sort(agenda.horarios_funcionamento.items())
         dias_semana = get_dias_semana()
         context['dias_semana'] = get_dias_semana_simplificado()
-        dias_semana[0] = datetime.strptime(dias_semana[0], "%d-%m-%Y").strftime("%Y-%m-%d")
-        dias_semana[-1] = datetime.strptime(dias_semana[-1], "%d-%m-%Y").strftime("%Y-%m-%d")
+        primeiro_dia_semana = datetime.strptime(dias_semana[0], "%d-%m-%Y").strftime("%Y-%m-%d")
+        ultimo_dia_semana = datetime.strptime(dias_semana[-1], "%d-%m-%Y").strftime("%Y-%m-%d")
         
         agendamentos = Agendamento.objects.filter(
-            data__date__range=(dias_semana[0], dias_semana[-1]), 
+            data__date__range=(primeiro_dia_semana, ultimo_dia_semana), 
             agenda_id=agenda.pk, 
             aprovado=True)
 
@@ -176,7 +176,7 @@ class AgendaAgendamentoView(DetailView):
         agenda.horarios_funcionamento = semana_sort(agenda.horarios_funcionamento.items())
 
         dias_semana = get_dias_semana()
-        context['dias_semana'] = get_dias_semana()
+        context['dias_semana'] = dias_semana
         primero_dia_semana = datetime.strptime(dias_semana[0], "%d-%m-%Y").strftime("%Y-%m-%d")
         ultimo_dia_semana = datetime.strptime(dias_semana[-1], "%d-%m-%Y").strftime("%Y-%m-%d")
 
