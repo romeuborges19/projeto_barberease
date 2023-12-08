@@ -34,6 +34,13 @@ class RealizarAgendamentoView(CreateView):
     form_class = AgendamentoForm
     template_name = "agendamento_cadastro.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['hora'] = self.kwargs['hora'].strip('-00')
+        print(self.kwargs['hora'])
+
+        return context
+
     def get_success_url(self):
         usuario_id = self.request.user.id
         return reverse_lazy("usuario:home", kwargs={'pk': usuario_id})
@@ -181,7 +188,7 @@ class AgendaAgendamentoView(DetailView):
         ultimo_dia_semana = datetime.strptime(dias_semana[-1], "%d-%m-%Y").strftime("%Y-%m-%d")
 
         agendamentos = Agendamento.objects.filter(
-            data_date_range=(primero_dia_semana, ultimo_dia_semana), 
+            data__date__range=(primero_dia_semana, ultimo_dia_semana), 
             agenda_id=agenda.pk, aprovado=True)
 
         print(agendamentos)

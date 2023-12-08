@@ -1,10 +1,32 @@
+ {% extends 'base/header.html' %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Realizar Agendamento{% endblock title %}
+
+{% block extra_css%}
+        <link rel="stylesheet" type="text/css" href="{% static 'agendamento/css/agendamento_cadastro.css' %}">
+{% endblock extra_css %}
+
+{% block contentmenu %}
+{% if request.user.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+
 <form method="post">
   {% csrf_token %}
 
-
-  <br>
-
-  {{ form.as_p }}
+	{% render_field form.servico class="" %}
+	{{hora}}:{% render_field form.minuto class="" %}
 
   <input type="submit" value="Salvar">
 </form>
+{% endblock content %}
+
+
