@@ -49,7 +49,7 @@ class UsuarioLoginView(LoginView):
         id_usuario = self.request.user.id
         token = create_acess_token(id_usuario)
 
-        response.set_cookie('jwt_token', token, max_age=3600, domain='127.0.0.1')
+        response.set_cookie('jwt_token', token, max_age=3600, domain='barberease.onrender.com')
         response['Location'] = manage_login_redirect(self.request)
         return response
 
@@ -133,7 +133,7 @@ class UsuarioLogoutView(LogoutView):
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
         response = HttpResponseRedirect('/')
-        response.delete_cookie('jwt_token', domain='127.0.0.1')
+        response.delete_cookie('jwt_token', domain='barberease.onrender.com')
         request.session.flush()
 
         return response
