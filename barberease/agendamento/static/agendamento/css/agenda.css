@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap');
+
+main {
+	font-family: 'Kanit', sans-serif;
+	display: flex;
+	flex-direction: column;
+	padding-top: 5rem;
+	align-items: center;
+	width: 100vw;
+	height: calc(100vh - 100px);
+	background-color: #705847;
+	gap: 2rem;
+}
+
+.main-container {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	
+}
+
+.page-title-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.page-title {
+	font-family: 'Abhaya Libre', sans-serif;
+	font-weight: 600;
+	color: white;
+}
+
+.button-container-container {
+	width: 100%;
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.agenda-button-container {
+	font-family: 'Kanit', sans-serif;
+	font-weight: 400;
+	background-color: #402009;
+	padding: .6rem 3rem;
+	max-width: 30rem;
+	border-radius: 10px;
+	text-decoration: none;
+	color: white;
+	transition: 200ms;
+	text-align: center;
+}
+
+.cell-top-container {
+	font-weight: 500;
+}
+
+.livre {
+	background-color: #3D9B41;
+}
+
+.cheio {
+	background-color: #B03028;
+}
+.agendamento-cell {
+	transition: transform 200ms;
+}
+
+.agendamento-cell:hover {
+	transform: scale(1.05);
+}
+
+.agendamento-button {
+	display: flex;
+	color: white;
+	text-decoration: none;
+	justify-content: center;
+	width: 7rem;
+	text-align: center;
+}
+
+.agenda-button-container:hover{
+	background-color: #754B2B;
+}
+
+.agenda-head-dias-container {
+	background-color: #705847;
+	color: #DDCEBE;
+	font-weight: 300;
+}
+
+.agenda-head-semana-container {
+	background-color: #DDCEBE;
+}
+
+
+.agenda-container{
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+
+th {
+	padding-inline: 0.5rem;
+	text-align: center;
+	font-weight: 300;
+	min-width: 7rem;
+}
+
+tbody {
+	background-color: #FFF9EE;
+	border: 1px solid black;
+}
+
+.body-cell-container {
+	padding: 0.5rem 1rem;
+	margin: 5px;
+	background-color: #D9D9D9;
+}
+
+.indisponivel {
+	background-color: #402009;
+}
+
+.disponivel {
+	background-color: white;
+}
+table {
+	border-spacing: 10px;
+	border-collapse: separate;
+}
+
+td, th {
+	border-radius: 8px;
+	height: 1.5rem;
+}
+
+.horario-coluna{
+	text-align: center;
+	font-weight: 500;
+	background-color: #FFF9EE;
+}
+
+.cell-content-container{
+	padding: 0.3rem 0.7rem;
+	background-color: #DDCEBE;
+	border-radius: 8px;
+	transition: transform 200ms;
+}
+
+.cell-content-container:hover {
+	transform: scale(1.05);
+}
+
+.cell-container{
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}

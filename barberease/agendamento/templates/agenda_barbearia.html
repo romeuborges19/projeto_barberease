@@ -1,0 +1,92 @@
+{% extends 'base/header.html' %}
+{% load static %}
+
+{% block title %}Listagem Barbeiros{% endblock title %}
+
+{% block extra_css %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'agendamento/css/agenda.css' %}">
+{% endblock extra_css %}
+
+
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+{% include 'base/menu_barbearia.html' %}
+{% else %}
+{% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+<main>
+	<div class="main-container">
+	<div class="page-title-container">
+	<h1 class="page-title">Sua Agenda</h1>
+	</div>
+	<div class="agenda-container">
+		<table class="agenda-tabela-container">
+			<!-- Gerando cabeçalho da tabela da agenda -->
+			<thead>
+				<tr class="agenda-head-dias-container">
+					<th class="agenda-head-cell"> </th>
+					{% for dia in agenda.horarios_funcionamento %}
+						<th class="agenda-head-cell">{{ dia }}</th>
+					{% endfor %}
+
+				</tr>
+				<tr class="agenda-head-semana-container">
+					<th class="agenda-head-cell"> Horários </th>
+					<!-- Loop que lê os dias da semana para o cabeçalho -->
+					{% for dia in dias_semana %}
+						<th class="agenda-head-cell">{{ dia }}</th>
+					{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Este loop renderiza: -->
+				<!-- 	1 - A coluna de horários -->
+				<!-- 	2 - Os horários disponíveis em cada linha da tabela -->
+
+				{% for horario in coluna_horarios %}
+				<tr>
+					<td class="horario-coluna">
+						{{ horario }}
+					</td>
+					{% for hora, celulas in linha_horarios.items %}
+						{% if hora is horario %}
+							{% for celula in celulas %}
+					<td class="{% if not celula.funciona %}indisponivel{% else %}disponivel{% endif %} body-cell-container"> 
+								{% if celula.funciona %}
+								<div class="cell-container">
+
+									{% for agendamento in celula.agendamentos %} 
+						
+										<div class="cell-content-container">
+											<div class="cell-top-container">
+												{{ agendamento.cliente }} - {{ agendamento.servico.nome }} 											
+											</div>
+											<div class="cell-bottom-container">
+												Das {{ agendamento.hora_inicio }} às {{ agendamento.hora_fim }}
+											</div>
+										</div>
+									 {% endfor %}
+								{% endif %}
+								</div>
+							</td>
+							{% endfor %}
+						{% endif %}
+					{% endfor %}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div class="button-container-container">
+		<a href="{% url 'agendamento:gerenciar_pedidos' agenda.pk %}" class="agenda-button-container">Gerenciar Pedidos </a>
+	</div>
+	</div>
+</main>
+{% endblock content %}
+
+

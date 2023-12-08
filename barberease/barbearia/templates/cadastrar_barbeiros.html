@@ -1,0 +1,47 @@
+{% extends 'base/header.html' %}
+{% load static %}
+
+{% block title %}cadastrar Barbeiro{% endblock title %}
+{% block extra_css %}
+    <link href="{% static 'barbearia/css/style_barbeiros.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block contentmenu %}
+{% if usuario.dono_barbearia %}
+  {% include 'base/menu_barbearia.html' %}
+{% else %}
+  {% include 'base/menu_usuario.html' %}
+{% endif %}
+{% endblock contentmenu %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center custom">Cadastrar Barbeiros</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome:</label>
+                    <input type="text" class="form-control custom-bg-color-input" name="nome" id="id_nome" required/>
+                    {% if form.nome.errors %}
+                        <div class="error-message">
+                            {{ form.nome.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail:</label>
+                    <input type="text" class="form-control custom-bg-color-input" name="email" id="id_email" required/>
+                    {% if form.email.errors %}
+                    <div class="error-message">
+                        {{ form.email.errors }}
+                    </div>
+                {% endif %}
+                </div>
+                <div class="submit-button-container">
+                    <button type="submit" class="submit-button btn btn-primary color-button-custom "> Cadastrar
+                    </button>
+                 </div>
+            </form>
+{% endblock content %}
