@@ -1,19 +1,5 @@
-@font-face {
-    font-family: 'Abhaya Libre ExtraBold';
-    src: url(../fonts/AbhayaLibre-ExtraBold.ttf) format('truetype');
-}
-@font-face {
-    font-family: 'Kanit Regular';
-    src: url(../fonts/Kanit-Regular.ttf) format('truetype');
-}
-@font-face {
-    font-family: 'Abhaya Libre SemiBold';
-    src: url(../fonts/AbhayaLibre-SemiBold.ttf) format('truetype');
-}
-@font-face {
-    font-family: 'Kanit ExtraLight';
-    src: url(../fonts/Kanit-ExtraLight.ttf) format('truetype');
-}
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap');
 
 body{
     background-color: #705847;
@@ -123,7 +109,7 @@ body{
 }
 
 .img{
-	background-image: url(../images/icone-olho.svg);
+	
 	background-size: 20px 15px;
 	width: 20px;
 	height: 15px;

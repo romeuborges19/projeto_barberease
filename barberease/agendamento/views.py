@@ -301,7 +301,6 @@ class EditarServicoView(UpdateView):
 
 class GerenciarPedidosView(ListView):
     model = Agendamento
-    context_object_name = 'pedidos'
     template_name = 'pedidos_gerenciar.html'
 
     def get_queryset(self):
@@ -327,7 +326,9 @@ class GerenciarPedidosView(ListView):
         for agendamento in agendamentos:
             print(agendamento.data.date() >= date.today())
             if agendamento.data.date() >= datetime.today().date():
+                print(agendamento.data.date())
                 context['pedidos'] = agendamento
+        context['pedidos'] = None
 
         
         return context

@@ -22,7 +22,6 @@
 }
 
 .logo{
-	background-image: url(../images/imagebarb.png);
 	background-size: 100px 95px;
 	width: 100px;
 	height: auto;
@@ -202,7 +201,6 @@ input:focus, input:active{
 }
 
 .logo-more{
-	background-image: url(../images/imagemore.png);
 	background-size: 100px 95px;
 	width: 100px;
 	height: auto;
