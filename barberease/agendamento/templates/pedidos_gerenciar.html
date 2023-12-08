@@ -20,56 +20,72 @@
 
 <main>
 	<div class="main-container">
-		<div class="pedidos-container">
-			<div class="pedidos-container-title">
-				<h2> Agendamentos pendentes </h2>
-			</div>
-			<div class="pedidos-content-container">
-				{% for pedido in pedidos %}
-					{% if not pedido.aprovado %}
-						<div class="pedido-container">
-							<p><b>{{ pedido.cliente }}</b></p>
-							<p>{{ pedido.servico.nome }}</p>
-							<p>{{ pedido.dia_semana }}, {{ pedido.dia }}</p>
-							<p>{{ pedido.hora_inicio }} - {{ pedido.hora_fim }}</p>
-							{% if pedido.aprovado %}
-								<p>Aprovado</p>
-							{% else %}
-								<p>Pendente</p>
-							{% endif %}
-							
-							{% csrf_token %}
-							<button data-pedido-id="{{ pedido.id }}" data-update-url="{% url 'agendamento:gerenciar_pedidos' barbearia.pk %}" class="approve approve-button">Aprovar</button><br>
-						</div>
-					{% endif %}
-				{% endfor %}
+		<div class="page-top-container">
+			<div class="page-title-container">
+				<h1> Hoje </h1>
+				<h3> {{ dia_semana}}, {{ dia }} </h3>
 			</div>
 		</div>
-
-		<div class="pedidos-container">
-			<div class="pedidos-container-title">
-				<h2> Agendamentos aprovados </h2>
-			</div>
-			<div class="pedidos-content-container">
-				{% for pedido in pedidos %}
-					{% if pedido.aprovado %}
-						<div class="pedido-container">
-							<p><b>{{ pedido.cliente }}</b></p>
-							<p>{{ pedido.servico.nome }}</p>
-							<p>{{ pedido.dia_semana }}, {{ pedido.dia }}</p>
-							<p>{{ pedido.hora_inicio }} - {{ pedido.hora_fim }}</p>
-
-							{% if pedido.aprovado %}
-								<p>Aprovado</p>
-							{% else %}
-								<p>Pendente</p>
-							{% endif %}
-							
-							{% csrf_token %}
-							<button data-pedido-id="{{ pedido.id }}" data-update-url="{% url 'agendamento:gerenciar_pedidos' barbearia.pk %}" class="cancel approve-button">Cancelar</button><br>
+		<div class="page-content-container">
+			<div class="pedidos-container">
+				<div class="pedidos-container-title">
+					<h2> Agendamentos pendentes </h2>
+				</div>
+				<div class="pedidos-content-container">
+					{% for pedido in pedidos %}
+						{% if not pedido.aprovado %}
+							<div class="pedido-container">
+								<div class="pedido-info-container">
+									<p><b>{{ pedido.cliente }}</b></p>
+									<p>{{ pedido.servico.nome }}</p>
+									<p>{{ pedido.dia_semana }}, {{ pedido.dia }}</p>
+								</div>
+								<div class="pedido-info-container">
+									<p>{{ pedido.hora_inicio }} - {{ pedido.hora_fim }}</p>
+									{% if pedido.aprovado %}
+										<p>Aprovado</p>
+									{% else %}
+										<p>Pendente</p>
+									{% endif %}
+								
+								{% csrf_token %}
+								<button data-pedido-id="{{ pedido.id }}" data-update-url="{% url 'agendamento:gerenciar_pedidos' barbearia.pk %}" class="approve approve-button">Aprovar</button>
 						</div>
-					{% endif %}
-				{% endfor %}
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+
+			<div class="pedidos-container">
+				<div class="pedidos-container-title">
+					<h2> Agendamentos aprovados </h2>
+				</div>
+				<div class="pedidos-content-container">
+					{% for pedido in pedidos %}
+						{% if pedido.aprovado %}
+							<div class="pedido-container">
+								<div class="pedido-info-container">
+								<p><b>{{ pedido.cliente }}</b></p>
+								<p>{{ pedido.servico.nome }}</p>
+								<p>{{ pedido.dia_semana }}, {{ pedido.dia }}</p>
+								</div>
+								<div class="pedido-info-container">
+								<p>{{ pedido.hora_inicio }} - {{ pedido.hora_fim }}</p>
+
+								{% if pedido.aprovado %}
+									<p>Aprovado</p>
+								{% else %}
+									<p>Pendente</p>
+								{% endif %}
+								
+								{% csrf_token %}
+								<button data-pedido-id="{{ pedido.id }}" data-update-url="{% url 'agendamento:gerenciar_pedidos' barbearia.pk %}" class="cancel approve-button">Cancelar</button>
+						</div>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
 			</div>
 		</div>
 	</div>

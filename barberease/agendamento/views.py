@@ -313,6 +313,8 @@ class GerenciarPedidosView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
         context = get_menu_data_context(self.request, context)
+        context['dia'] = datetime.today().strftime("%d/%m")
+        context['dia_semana'] = DIAS[datetime.today().weekday()][1]
 
         return context
 
