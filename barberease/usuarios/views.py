@@ -49,7 +49,7 @@ class UsuarioLoginView(LoginView):
         id_usuario = self.request.user.id
         token = create_acess_token(id_usuario)
 
-        response.set_cookie('jwt_token', token, max_age=3600, domain='127.0.0.1')
+        response.set_cookie('jwt_token', token, max_age=3600, domain='barberease.onrender.com')
         response['Location'] = manage_login_redirect(self.request)
         return response
     
@@ -64,10 +64,21 @@ class ProcessGoogleLoginView(TemplateView):
     template_name = "process_login.html"
 
     def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        
+        id_usuario = self.request.user.id
+        token = create_acess_token(id_usuario)
+
+        response.set_cookie('jwt_token', token, max_age=3600, domain='barberease.onrender.com')
+        response['Location'] = manage_login_redirect(self.request)
+
         if should_redirect:
-            return redirect(reverse_lazy("usuario:home"))
+            response['Location'] = reverse_lazy("usuario:home", kwargs={'pk':self.request.user.id})
+            return response
         else:
-            return redirect(manage_login_redirect(self.request)) 
+            response['Location'] = manage_login_redirect(self.request)            
+            return response 
+
 
 class UsuarioCadastrarView(CreateView):
     # Views para renderizar a tela de cadastro de Cliente
@@ -109,6 +120,7 @@ class UsuarioHomeView(DetailView):
         context['barbearias'] = Barbearia.objects.all()
         agendamentos = Agendamento.objects.filter(cliente_id=id, aprovado=True).select_related('agenda__barbearia').order_by('-data')
 
+        print(agendamentos)
         agenda_informacao = []
         i = 0
         if agendamentos:
@@ -122,6 +134,7 @@ class UsuarioHomeView(DetailView):
                 i+=1
                 if(i > 0):
                     break
+                print(agendamento)
             context['agendamentos'] = agenda_informacao
         else:
             context['agendamentos'] = False
@@ -137,7 +150,7 @@ class UsuarioLogoutView(LogoutView):
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
         response = HttpResponseRedirect('/')
-        response.delete_cookie('jwt_token', domain='127.0.0.1')
+        response.delete_cookie('jwt_token', domain='barberease.onrender.com')
         request.session.flush()
 
         return response
@@ -150,7 +163,7 @@ class UsuarioView(TemplateView):
     success_url = '/'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = get_token_user_id(self.request)
+        id = self.request.user.id 
         user = Usuario.objects.filter(pk=id).first()
         context['usuario'] = user
         
