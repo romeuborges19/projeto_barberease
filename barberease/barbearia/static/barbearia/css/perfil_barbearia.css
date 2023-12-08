@@ -273,5 +273,9 @@ main {
 		width: 75px;
 		height: 75px;
 	}
+	.link-editar {
+        color: white; 
+        text-decoration: none; 
+    }
 
 }

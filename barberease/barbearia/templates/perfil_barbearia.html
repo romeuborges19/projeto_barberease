@@ -54,7 +54,7 @@
 		<div class="barbearia-center-container">
 			{% if usuario.dono_barbearia%}
 				<a class="agendar-horario-button-container-responsive" href="{% url 'barbearia:editar' barbearia.pk %}">Editar perfil</a>
-				<button type="button" class="submit-button btn btn-primary color-button-custom ">
+				<button type="button" class="btn btn-primary">
 					<a href="{% url 'usuario:deletar' pk=request.user.pk %}" class="link-editar">Apagar conta</a>
 			   </button>
 			{% else %}

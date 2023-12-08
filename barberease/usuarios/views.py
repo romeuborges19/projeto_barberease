@@ -52,6 +52,10 @@ class UsuarioLoginView(LoginView):
         response.set_cookie('jwt_token', token, max_age=3600, domain='127.0.0.1')
         response['Location'] = manage_login_redirect(self.request)
         return response
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Erro ao fazer login. Verifique suas credenciais.")
+        return super().form_invalid(form)
 
     def get_success_url(self):
         return manage_login_redirect(self.request) 
