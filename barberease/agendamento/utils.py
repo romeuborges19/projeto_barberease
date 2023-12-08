@@ -80,12 +80,15 @@ class Celula:
         self.agendamentos = []
 
         for agendamento in agendamentos:
-            if agendamento.data.date().strftime("%Y-%m-%d") == dia and agendamento.data.strftime("%H") == self.hora_hora:
+            print(f'{agendamento.data.date().strftime("%Y-%m-%d")} == {dia}')
+            if agendamento.data.date().strftime("%d-%m-%Y") == dia and agendamento.data.strftime("%H") == self.hora_hora:
                 self.agendamentos.append(agendamento)
 
         for agendamento in self.agendamentos:
             agendamento.hora_inicio = agendamento.data.strftime("%H:%M")
             agendamento.hora_fim = agendamento.hora_fim.strftime("%H:%M")
+
+        print(f'{agendamentos}, {self.agendamentos}')
 
         return self.agendamentos
 

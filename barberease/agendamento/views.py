@@ -121,6 +121,8 @@ class AgendaBarbeariaView(DetailView):
             data__date__range=(dias_semana[0], dias_semana[-1]), 
             agenda_id=agenda.pk, 
             aprovado=True)
+
+        print(agendamentos)
         
         for _, horarios in agenda.horarios_funcionamento.items():
             for horario in horarios:
@@ -177,6 +179,7 @@ class AgendaAgendamentoView(DetailView):
         context['dias_semana'] = dias_semana 
         dias_semana[0] = datetime.strptime(dias_semana[0], "%d-%m-%Y").strftime("%Y-%m-%d")
         dias_semana[-1] = datetime.strptime(dias_semana[-1], "%d-%m-%Y").strftime("%Y-%m-%d")
+
         agendamentos = Agendamento.objects.filter(
             data__date__range=(dias_semana[0], dias_semana[-1]), 
             agenda_id=agenda.pk, 
@@ -302,7 +305,7 @@ class GerenciarPedidosView(ListView):
         for pedido in queryset:
             pedido.hora_fim = pedido.hora_fim.strftime("%H:%M")
             pedido.hora_inicio = pedido.data.time().strftime("%H:%M")
-            pedido.dia = pedido.data.date().strftime("%d/%m/%Y")
+            pedido.dia = pedido.data.date().strftime("%d/%m")
             pedido.dia_semana = DIAS[pedido.data.weekday()][1]
 
         return queryset

@@ -28,6 +28,18 @@ body{
     color:#fff;
 }
 
+.agendamento-message-container {
+	font-family: 'Kanit Regular', serif;
+	display: flex;
+	justify-content: center;
+	padding-block: 1rem;
+}
+
+.agendamento-message {
+	font-size: 24px;
+	margin: 0px;
+}
+
 .agenda-dia-container{
     display: flex;
     flex-direction: column;

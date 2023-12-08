@@ -59,7 +59,9 @@
 					<td class="{% if not celula.funciona %}indisponivel{% else %}disponivel{% endif %} body-cell-container"> 
 								{% if celula.funciona %}
 								<div class="cell-container">
+
 									{% for agendamento in celula.agendamentos %} 
+						
 										<div class="cell-content-container">
 											<div class="cell-top-container">
 												{{ agendamento.cliente }} - {{ agendamento.servico.nome }} 											

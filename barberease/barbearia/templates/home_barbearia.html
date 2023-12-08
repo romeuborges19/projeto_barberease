@@ -55,12 +55,15 @@
                             <span>Próximo horário:</span>   
                         </div>
                     </div>
+					{% if agendamentos %}
                     <div class="agendamento-centro-container">
                         <div class="logo-container">
                                 <img src="{% if barbearia.logo %} {{barbearia.logo.url}} {% endif %}" alt="{{ barbearia.nome }} logo" class="logo">
                         </div>
                         <div class="agendamento-info-container">
                             <div class="agendamento-nome-container">
+								{{ agendamento.cliente }}
+								{{ barbearia }}
                                 <span class="agendamento-nome">{{ agendamento.cliente.nome }}</span>
                             </div>
                             <div class="agendamento-address-container">
@@ -76,11 +79,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="agendamento-buttom-container">
-                            <input class="bottoment" type="submit" value="Ver seguintes"/> 
-                    </div>
-               
-        </div>
+					{% else %}
+					<div class="agendamento-message-container">
+						<p class="agendamento-message"> Sem agendamentos para hoje </p>
+					</div>
+					{% endif %}
+					
+					<div class="agendamento-buttom-container">
+							<input class="bottoment" type="submit" value="Ver seguintes"/> 
+					</div>
+				</div>
   
     </div>
 {% endblock content %}

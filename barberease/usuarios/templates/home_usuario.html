@@ -17,7 +17,7 @@
 {% block content %}
     <div class="main-container">
         {% if agendamentos %}
-            {% for agendamento in agendamentos %}
+			{% for agendamento in agendamentos %}
                 <div class="agendamento-container-container">
                     <div class="agendamento-top-container">
                         <div class="agendamento-titulo-container">
@@ -62,14 +62,15 @@
 						</div>
 					</div>
                     <div class="agendamento-buttom-container">
+							<a href="{% url 'barbearia:perfil_barbearia' agendamento.barbearia.pk %}">Ver mais</a>
                             <input class="bottoment" type="submit" value="Cancelar"/> 
                     </div>
-                {% endfor %}
+			</div>
+	{% endfor %}
             {% else %}
                     <p></p><p>Não há nenhum agendamento</p>
                 
             {% endif %}
-        </div>
         <div class="mess">
             <span>Mais barbearias</span>
         </div>

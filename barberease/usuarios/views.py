@@ -103,9 +103,10 @@ class UsuarioHomeView(DetailView):
         usuario = Usuario.objects.filter(pk=id).first()
         context['usuario'] = usuario
         context['barbearias'] = Barbearia.objects.all()
-        agendamentos = Agendamento.objects.filter(cliente_id=id).select_related('agenda__barbearia')
+        agendamentos = Agendamento.objects.filter(cliente_id=id, aprovado=True).select_related('agenda__barbearia').order_by('-data')
 
         agenda_informacao = []
+        i = 0
         if agendamentos:
             for agendamento in agendamentos:
                 agendamento.hora = agendamento.data.time()
@@ -114,6 +115,9 @@ class UsuarioHomeView(DetailView):
                 if agendamento.aprovado:
                     barbearia = agendamento.agenda.barbearia  
                     agenda_informacao.append({'barbearia': barbearia, 'agendamento': agendamento})
+                i+=1
+                if(i > 0):
+                    break
             context['agendamentos'] = agenda_informacao
         else:
             context['agendamentos'] = False

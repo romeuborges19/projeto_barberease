@@ -107,8 +107,11 @@ class HomeBarbeariaView(DetailView):
         for agendamento in agendamentos:
             print(agendamento.data.date())  
             print(date.today())
+            print(f'{agendamento.data.date()} == {date.today()}')
             if agendamento.aprovado and agendamento.data.date() == date.today():
                 print(agendamento)
+                print('teste')
+                print(f'cliente = {agendamento.cliente}')
                 context['agendamento'] = agendamento
                 break
     
