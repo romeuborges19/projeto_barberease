@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from typing import Any
 from django.db.models import F
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -235,6 +236,11 @@ class CadastrarServicoView(CreateView):
         barbearia = Barbearia.objects.filter(dono=user).first()
         form.instance.barbearia = barbearia
         return super().form_valid(form)
+    
+    def get_context_data(self, *, object_list=None, **kwargs):  
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context = get_menu_data_context(self.request, context)
+        return context
 
 class ListarServicosView(ListView):
     # Views para renderizar a tela de listagem de Serviços
@@ -248,12 +254,22 @@ class ListarServicosView(ListView):
         servicos = Servico.objects.filter(barbearia_id=barbearia.id)
         return servicos
     
+    def get_context_data(self, *, object_list=None, **kwargs):  
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context = get_menu_data_context(self.request, context)
+        return context
+    
 class DeletarServicoView(DeleteView):
     # Views para renderizar a tela de deletar Serviço
     
     model = Servico
     success_url = reverse_lazy("agendamento:listar_servicos")
     template_name = 'servico_deletar.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context = get_menu_data_context(self.request, context)
+        return context
     
 class EditarServicoView(UpdateView):
     # Views para renderizar a tela de edição de Serviço
@@ -268,6 +284,11 @@ class EditarServicoView(UpdateView):
         barbearia = Barbearia.objects.filter(dono=user).first()
         form.instance.barbearia = barbearia
         return super().form_valid(form)
+    
+    def get_context_data(self, *, object_list=None, **kwargs):  
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context = get_menu_data_context(self.request, context)
+        return context
 
 class GerenciarPedidosView(ListView):
     model = Agendamento

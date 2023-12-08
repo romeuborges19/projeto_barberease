@@ -3,7 +3,7 @@
 
 	<nav class="navbar navbar-expand-lg navbar-dark custom-bg-color">
     <div class="container-fluid">
-      <a class="navbar-brand ms-5 mt-1 mb-4" href="{% url 'usuario:home' pk=usuario.pk %}">BarberEase</a>
+      <a class="navbar-brand ms-5 mt-1 mb-4" href="{% url 'usuario:home' pk=request.user.pk %}">BarberEase</a>
     </div>
   </nav>
   <div id="sidebar">
@@ -14,7 +14,7 @@
            <div class="side-bar-top-buttons-container">
             <p class="nome mb-5 ms-5">BarberEase</p>
             <div class="item ms-2 mt-0">
-              <a class="side-bar-button" href="{% url 'usuario:perfil' pk=usuario.pk %}">
+              <a class="side-bar-button" href="{% url 'usuario:perfil' pk=request.user.pk %}">
                 <div class="button-container">
                   <div class="button-img">
                     <img src="{% static 'usuarios/icons/perfil.png' %}"> 
@@ -26,7 +26,7 @@
               </a>
             </div>
             <div class="item ms-2 mt-0">
-              <a class="side-bar-button" href="{% url 'usuario:home' pk=usuario.pk %}">
+              <a class="side-bar-button" href="{% url 'usuario:home' pk=request.user.pk %}">
                 <div class="button-container">
                   <div class="button-img">
                     <img src="{% static 'usuarios/icons/home.png' %}">   
@@ -38,7 +38,7 @@
               </a>
             </div>
             <div class="item ms-2 mt-0">
-              <a class="side-bar-button" href="{% url 'usuario:perfil' pk=usuario.pk %}">
+              <a class="side-bar-button" href="{% url 'usuario:perfil' pk=request.user.pk %}">
                 <div class="button-container">
                   <div class="button-img">
                     <img src="{% static 'usuarios/icons/calendario.png' %}">
@@ -50,7 +50,7 @@
               </a>
             </div> 
             <div class="item ms-2 mt-0">
-              <a class="side-bar-button" href="{% url 'usuario:perfil' pk=usuario.pk %}">
+              <a class="side-bar-button" href="{% url 'usuario:perfil' pk=request.user.pk %}">
                 <div class="button-container">
                   <div class="button-img">
                     <img width="20" height="20" src="{% static 'usuarios/icons/historico.png' %}">

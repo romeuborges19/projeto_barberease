@@ -11,7 +11,7 @@ from usuarios.authentication import create_acess_token, get_acess_token, get_tok
 from .models import Usuario
 from .forms import UsuarioForm, UsuarioUpdateForm, UsuarioRedefinePasswordForm, UsuarioNewPasswordForm
 from allauth.account.views import TemplateView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.views import LoginView, LogoutView
 from .utils import manage_login_redirect
@@ -24,6 +24,8 @@ from django.contrib import messages
 import time
 from django.contrib.auth.models import Group as Groups
 from agendamento.models import Agendamento
+from agendamento.utils import get_menu_data_context
+
 def logged_in(sender, **kwargs):
     print("logged in")
     sociallogin = kwargs['sociallogin']
@@ -233,14 +235,43 @@ class UsuarioAtualizarView(UpdateView):
             return redirect(reverse_lazy("usuario:login"))
     
     
-# class UsuarioDeleteView(DeleteView):
-#     # Views para renderizar a tela de deletar dados do usuario
 
-#     model = Usuario
-#     success_url = reverse_lazy("home:listar_servicos")
-#     template_name = 'servico_deletar.html'
-    
-  
+class UsuarioDeleteView(DeleteView):
+    # Views para renderizar a tela de deletar dados do usuario
+
+    model = Usuario
+    template_name = "usuario_deletar.html"
+
+    def get_object(self, queryset=None):
+        id = get_token_user_id(self.request)
+        user = Usuario.objects.filter(pk=id).first()
+        return user
+
+    def delete(self, request, *args, **kwargs):
+        user = self.get_object()
+        if user.dono_barbearia:
+            barbearia = Barbearia.objects.filter(dono_id=user.pk).first()
+            if barbearia:
+                barbearia.delete()  
+        else:
+            user.delete()
+
+        return super().delete(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse_lazy('usuario:login')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context = get_menu_data_context(self.request, context)
+        id = get_token_user_id(self.request)
+        user = Usuario.objects.filter(pk=id).first()
+        if user.dono_barbearia:
+            context['barbearia'] = Barbearia.objects.filter(dono_id=id).first()
+
+        return context
+            
+
 class UsuarioRedefinePasswordView(TemplateView):
 
     template_name = "usuario_redefinir_senha.html"

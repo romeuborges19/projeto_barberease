@@ -1,7 +1,7 @@
 
 {% extends 'base/header.html' %}
 
-{% block title %}Editar Serviço{% endblock title %}
+{% block title %}Apagar Conta{% endblock title %}
 
 {% block contentmenu %}
 {% if request.user.dono_barbearia %}
@@ -15,8 +15,11 @@
 <body>
     <form method="post">
         {% csrf_token %}
-		<h1>Voce deseja apagar o serviço "{{ servico.nome }}"?</h1>
-        <a href="{% url 'agendamento:listar_servicos' %}">cancelar</a>
+        {% if request.user.dono_barbearia %} 
+            <h1>Voce vai apagar sua conta de barbearia também</h1>
+        {% endif %}
+		<h1>Voce deseja apagar sua conta "{{ request.user.nome }}"?</h1>
+        <a href="{% url 'usuario:perfil' pk=request.user.pk %}">cancelar</a>
         <input type="submit" value="Excluir">
 </form>
 </body> 
