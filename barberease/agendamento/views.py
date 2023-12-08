@@ -347,4 +347,4 @@ class GerenciarPedidosView(ListView):
             pedido.save()
             return JsonResponse({'message':'Pedido de agendamento aprovado'})
         return JsonResponse({'error':'Requisição inválida'})
-            
+  
