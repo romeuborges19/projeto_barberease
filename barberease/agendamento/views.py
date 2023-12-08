@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from typing import Any
 from django.db.models import F
 from django.http import JsonResponse
@@ -176,14 +176,15 @@ class AgendaAgendamentoView(DetailView):
         agenda.horarios_funcionamento = semana_sort(agenda.horarios_funcionamento.items())
 
         dias_semana = get_dias_semana()
-        context['dias_semana'] = get_dias_semana()
+        context['dias_semana'] = dias_semana
         primero_dia_semana = datetime.strptime(dias_semana[0], "%d-%m-%Y").strftime("%Y-%m-%d")
         ultimo_dia_semana = datetime.strptime(dias_semana[-1], "%d-%m-%Y").strftime("%Y-%m-%d")
 
         agendamentos = Agendamento.objects.filter(
-            data__date__range=(primero_dia_semana, ultimo_dia_semana), 
-            agenda_id=agenda.pk, 
-            aprovado=True)
+            data_date_range=(primero_dia_semana, ultimo_dia_semana), 
+            agenda_id=agenda.pk, aprovado=True)
+
+        print(agendamentos)
         
         for _, horarios in agenda.horarios_funcionamento.items():
             for horario in horarios:
@@ -203,6 +204,7 @@ class AgendaAgendamentoView(DetailView):
                     celula = Celula(dias_semana[i], hora, True)
                     celula.get_agendamentos(agendamentos)
                     celula.get_disponibilidade()
+                    print(celula.disponivel)
                     row.append(celula)
                 else: 
                     row.append(Celula(dias_semana[i], hora, False))
@@ -292,7 +294,6 @@ class EditarServicoView(UpdateView):
 
 class GerenciarPedidosView(ListView):
     model = Agendamento
-    context_object_name = 'pedidos'
     template_name = 'pedidos_gerenciar.html'
 
     def get_queryset(self):
@@ -310,9 +311,18 @@ class GerenciarPedidosView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
         context = get_menu_data_context(self.request, context)
+        agendamentos = Agendamento.objects.filter(agenda__barbearia=self.request.user.barbearia)
+        
         context['dia'] = datetime.today().strftime("%d/%m")
         context['dia_semana'] = DIAS[datetime.today().weekday()][1]
 
+        for agendamento in agendamentos:
+            print(agendamento.data.date() >= date.today())
+            if agendamento.data.date() >= datetime.today().date():
+                print(agendamento.data.date())
+                context['pedidos'] = agendamento
+
+        
         return context
 
     def post(self, *args, **kwargs):
