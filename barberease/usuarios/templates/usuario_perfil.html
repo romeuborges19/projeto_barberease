@@ -33,7 +33,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="sobrenome" class="form-label">Sobrenome:</label>
-                    <input type="text" class="form-control custom-bg-color-input" id="sobrenome" value="{{ usuario.sobrenome }}" disabled>
+                    <input type="text" class="form-control custom-bg-color-input" id="sobrenome" value="{% if usuario.sobrenome %}{{ usuario.sobrenome }} {% endif %}" disabled>
                 </div>
                 <form method="post" >
                     {% csrf_token %}
