@@ -17,11 +17,9 @@
 			<form method="POST">
 				<div class="centro">
 					{% csrf_token %}
-
 					<div class="barb">BarberEase</div>
 					<div class="find">Encontre o melhor salão para você!</div>
 					<p class="box-title">Faça seu login:</p>
-
 					<div class="form-input-container">
 						<div class="field-container">
 							<label class="label">E-mail:
@@ -41,6 +39,13 @@
 					<a href="{% url 'usuario:redefinir' %}">
 						Esqueceu sua senha?
 					</a>
+					{% if messages %}
+						{% for message in messages %}
+							<div class="alert alert-{{ message.tags }} error" id="alert">
+								{{ message }}
+							</div>
+						{% endfor %}
+					{% endif %}
 					{% get_providers as socialaccount_providers %}
 					<div class="form-button-container">
 						<div class="bottomgg" id="googleButton">

@@ -7,7 +7,7 @@ class Usuario(AbstractUser):
     sobrenome = models.CharField("Sobrenome", max_length=150, null=True, blank=True)
     email = models.EmailField("Email", unique=True)
     dono_barbearia= models.BooleanField("Dono da Barbearia", default=False)
-    logo = models.ImageField("Logo", upload_to="images", null=True, blank=True)
+
 
     first_name = None
     last_name = None

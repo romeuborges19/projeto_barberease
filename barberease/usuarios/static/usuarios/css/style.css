@@ -33,12 +33,8 @@ body {
 	justify-content: center;
     padding: 20px;
     width: 280px;
-<<<<<<< HEAD
     max-width: 310px;
     height: 395px;
-=======
-    height: 420px;
->>>>>>> 652f444dd6ea25eb7d543fb79e75db03ee373480
     border-radius: 10px;
     background: #FFFFFF;  
 }
@@ -146,8 +142,8 @@ body {
     border-radius: 15px;
     cursor: pointer;
     margin-left: 20px;
-    margin-top: 20px;
-    margin-bottom: 30px;
+    margin-top: 8px;
+    margin-bottom: 10px;
     filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.20));
     color: #402009;
     display: flex;
@@ -179,10 +175,6 @@ body {
     background-color: #402009;
     border: 3px solid #402009;
     border-radius: 15px;
-<<<<<<< HEAD
-=======
-    margin-left: 90px;
->>>>>>> 652f444dd6ea25eb7d543fb79e75db03ee373480
     cursor: pointer;
     filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.20));
     color: #402009;
@@ -226,4 +218,13 @@ body {
     button {
         width: 70%;
     }
+
+    
 }
+
+.error {
+    color: red; /* Define a cor vermelha para os erros */
+    font-size: 12px; /* Tamanho da fonte para os erros */
+    margin-top: 5px; /* Espaço entre o campo e a mensagem de erro */
+}
+
