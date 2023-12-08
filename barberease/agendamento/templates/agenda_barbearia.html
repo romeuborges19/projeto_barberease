@@ -82,6 +82,28 @@
 			</tbody>
 		</table>
 	</div>
+		<div class="responsive-view-container">
+		{% for horario in coluna_horarios %}
+			{% for hora, celulas in linha_horarios.items %}
+				{% if hora is horario %}
+					{% for celula in celulas %}
+						{% if celula.funciona %}
+							{% for agendamento in celula.agendamentos %} 
+								<div class="responsive-agendamento-container">
+									<div class="responsive-top-container">
+										{{ agendamento.cliente }} - {{ agendamento.servico.nome }} 											
+									</div>
+									<div class="responsive-bottom-container">
+										Das {{ agendamento.hora_inicio }} às {{ agendamento.hora_fim }}
+									</div>
+								</div>
+							 {% endfor %}
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+			{% endfor %}
+		{% endfor %}
+		</div>
 	<div class="button-container-container">
 		<a href="{% url 'agendamento:gerenciar_pedidos' agenda.pk %}" class="agenda-button-container">Gerenciar Pedidos </a>
 	</div>

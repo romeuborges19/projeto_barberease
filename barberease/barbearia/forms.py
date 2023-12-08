@@ -15,7 +15,7 @@ class BarbeariaForm(forms.ModelForm):
 
     class Meta:
         model = Barbearia
-        fields = ['nome', 'endereco', 'telefone', 'cnpj', 'cep', 'setor', 'cidade', 'estado', 'logo']
+        fields = ['nome', 'endereco', 'telefone', 'cnpj', 'cep', 'setor', 'cidade', 'estado', 'complemento', 'logo']
 
     def __init__(self, *args, **kwargs):
         self.usuario = kwargs.pop('current_user', None)

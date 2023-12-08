@@ -145,8 +145,10 @@ class AgendaBarbeariaView(DetailView):
             row = []
             for _, horarios in agenda.horarios_funcionamento.items():
                 if hora in horarios:
+                    print(horarios)
                     celula = Celula(dias_semana[i], hora, True)
                     celula.get_agendamentos(agendamentos)
+                    print(celula.agendamentos)
                     row.append(celula)
                 else: 
                     row.append(Celula(dias_semana[i], hora, False))
@@ -210,6 +212,7 @@ class AgendaAgendamentoView(DetailView):
                     hora = datetime.strptime(f"{hora}", "%H:%M").strftime("%H:%M")
                     celula = Celula(dias_semana[i], hora, True)
                     celula.get_agendamentos(agendamentos)
+                    print(celula.agendamentos)
                     celula.get_disponibilidade()
                     print(celula.disponivel)
                     row.append(celula)
@@ -302,6 +305,7 @@ class EditarServicoView(UpdateView):
 class GerenciarPedidosView(ListView):
     model = Agendamento
     template_name = 'pedidos_gerenciar.html'
+    
 
     def get_queryset(self):
         agenda_id = self.kwargs['pk']
@@ -322,6 +326,7 @@ class GerenciarPedidosView(ListView):
         
         context['dia'] = datetime.today().strftime("%d/%m")
         context['dia_semana'] = DIAS[datetime.today().weekday()][1]
+        print(agendamentos)
 
         for agendamento in agendamentos:
             print(agendamento.data.date() >= date.today())

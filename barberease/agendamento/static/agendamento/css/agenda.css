@@ -8,16 +8,19 @@ main {
 	padding-top: 5rem;
 	align-items: center;
 	width: 100vw;
-	height: calc(100vh - 100px);
 	background-color: #705847;
 	gap: 2rem;
+}
+
+html {
+	background-color: #705847;
 }
 
 .main-container {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
-	
+	margin-bottom: 30px;
 }
 
 .page-title-container {
@@ -159,6 +162,34 @@ td, th {
 	gap: 3px;
 }
 
+.responsive-view-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	color: black;
+}
+
+.responsive-agendamento-container {
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: #DDCEBE;
+	padding: 1rem 2rem;
+	border-radius: 10px;
+}
+
+@media (max-width: 1100px) {
+	.responsive-agendamento-container {
+		display: flex;
+	}
+
+	.agenda-container {
+		display: none;
+	}
+=======
 .custom-button{
 	background: #3D9B41;
 	border-radius: 18px;	
