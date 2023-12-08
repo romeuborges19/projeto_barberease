@@ -321,6 +321,7 @@ class GerenciarPedidosView(ListView):
             if agendamento.data.date() >= datetime.today().date():
                 print(agendamento.data.date())
                 context['pedidos'] = agendamento
+        context['pedidos'] = None
 
         
         return context
