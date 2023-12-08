@@ -35,10 +35,11 @@
 						<p class="barbearia-nome"> {{ barbearia.nome }} </p>
 					</div>
 					{% if usuario.dono_barbearia %}
+					<div class="buttons-container">
 						<a class="agendar-horario-button-container" href="{% url 'barbearia:editar' barbearia.pk %}">Editar perfil</a>
-						<button type="button" class="submit-button btn btn-primary color-button-custom ">
-							<a href="{% url 'usuario:deletar' pk=request.user.pk %}" class="link-editar">Apagar conta</a>
-					   </button>
+						<a class="agendar-horario-button-container" href="{% url 'usuario:deletar' pk=request.user.pk %}" class="link-editar">Apagar conta</a>
+					</div>
+
 					{% else %}
 						<a class="agendar-horario-button-container" href="{% url 'agendamento:agendar' barbearia.agenda.pk %}">Agende seu horário</a>
 					{% endif %}
@@ -53,10 +54,12 @@
 		</div>
 		<div class="barbearia-center-container">
 			{% if usuario.dono_barbearia%}
+			<div class="buttons-container">
 				<a class="agendar-horario-button-container-responsive" href="{% url 'barbearia:editar' barbearia.pk %}">Editar perfil</a>
-				<button type="button" class="submit-button btn btn-primary color-button-custom ">
+				<button type="button" class="agendar-horario-button-container-responsive">
 					<a href="{% url 'usuario:deletar' pk=request.user.pk %}" class="link-editar">Apagar conta</a>
 			   </button>
+			</div>
 			{% else %}
 				<a class="agendar-horario-button-container-responsive" href="{% url 'agendamento:agendar' barbearia.agenda.pk%}">Agende seu horário</a>
 			{% endif %}

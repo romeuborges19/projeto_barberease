@@ -105,6 +105,7 @@ class HomeBarbeariaView(DetailView):
         context['data_atual'] = date.today()    
     
         for agendamento in agendamentos:
+            print(agendamento.cliente)
             print(agendamento.data.date())  
             print(date.today())
             print(f'{agendamento.data.date()} == {date.today()}')

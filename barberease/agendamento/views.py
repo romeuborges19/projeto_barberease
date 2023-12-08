@@ -114,11 +114,11 @@ class AgendaBarbeariaView(DetailView):
         agenda.horarios_funcionamento = semana_sort(agenda.horarios_funcionamento.items())
         dias_semana = get_dias_semana()
         context['dias_semana'] = get_dias_semana_simplificado()
-        dias_semana[0] = datetime.strptime(dias_semana[0], "%d-%m-%Y").strftime("%Y-%m-%d")
-        dias_semana[-1] = datetime.strptime(dias_semana[-1], "%d-%m-%Y").strftime("%Y-%m-%d")
+        primeiro_dia_semana = datetime.strptime(dias_semana[0], "%d-%m-%Y").strftime("%Y-%m-%d")
+        ultimo_dia_semana = datetime.strptime(dias_semana[-1], "%d-%m-%Y").strftime("%Y-%m-%d")
         
         agendamentos = Agendamento.objects.filter(
-            data__date__range=(dias_semana[0], dias_semana[-1]), 
+            data__date__range=(primeiro_dia_semana, ultimo_dia_semana), 
             agenda_id=agenda.pk, 
             aprovado=True)
 
@@ -138,8 +138,10 @@ class AgendaBarbeariaView(DetailView):
             row = []
             for _, horarios in agenda.horarios_funcionamento.items():
                 if hora in horarios:
+                    print(horarios)
                     celula = Celula(dias_semana[i], hora, True)
                     celula.get_agendamentos(agendamentos)
+                    print(celula.agendamentos)
                     row.append(celula)
                 else: 
                     row.append(Celula(dias_semana[i], hora, False))
@@ -203,6 +205,7 @@ class AgendaAgendamentoView(DetailView):
                     hora = datetime.strptime(f"{hora}", "%H:%M").strftime("%H:%M")
                     celula = Celula(dias_semana[i], hora, True)
                     celula.get_agendamentos(agendamentos)
+                    print(celula.agendamentos)
                     celula.get_disponibilidade()
                     print(celula.disponivel)
                     row.append(celula)
@@ -295,6 +298,7 @@ class EditarServicoView(UpdateView):
 class GerenciarPedidosView(ListView):
     model = Agendamento
     template_name = 'pedidos_gerenciar.html'
+    
 
     def get_queryset(self):
         agenda_id = self.kwargs['pk']
@@ -315,6 +319,7 @@ class GerenciarPedidosView(ListView):
         
         context['dia'] = datetime.today().strftime("%d/%m")
         context['dia_semana'] = DIAS[datetime.today().weekday()][1]
+        print(agendamentos)
 
         for agendamento in agendamentos:
             print(agendamento.data.date() >= date.today())

@@ -64,8 +64,12 @@ class Celula:
         self.hora_hora = hora.strip(':00') 
         self.funciona = funciona
 
-        if int(self.hora_hora) < 10:
-            self.hora_hora = '0' + self.hora_hora
+        print(self.hora_hora) 
+        if int(self.hora_hora) <= 10:
+            if hora == '10:00':
+                self.hora_hora = str(self.hora_hora) + '0'
+            else: 
+                self.hora_hora = '0' + self.hora_hora
 
     def get_agendamentos(self, agendamentos):
         #TODO: Otimizar esta função
@@ -80,6 +84,8 @@ class Celula:
         self.agendamentos = []
 
         for agendamento in agendamentos:
+            print(f'{agendamento.data.date().strftime("%d-%m-%Y")} == {dia}')
+            print(f'{agendamento.data.strftime("%H")} == {self.hora_hora}')
             if agendamento.data.date().strftime("%d-%m-%Y") == dia and agendamento.data.strftime("%H") == self.hora_hora:
                 self.agendamentos.append(agendamento)
 

@@ -116,6 +116,7 @@ class UsuarioHomeView(DetailView):
         context['barbearias'] = Barbearia.objects.all()
         agendamentos = Agendamento.objects.filter(cliente_id=id, aprovado=True).select_related('agenda__barbearia').order_by('-data')
 
+        print(agendamentos)
         agenda_informacao = []
         i = 0
         if agendamentos:
@@ -129,6 +130,7 @@ class UsuarioHomeView(DetailView):
                 i+=1
                 if(i > 0):
                     break
+                print(agendamento)
             context['agendamentos'] = agenda_informacao
         else:
             context['agendamentos'] = False
